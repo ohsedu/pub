@@ -850,10 +850,37 @@
   <script>
     // ===== 퍼블 확인용 토글 스크립트 (실제 배포에는 previewWrite.js 사용) =====
 
+    // ── 캐러셀 슬라이드 높이 동기화 (Vue adjustDescMessageHeight 이식) ────────
+    // 매 호출마다 본문 inner_g를 텍스트 높이로 리셋 → 최대 카드 높이 측정 →
+    // 짧은 카드만 그 차이만큼 패딩. 리셋이 있어 줄어들면 다시 작은 높이로 동기화되고,
+    // 더 큰 카드가 생기면 그쪽으로 동기화가 옮겨간다.
+    function adjustHeights(swiperEl) {
+      const inners = Array.from(swiperEl.querySelectorAll('.preview_write_ftlc'));
+      if (!inners.length) return;
+      // 1) inner_g 높이를 본문 textarea(textClassCalc) 높이로 리셋
+      inners.forEach(function (im) {
+        const innerG = im.querySelector('.inner_g');
+        const calc = im.querySelector('.textClassCalc');
+        if (innerG && calc) innerG.style.height = calc.offsetHeight + 'px';
+      });
+      // 2) 최대 카드 높이 측정
+      let maxH = 0;
+      inners.forEach(function (im) { if (im.offsetHeight > maxH) maxH = im.offsetHeight; });
+      // 3) 최대보다 짧은 카드의 inner_g에 차이만큼 더해서 높이 맞춤
+      inners.forEach(function (im) {
+        const innerG = im.querySelector('.inner_g');
+        const cur = im.offsetHeight;
+        if (innerG && cur < maxH) {
+          innerG.style.height = (innerG.offsetHeight + (maxH - cur)) + 'px';
+        }
+      });
+    }
+
     // ── 캐러셀 (pw-swiper) ──────────────────────────────────────────────────
     function initSwipers() {
-      const MARGIN = 26; // 양쪽 peek 마진(px)
-      const GAP = 8;     // 슬라이드 간격(px) — CSS gap과 동일
+      const CARD_W = 272; // 표준 카카오 카드(.inner_message)와 동일 고정 너비
+      const GAP = 8;      // 슬라이드 간격(px) — CSS gap과 동일
+      const EDGE = 53;    // 첫/마지막 슬라이드 들여쓰기(px) — 일반 말풍선 좌측선(x≈54)에 맞춤
 
       document.querySelectorAll('.pw-swiper').forEach(function (swiperEl) {
         const track = swiperEl.querySelector('.pw-swiper-track');
@@ -885,8 +912,21 @@
         slides.slice(slideOffset).forEach(function (s, i) { s.setAttribute('data-orig-idx', i); });
         if (numList) numList.querySelectorAll('li').forEach(function (li, i) { li.setAttribute('data-orig-idx', i); });
 
-        function slideW() { return Math.max(10, swiperEl.offsetWidth - 2 * MARGIN - GAP); }
-        function calcX(idx) { return (MARGIN + GAP / 2) - idx * (slideW() + GAP); }
+        // 272px 고정 카드. 트랙 전체 너비
+        function slideW() { return CARD_W; }
+        function trackW() { return slides.length * CARD_W + (slides.length - 1) * GAP; }
+        // 가운데 정렬하되 양끝에서는 빈 공간이 안 생기도록 클램프 (Swiper non-loop 동작)
+        //  · 첫 슬라이드  → 왼쪽 flush (오른쪽 peek만)
+        //  · 중간 슬라이드 → 가운데 정렬 (양옆 peek)
+        //  · 마지막 슬라이드 → 오른쪽 flush (왼쪽 peek만)
+        function calcX(idx) {
+          const W = swiperEl.offsetWidth;
+          const centered = (W - CARD_W) / 2 - idx * (CARD_W + GAP);
+          const maxX = EDGE;                // 첫 슬라이드 위치(가장 오른쪽으로 밀린 트랙)
+          const minX = W - EDGE - trackW(); // 마지막 슬라이드 위치(가장 왼쪽으로 밀린 트랙)
+          if (minX >= maxX) return maxX;    // 트랙이 화면보다 좁으면 첫칸 기준
+          return Math.max(minX, Math.min(maxX, centered));
+        }
 
         function applyWidths() {
           const w = slideW();
@@ -908,9 +948,19 @@
               });
             }
           }
-          const profileEl = document.getElementById('infoProfile');
-          if (profileEl && /FTLC/.test(blockKey)) {
-            profileEl.style.visibility = cur === 0 ? '' : 'hidden';
+          // 프로필 아이콘: 첫 슬라이드에서만 보이도록 페이드 (채널명·버튼은 유지)
+          const profileImg = document.querySelector('#infoProfile .img_profile');
+          if (profileImg && /FTLC/.test(blockKey)) {
+            profileImg.style.opacity = cur === 0 ? '1' : '0';
+          }
+          // 이미지 수정 버튼: 활성 swiper만 처리
+          if (pubBlock && pubBlock.classList.contains('is-active')) {
+            const imgTopBtn = document.getElementById('imgTopBtn');
+            if (imgTopBtn && /FTLC/.test(blockKey)) {
+              const curSlide = slides[cur];
+              const hasImg = curSlide && !curSlide.querySelector('.no_img_area');
+              imgTopBtn.style.display = hasImg ? '' : 'none';
+            }
           }
         }
 
@@ -953,9 +1003,10 @@
           goTo(Math.abs(lastDx) > 40 ? cur + (lastDx < 0 ? 1 : -1) : cur);
         });
 
-        // Mouse — 드래그 중 실시간 이동
+        // Mouse — 드래그 중 실시간 이동 (textarea/input 클릭 시 포커스 허용)
         swiperEl.addEventListener('mousedown', function (e) {
           if (e.target.closest('button, .swiper-button-prev, .swiper-button-next')) return;
+          if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
           startX = e.clientX; dragActive = true; lastDx = 0; e.preventDefault();
         });
         document.addEventListener('mousemove', function (e) {
@@ -976,11 +1027,17 @@
           const reordered = newSlideOrder.map(function (i) { return prev[i]; });
           reordered.forEach(function (s) { track.appendChild(s); });
           slides = reordered;
-          // data-orig-idx 재설정 (다음 drag 기준점)
+          // data-orig-idx 재설정 + li 번호 순서대로 갱신
           slides.slice(slideOffset).forEach(function (s, i) { s.setAttribute('data-orig-idx', i); });
-          if (numList) numList.querySelectorAll('li').forEach(function (li, i) { li.setAttribute('data-orig-idx', i); });
+          if (numList) {
+            numList.querySelectorAll('li').forEach(function (li, i) {
+              li.textContent = i + 1; // 1, 2, 3 순서 갱신
+              li.setAttribute('data-orig-idx', i);
+            });
+          }
           cur = 0; dragActive = false;
           applyWidths();
+          adjustHeights(swiperEl);
           track.style.transition = 'none';
           track.style.transform = 'translateX(' + calcX(0) + 'px)';
           track.getBoundingClientRect();
@@ -992,6 +1049,9 @@
           slides = Array.from(track.querySelectorAll('.pw-swiper-slide'));
           cur = 0; dragActive = false;
           applyWidths();
+          adjustHeights(swiperEl);
+          // 이미지 로드 지연 대비 한 번 더
+          setTimeout(function () { adjustHeights(swiperEl); }, 60);
           track.style.transition = 'none';
           track.style.transform = 'translateX(' + calcX(0) + 'px)';
           track.getBoundingClientRect();
@@ -999,7 +1059,12 @@
         };
 
         applyWidths();
+        adjustHeights(swiperEl);
         goTo(0);
+        // 초기 이미지 로드 후 높이 재동기화
+        swiperEl.querySelectorAll('img').forEach(function (img) {
+          img.addEventListener('load', function () { adjustHeights(swiperEl); });
+        });
       });
     }
 
@@ -1065,7 +1130,8 @@
       // 프로필/광고/뷰박스
       const showProfile = (type === 'ATL' || type === 'FTL' || type === 'BRAND');
       document.getElementById('infoProfile').style.display = showProfile ? '' : 'none';
-      document.getElementById('infoProfile').style.visibility = ''; // 캐러셀 peek 오버라이드 해제
+      const pImg = document.querySelector('#infoProfile .img_profile');
+      if (pImg) pImg.style.opacity = ''; // 캐러셀 페이드 오버라이드 해제
       document.getElementById('txtAd').style.display = (type === 'FTL' || type === 'BRAND') ? '' : 'none';
       document.getElementById('yData').classList.toggle('white_back', type === 'MSG');
 
@@ -1074,8 +1140,12 @@
       document.getElementById('topSpacer').style.display = isViewBox ? 'none' : '';
       document.getElementById('numFTLC').style.display = (dType === 'FTLC') ? '' : 'none';
       document.getElementById('numFTLCS').style.display = (dType === 'FTLCS') ? '' : 'none';
+      // 캐러셀일 때 message_view 패딩 제거 (실제 Vue의 swiper_write 토글과 동일)
+      const mv = document.querySelector('.message_view');
+      if (mv) mv.classList.toggle('swiper_write', dType === 'FTLC' || dType === 'FTLCS');
       document.getElementById('imgTopBtn').style.display =
-        (type === 'ATL' && dType === 'ATLP') || (isViewBox && (dType === 'FTL' || dType === 'FTLW' || dType === 'FTLS')) ? '' : 'none';
+        (type === 'ATL' && dType === 'ATLP') ||
+        (isViewBox && ['FTL', 'FTLW', 'FTLS', 'FTLC', 'FTLCS'].indexOf(dType) > -1) ? '' : 'none';
 
       // ATL 세부
       const atltT = document.getElementById('atltTitle');
@@ -1145,10 +1215,15 @@
     });
     document.getElementById('optImg').addEventListener('change', applyOptions);
     document.getElementById('optEmpty').addEventListener('change', applyOptions);
-    // textarea 입력 시 자동 높이
+    // textarea 입력 시 자동 높이 + 캐러셀 슬라이드 높이 동기화
     document.addEventListener('input', function (e) {
       if (e.target.classList && e.target.classList.contains('textClass')) {
         e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px';
+        const slide = e.target.closest && e.target.closest('.pw-swiper-slide');
+        if (slide) {
+          const swiperEl = slide.closest('.pw-swiper');
+          if (swiperEl) adjustHeights(swiperEl);
+        }
       }
     });
 
