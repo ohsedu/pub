@@ -550,6 +550,38 @@
                                       class="arrow_append ico_comm">&gt;</span>채널차단</div>
                                 </div>
                               </div>
+                              <!-- 슬라이드 3 (미등록) -->
+                              <div class="pw-swiper-slide">
+                                <div class="box_message default_message">
+                                  <div class="inner_message preview_write_ftlc">
+                                    <div class="img_message" style="height:unset;">
+                                      <div class="wrap_thumb">
+                                        <div class="inner_thumb" style="height:unset;">
+                                          <div class="no_img_area no_img_ftlc">
+                                            <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span>
+                                            </div>
+                                            <button class="img_btn">이미지 등록</button>
+                                            <div class="img_info">권장 사이즈</div>
+                                            <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div style="background-color:#fff;" class="ftlc_title_div">
+                                      <textarea rows="1" class="ftlc_title textClass"
+                                        placeholder="타이틀을 입력해주세요."></textarea>
+                                    </div>
+                                    <p class="desc_message default_message" style="padding-top:0!important;">
+                                      <span class="inner_g">
+                                        <textarea class="textClass textClassCalc" style="font-size:12.1px" rows="1"
+                                          placeholder="내용을 입력해 주세요."></textarea>
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                                      class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                                </div>
+                              </div>
                             </div>
                             <div class="swiper-button-prev"></div>
                             <div class="swiper-button-next"></div>
@@ -714,6 +746,40 @@
                                       class="arrow_append ico_comm">&gt;</span>채널차단</div>
                                 </div>
                               </div>
+                              <!-- 상품 카드 2 -->
+                              <div class="pw-swiper-slide">
+                                <div class="box_message default_message">
+                                  <div class="inner_message preview_write_ftlc">
+                                    <div class="img_message" style="height:unset;">
+                                      <div class="wrap_thumb">
+                                        <div class="inner_thumb" style="height:unset;">
+                                          <img class="thumb_img"
+                                            src="https://placehold.co/800x400/f2e8f5/a08ab6?text=ITEM+2" alt="">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div style="background-color:#fff;" class="ftlc_title_div FTLCS_title_div">
+                                      <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass"
+                                        placeholder="상품명" style="border-bottom:none!important;">코튼 슬랙스</textarea>
+                                      <div class="price-info flex-s">
+                                        <div class="price1 cp">24,900원</div>
+                                        <div class="price2 cp">32,000</div>
+                                        <div class="sale-info">22%</div>
+                                      </div>
+                                    </div>
+                                    <p class="desc_message default_message">
+                                      <span class="inner_g">
+                                        <textarea class="textClass textClassCalc addInfo" style="font-size:12.1px"
+                                          rows="1" placeholder="부가정보(선택)">편안한 일상 핏</textarea>
+                                      </span>
+                                    </p>
+                                    <div class="btn_message btn_ftlc"><a class="btn_gm"><span
+                                          class="inner_g">구매하기</span></a></div>
+                                  </div>
+                                  <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                                      class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                                </div>
+                              </div>
                             </div>
                             <div class="swiper-button-prev"></div>
                             <div class="swiper-button-next"></div>
@@ -786,43 +852,154 @@
 
     // ── 캐러셀 (pw-swiper) ──────────────────────────────────────────────────
     function initSwipers() {
+      const MARGIN = 26; // 양쪽 peek 마진(px)
+      const GAP = 8;     // 슬라이드 간격(px) — CSS gap과 동일
+
       document.querySelectorAll('.pw-swiper').forEach(function (swiperEl) {
         const track = swiperEl.querySelector('.pw-swiper-track');
-        const slides = swiperEl.querySelectorAll('.pw-swiper-slide');
-        const prev = swiperEl.querySelector('.swiper-button-prev');
-        const next = swiperEl.querySelector('.swiper-button-next');
-        const count = slides.length;
-        let cur = 0;
+        let slides = Array.from(swiperEl.querySelectorAll('.pw-swiper-slide'));
+        const prevBtn = swiperEl.querySelector('.swiper-button-prev');
+        const nextBtn = swiperEl.querySelector('.swiper-button-next');
+        if (!track || slides.length === 0) return;
 
-        function goTo(idx) {
-          cur = (idx % count + count) % count;
-          track.style.transform = 'translateX(' + (-cur * 100) + '%)';
+        let cur = 0, startX = 0, dragActive = false, lastDx = 0;
+
+        const pubBlock = swiperEl.closest('.pub-block');
+        const blockKey = (pubBlock && pubBlock.getAttribute('data-block')) || '';
+        // FTLCS는 slide[0]=인트로(고정), sortable li → slide[1+]
+        const isCS = /FTLCS/.test(blockKey);
+        const slideOffset = isCS ? 1 : 0;
+
+        let numList = null;
+        if (isCS) {
+          numList = document.querySelector('#numFTLCS ul.sortable');
+        } else if (/FTLC/.test(blockKey)) {
+          numList = document.querySelector('#numFTLC ul.sortable');
         }
 
-        if (prev) prev.addEventListener('click', function () { goTo(cur - 1); });
-        if (next) next.addEventListener('click', function () { goTo(cur + 1); });
+        // sortable과의 연결고리
+        swiperEl._slideOffset = slideOffset;
+        if (numList) numList._swiper = swiperEl;
 
-        let startX = 0, dragging = false;
+        // data-orig-idx: sortable dragend에서 순서 추적용
+        slides.slice(slideOffset).forEach(function (s, i) { s.setAttribute('data-orig-idx', i); });
+        if (numList) numList.querySelectorAll('li').forEach(function (li, i) { li.setAttribute('data-orig-idx', i); });
 
+        function slideW() { return Math.max(10, swiperEl.offsetWidth - 2 * MARGIN - GAP); }
+        function calcX(idx) { return (MARGIN + GAP / 2) - idx * (slideW() + GAP); }
+
+        function applyWidths() {
+          const w = slideW();
+          if (w <= 10) return;
+          slides.forEach(function (s) { s.style.width = w + 'px'; });
+        }
+
+        function updateUI() {
+          if (numList) {
+            if (isCS) {
+              const introBtn = document.querySelector('#numFTLCS .introBtn');
+              if (introBtn) introBtn.classList.toggle('on', cur === 0);
+              numList.querySelectorAll('li').forEach(function (li, i) {
+                li.classList.toggle('on', i + slideOffset === cur);
+              });
+            } else {
+              numList.querySelectorAll('li').forEach(function (li, i) {
+                li.classList.toggle('on', i === cur);
+              });
+            }
+          }
+          const profileEl = document.getElementById('infoProfile');
+          if (profileEl && /FTLC/.test(blockKey)) {
+            profileEl.style.visibility = cur === 0 ? '' : 'hidden';
+          }
+        }
+
+        function goTo(idx) {
+          cur = Math.max(0, Math.min(slides.length - 1, idx));
+          track.style.transition = 'transform 0.3s ease';
+          track.style.transform = 'translateX(' + calcX(cur) + 'px)';
+          updateUI();
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', function () { goTo(cur - 1); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { goTo(cur + 1); });
+
+        // FTLCS 인트로 버튼
+        if (isCS) {
+          const introBtn = document.querySelector('#numFTLCS .introBtn');
+          if (introBtn) introBtn.addEventListener('click', function () { goTo(0); });
+        }
+
+        // 번호 버튼 클릭 → 슬라이드 이동
+        if (numList) {
+          numList.querySelectorAll('li').forEach(function (li, i) {
+            li.addEventListener('click', function () { goTo(i + slideOffset); });
+          });
+        }
+
+        // Touch
         swiperEl.addEventListener('touchstart', function (e) {
-          startX = e.touches[0].clientX; dragging = true;
+          startX = e.touches[0].clientX; dragActive = true; lastDx = 0;
         }, { passive: true });
-        swiperEl.addEventListener('touchend', function (e) {
-          if (!dragging) return;
-          const dx = e.changedTouches[0].clientX - startX;
-          if (Math.abs(dx) > 30) goTo(cur + (dx < 0 ? 1 : -1));
-          dragging = false;
+        swiperEl.addEventListener('touchmove', function (e) {
+          if (!dragActive) return;
+          lastDx = e.touches[0].clientX - startX;
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(' + (calcX(cur) + lastDx) + 'px)';
+        }, { passive: true });
+        swiperEl.addEventListener('touchend', function () {
+          if (!dragActive) return;
+          dragActive = false;
+          goTo(Math.abs(lastDx) > 40 ? cur + (lastDx < 0 ? 1 : -1) : cur);
         });
+
+        // Mouse — 드래그 중 실시간 이동
         swiperEl.addEventListener('mousedown', function (e) {
-          if (e.target.closest('.swiper-button-prev, .swiper-button-next')) return;
-          startX = e.clientX; dragging = true; e.preventDefault();
+          if (e.target.closest('button, .swiper-button-prev, .swiper-button-next')) return;
+          startX = e.clientX; dragActive = true; lastDx = 0; e.preventDefault();
         });
-        document.addEventListener('mouseup', function (e) {
-          if (!dragging) return;
-          const dx = e.clientX - startX;
-          if (Math.abs(dx) > 30) goTo(cur + (dx < 0 ? 1 : -1));
-          dragging = false;
+        document.addEventListener('mousemove', function (e) {
+          if (!dragActive) return;
+          lastDx = e.clientX - startX;
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(' + (calcX(cur) + lastDx) + 'px)';
         });
+        document.addEventListener('mouseup', function () {
+          if (!dragActive) return;
+          dragActive = false;
+          goTo(Math.abs(lastDx) > 40 ? cur + (lastDx < 0 ? 1 : -1) : cur);
+        });
+
+        // sortable 순서변경 후 슬라이드 DOM도 같은 순서로 재배치
+        swiperEl._reorderSlides = function (newSlideOrder) {
+          const prev = slides.slice();
+          const reordered = newSlideOrder.map(function (i) { return prev[i]; });
+          reordered.forEach(function (s) { track.appendChild(s); });
+          slides = reordered;
+          // data-orig-idx 재설정 (다음 drag 기준점)
+          slides.slice(slideOffset).forEach(function (s, i) { s.setAttribute('data-orig-idx', i); });
+          if (numList) numList.querySelectorAll('li').forEach(function (li, i) { li.setAttribute('data-orig-idx', i); });
+          cur = 0; dragActive = false;
+          applyWidths();
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(' + calcX(0) + 'px)';
+          track.getBoundingClientRect();
+          updateUI();
+        };
+
+        // 타입 전환 후(display:none→block) 재초기화
+        swiperEl._resetSwiper = function () {
+          slides = Array.from(track.querySelectorAll('.pw-swiper-slide'));
+          cur = 0; dragActive = false;
+          applyWidths();
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(' + calcX(0) + 'px)';
+          track.getBoundingClientRect();
+          updateUI();
+        };
+
+        applyWidths();
+        goTo(0);
       });
     }
 
@@ -843,6 +1020,18 @@
           li.addEventListener('dragend', function () {
             li.style.opacity = '';
             dragging = null;
+            // 연결된 swiper가 있으면 슬라이드 순서 동기화
+            if (ul._swiper) {
+              const liItems = Array.from(ul.querySelectorAll('li'));
+              const liOrder = liItems.map(function (item) {
+                return parseInt(item.getAttribute('data-orig-idx'), 10);
+              });
+              const offset = ul._swiper._slideOffset || 0;
+              const newSlideOrder = [];
+              for (let i = 0; i < offset; i++) newSlideOrder.push(i); // 인트로 등 고정 슬라이드
+              liOrder.forEach(function (idx) { newSlideOrder.push(idx + offset); });
+              ul._swiper._reorderSlides(newSlideOrder);
+            }
           });
           li.addEventListener('dragover', function (e) {
             e.preventDefault();
@@ -876,6 +1065,7 @@
       // 프로필/광고/뷰박스
       const showProfile = (type === 'ATL' || type === 'FTL' || type === 'BRAND');
       document.getElementById('infoProfile').style.display = showProfile ? '' : 'none';
+      document.getElementById('infoProfile').style.visibility = ''; // 캐러셀 peek 오버라이드 해제
       document.getElementById('txtAd').style.display = (type === 'FTL' || type === 'BRAND') ? '' : 'none';
       document.getElementById('yData').classList.toggle('white_back', type === 'MSG');
 
@@ -908,6 +1098,13 @@
 
       applyOptions();
       autoSizeAll();
+
+      // display:none→block 후 swiper 너비가 확정되면 재초기화
+      requestAnimationFrame(function () {
+        document.querySelectorAll('.pw-swiper').forEach(function (el) {
+          if (typeof el._resetSwiper === 'function') el._resetSwiper();
+        });
+      });
     }
 
     function applyOptions() {

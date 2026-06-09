@@ -2366,9 +2366,11 @@
    ============================================================ */
 /* 캐러셀 (Swiper 대체) */
 .preview-templateReg .template-preview-new_2 .pw-swiper { position: relative; overflow: hidden; width: 100%; }
-.preview-templateReg .template-preview-new_2 .pw-swiper-track { display: flex; transition: transform 0.3s ease; }
-.preview-templateReg .template-preview-new_2 .pw-swiper-slide { flex: 0 0 100%; box-sizing: border-box; }
-.preview-templateReg .template-preview-new_2 .pw-slide-topbtn { position: relative; }
+.preview-templateReg .template-preview-new_2 .pw-swiper-track { display: flex; gap: 8px; transition: transform 0.3s ease; will-change: transform; }
+.preview-templateReg .template-preview-new_2 .pw-swiper-slide { flex: none; box-sizing: border-box; position: relative; }
+/* 이미지 수정 버튼 오버레이 */
+.preview-templateReg .template-preview-new_2 .pw-slide-topbtn { position: absolute; top: 0; left: 0; right: 0; height: 0; z-index: 10; pointer-events: none; }
+.preview-templateReg .template-preview-new_2 .pw-slide-topbtn .top_btn { pointer-events: all; top: 8px !important; right: 8px !important; }
 
 /* 라디오 (radio-new 대체) */
 .preview-templateReg .template-preview-new_2 .pw-radio { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 1px solid #c6c6c6; box-sizing: border-box; }
