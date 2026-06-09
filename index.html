@@ -1,819 +1,964 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>미리보기/작성칸 퍼블리싱 - PreviewWrite</title>
-<link rel="stylesheet" href="preview-write.css">
-<style>
-  /* ===== 퍼블 확인용 하네스(외곽) 스타일 — 실제 배포 시 제거 ===== */
-  body { margin: 0; background: #eef1f4; font-family: "Apple SD Gothic Neo","Malgun Gothic",sans-serif; color: #333d4b; }
-  .pub-wrap { display: flex; gap: 24px; padding: 24px; align-items: flex-start; }
-  .pub-side { position: sticky; top: 24px; width: 240px; flex-shrink: 0; background: #fff; border: 1px solid #e5e8eb; border-radius: 12px; padding: 18px; }
-  .pub-side h1 { font-size: 15px; margin: 0 0 4px; }
-  .pub-side p { font-size: 12px; color: #8b95a1; margin: 0 0 16px; line-height: 1.5; }
-  .pub-side .grp { margin-bottom: 14px; }
-  .pub-side .grp > label { display: block; font-size: 12px; font-weight: 700; color: #4e5968; margin-bottom: 6px; }
-  .pub-side select { width: 100%; height: 34px; border: 1px solid #d1d6db; border-radius: 8px; padding: 0 10px; font-size: 13px; background: #fff; }
-  .pub-side .opt { display: flex; align-items: center; gap: 6px; font-size: 13px; margin: 4px 0; }
-  .pub-stage { flex: 1; display: flex; justify-content: center; }
-  .pub-stage .preview-templateReg { width: 418px; }   /* $w(475) * $wp(0.88) */
-  .pub-note { font-size: 11px; color: #b0b8c1; margin-top: 16px; line-height: 1.5; }
-  /* 한 번에 하나의 타입만 보이도록 (compiled .box_message 의 display 규칙을 이기기 위해 !important) */
-  .pub-block:not(.is-active) { display: none !important; }
-  .pub-block.is-active { display: block; }
-/* reset */
-article,
-aside,
-footer,
-header,
-hgroup,
-main,
-nav,
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-code,
-form,
-fieldset,
-legend,
-textarea,
-p,
-blockquote,
-th,
-td,
-input,
-select,
-textarea,
-button {
-  margin: 0;
-  padding: 0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미리보기/작성칸 퍼블리싱 - PreviewWrite</title>
+  <link rel="stylesheet" href="preview-write.css?v=1">
+  <style>
+    /* ===== 퍼블 확인용 하네스(외곽) 스타일 — 실제 배포 시 제거 ===== */
+    body {
+      margin: 0;
+      background: #eef1f4;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: #333d4b;
+    }
 
-fieldset,
-img {
-  border: 0 none;
-}
+    .pub-wrap {
+      display: flex;
+      gap: 24px;
+      padding: 24px;
+      align-items: flex-start;
+    }
 
-dl,
-ul,
-ol,
-menu,
-li {
-  list-style: none;
-}
+    .pub-side {
+      position: sticky;
+      top: 24px;
+      width: 240px;
+      flex-shrink: 0;
+      background: #fff;
+      border: 1px solid #e5e8eb;
+      border-radius: 12px;
+      padding: 18px;
+    }
 
-blockquote,
-q {
-  quotes: none;
-}
+    .pub-side h1 {
+      font-size: 15px;
+      margin: 0 0 4px;
+    }
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
-}
+    .pub-side p {
+      font-size: 12px;
+      color: #8b95a1;
+      margin: 0 0 16px;
+      line-height: 1.5;
+    }
 
-input,
-select,
-textarea,
-button {
-  vertical-align: middle;
-}
+    .pub-side .grp {
+      margin-bottom: 14px;
+    }
 
-input::-ms-clear {
-  display: none;
-}
+    .pub-side .grp>label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4e5968;
+      margin-bottom: 6px;
+    }
 
-button {
-  border: 0 none;
-  background-color: transparent;
-  cursor: pointer;
-}
+    .pub-side select {
+      width: 100%;
+      height: 34px;
+      border: 1px solid #d1d6db;
+      border-radius: 8px;
+      padding: 0 10px;
+      font-size: 13px;
+      background: #fff;
+    }
 
-body {
-  -webkit-text-size-adjust: 100%;
-  background: #fff;
-}
+    .pub-side .opt {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      margin: 4px 0;
+    }
 
-body,
-th,
-td,
-input,
-select,
-textarea,
-button {
-  font-size: 14px;
-  line-height: 1.5;
-  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
-  color: #555;
-  word-break: break-all;
-}
+    .pub-stage {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
 
-a {
-  color: #111;
-  text-decoration: none;
-  cursor: pointer;
-}
+    .pub-stage .preview-templateReg {
+      width: 418px;
+    }
 
-a:active,
-a:hover {
-  text-decoration: underline;
-}
+    /* $w(475) * $wp(0.88) */
+    .pub-note {
+      font-size: 11px;
+      color: #b0b8c1;
+      margin-top: 16px;
+      line-height: 1.5;
+    }
 
-a:active {
-  background-color: transparent;
-}
+    /* 한 번에 하나의 타입만 보이도록 (compiled .box_message 의 display 규칙을 이기기 위해 !important) */
+    .pub-block:not(.is-active) {
+      display: none !important;
+    }
 
-address,
-caption,
-cite,
-code,
-dfn,
-em,
-var {
-  font-style: normal;
-  font-weight: 400;
-}
+    .pub-block.is-active {
+      display: block;
+    }
 
-img {
-  vertical-align: top;
-}
+    /* reset */
+    article,
+    aside,
+    footer,
+    header,
+    hgroup,
+    main,
+    nav,
+    body,
+    div,
+    dl,
+    dt,
+    dd,
+    ul,
+    ol,
+    li,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    pre,
+    code,
+    form,
+    fieldset,
+    legend,
+    textarea,
+    p,
+    blockquote,
+    th,
+    td,
+    input,
+    select,
+    textarea,
+    button {
+      margin: 0;
+      padding: 0;
+    }
 
-strong,
-b,
-th,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 700;
-}
+    fieldset,
+    img {
+      border: 0 none;
+    }
 
-button::-moz-focus-inner,
-input[type=reset]::-moz-focus-inner,
-input[type=button]::-moz-focus-inner,
-input[type=submit]::-moz-focus-inner,
-input[type=file] > input[type=button]::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-</style>
+    dl,
+    ul,
+    ol,
+    menu,
+    li {
+      list-style: none;
+    }
+
+    blockquote,
+    q {
+      quotes: none;
+    }
+
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
+      content: "";
+      content: none;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      vertical-align: middle;
+    }
+
+    input::-ms-clear {
+      display: none;
+    }
+
+    button {
+      border: 0 none;
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    body {
+      -webkit-text-size-adjust: 100%;
+      background: #fff;
+    }
+
+    body,
+    th,
+    td,
+    input,
+    select,
+    textarea,
+    button {
+      font-size: 14px;
+      line-height: 1.5;
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+      color: #555;
+      word-break: break-all;
+    }
+
+    a {
+      color: #111;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    a:active,
+    a:hover {
+      text-decoration: underline;
+    }
+
+    a:active {
+      background-color: transparent;
+    }
+
+    address,
+    caption,
+    cite,
+    code,
+    dfn,
+    em,
+    var {
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    img {
+      vertical-align: top;
+    }
+
+    strong,
+    b,
+    th,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+    }
+
+    button::-moz-focus-inner,
+    input[type=reset]::-moz-focus-inner,
+    input[type=button]::-moz-focus-inner,
+    input[type=submit]::-moz-focus-inner,
+    input[type=file]>input[type=button]::-moz-focus-inner {
+      padding: 0;
+      border: 0;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="pub-wrap">
-  <!-- 좌측: 타입 전환 패널 (퍼블 확인용, 실제 화면 아님) -->
-  <aside class="pub-side">
-    <h1>미리보기/작성칸 퍼블</h1>
-    <p>아래에서 메시지 타입을 골라 각 화면을 확인·수정하세요.</p>
+  <div class="pub-wrap">
+    <!-- 좌측: 타입 전환 패널 (퍼블 확인용, 실제 화면 아님) -->
+    <aside class="pub-side">
+      <h1>미리보기/작성칸 퍼블</h1>
+      <p>아래에서 메시지 타입을 골라 각 화면을 확인·수정하세요.</p>
 
-    <div class="grp">
-      <label>메시지 타입</label>
-      <select id="typeSel">
-        <option value="ATL-ATLT">알림톡 · 타이틀형 (ATLT)</option>
-        <option value="ATL-ATLP">알림톡 · 이미지형 (ATLP)</option>
-        <option value="FTL-FTL" selected>친구톡 · 이미지형 (FTL)</option>
-        <option value="FTL-FTLW">친구톡 · 와이드이미지형 (FTLW)</option>
-        <option value="FTL-FTLWL">친구톡 · 와이드리스트형 (FTLWL)</option>
-        <option value="FTL-FTLC">친구톡 · 캐러셀 피드형 (FTLC)</option>
-        <option value="BRAND-FTL">브랜드 · 기본/이미지형 (FTL)</option>
-        <option value="BRAND-FTLS">브랜드 · 커머스형 (FTLS)</option>
-        <option value="BRAND-FTLW">브랜드 · 와이드이미지형 (FTLW)</option>
-        <option value="BRAND-FTLWL">브랜드 · 와이드리스트형 (FTLWL)</option>
-        <option value="BRAND-FTLC">브랜드 · 캐러셀 피드형 (FTLC)</option>
-        <option value="BRAND-FTLCS">브랜드 · 캐러셀 커머스형 (FTLCS)</option>
-        <option value="MSG-LMS">문자 · LMS/MMS</option>
-        <option value="MSG-SMS">문자 · SMS</option>
-      </select>
-    </div>
+      <div class="grp">
+        <label>메시지 타입</label>
+        <select id="typeSel">
+          <option value="ATL-ATLT">알림톡 · 타이틀형 (ATLT)</option>
+          <option value="ATL-ATLP">알림톡 · 이미지형 (ATLP)</option>
+          <option value="FTL-FTL">친구톡 · 이미지형 (FTL)</option>
+          <option value="FTL-FTLW">친구톡 · 와이드이미지형 (FTLW)</option>
+          <option value="FTL-FTLWL">친구톡 · 와이드리스트형 (FTLWL)</option>
+          <option value="FTL-FTLC">친구톡 · 캐러셀 피드형 (FTLC)</option>
+          <option value="BRAND-FTL">브랜드 · 기본/이미지형 (FTL)</option>
+          <option value="BRAND-FTLS">브랜드 · 커머스형 (FTLS)</option>
+          <option value="BRAND-FTLW">브랜드 · 와이드이미지형 (FTLW)</option>
+          <option value="BRAND-FTLWL">브랜드 · 와이드리스트형 (FTLWL)</option>
+          <option value="BRAND-FTLC">브랜드 · 캐러셀 피드형 (FTLC)</option>
+          <option value="BRAND-FTLCS">브랜드 · 캐러셀 커머스형 (FTLCS)</option>
+          <option value="MSG-LMS">문자 · LMS/MMS</option>
+          <option value="MSG-SMS">문자 · SMS</option>
+        </select>
+      </div>
 
-    <div class="grp">
-      <label>옵션 (상태 미리보기)</label>
-      <label class="opt"><input type="checkbox" id="optImg" checked> 이미지 등록됨</label>
-      <label class="opt"><input type="checkbox" id="optEmpty"> 빈 작성칸(placeholder)</label>
-    </div>
+      <div class="grp">
+        <label>옵션 (상태 미리보기)</label>
+        <label class="opt"><input type="checkbox" id="optImg" checked> 이미지 등록됨</label>
+        <label class="opt"><input type="checkbox" id="optEmpty"> 빈 작성칸(placeholder)</label>
+      </div>
 
-    <div class="pub-note">
-      * 좌측 패널은 퍼블 확인용 하네스입니다. 실제 화면은 우측 핸드폰 영역만 해당합니다.<br>
-      * 폭 = 475px × 0.88 = 418px (원본 template-preview-new_2 기준)
-    </div>
-  </aside>
+      <div class="pub-note">
+        * 좌측 패널은 퍼블 확인용 하네스입니다. 실제 화면은 우측 핸드폰 영역만 해당합니다.<br>
+        * 폭 = 475px × 0.88 = 418px (원본 template-preview-new_2 기준)
+      </div>
+    </aside>
 
-  <!-- 우측: 실제 미리보기/작성칸 -->
-  <main class="pub-stage">
-    <div class="preview-templateReg">
-    <div class="template-preview-new template-preview-new_2" style="position: relative;">
+    <!-- 우측: 실제 미리보기/작성칸 -->
+    <main class="pub-stage">
+      <div class="preview-templateReg">
+        <div class="template-preview-new template-preview-new_2" style="position: relative;">
 
-      <div class="preview-scroll-wrap">
-        <div class="preview-box">
-          <div class="yData" id="yData">
+          <div class="preview-scroll-wrap">
+            <div class="preview-box">
+              <div class="yData" id="yData">
 
-            <!-- FTL/BRAND 상단 뷰박스 (이미지 비율·꾸미기) -->
-            <div class="viewBox" id="viewBox" style="display:none;">
-              <div class="top">
-                <div class="left">
-                  <div id="ratioBox">
-                    <button class="btn-ratio btn-3-4 active">3:4</button>
-                    <button class="btn-ratio btn-1-1">1:1</button>
-                    <button class="btn-ratio btn-4-3">4:3</button>
-                    <button class="btn-ratio btn-5-3">5:3</button>
+                <!-- FTL/BRAND 상단 뷰박스 (이미지 비율·꾸미기) -->
+                <div class="viewBox" id="viewBox" style="display:none;">
+                  <!-- 캐러셀 번호 -->
+                  <div class="num" id="numFTLC" style="display:none;">
+                    <ul class="sortable ui-sortable">
+                      <li class="on">1</li>
+                      <li>2</li>
+                      <li>3</li>
+                    </ul>
                   </div>
-                  <p>이미지 꾸미기</p>
-                  <div class="tooltipBox"><i></i></div>
-                </div>
-                <div class="right">
-                  <div class="switchbox flex-s">
-                    <input type="checkbox" id="decoSwitch"><label for="decoSwitch"></label>
+                  <div class="num flex-s" id="numFTLCS" style="display:none;">
+                    <div class="mr5 introBtn on">인트로</div>
+                    <ul class="sortable ui-sortable">
+                      <li>1</li>
+                      <li>2</li>
+                    </ul>
                   </div>
                 </div>
-              </div>
-              <!-- 캐러셀 번호 -->
-              <div class="num" id="numFTLC" style="display:none;">
-                <ul class="sortable ui-sortable">
-                  <li class="on">1</li><li>2</li><li>3</li>
-                </ul>
-              </div>
-              <div class="num flex-s" id="numFTLCS" style="display:none;">
-                <div class="mr5 introBtn on">인트로</div>
-                <ul class="sortable ui-sortable"><li>1</li><li>2</li></ul>
-              </div>
-            </div>
 
-            <!-- 그 외 타입 상단 여백 -->
-            <div id="topSpacer" style="height:15px;"></div>
+                <!-- 그 외 타입 상단 여백 -->
+                <div id="topSpacer" style="height:15px;"></div>
 
-            <div>
-              <div class="message_view cursor_default">
-                <div class="cont_view">
-                  <div class="item_message">
+                <div>
+                  <div class="message_view cursor_default">
+                    <div class="cont_view">
+                      <div class="item_message">
 
-                    <!-- 프로필 (ATL/FTL/BRAND) -->
-                    <div class="info_profile" id="infoProfile" style="display:none;">
-                      <div class="img_profile">
-                        <span class="frame_thumb"></span>
-                        <span class="thumb_g" style="display:inline-block;width:38px;height:38px;border-radius:100px;background:#cfd8e3;"></span>
-                      </div>
-                      <span class="txt_profile"><span class="txt_ad" id="txtAd" style="display:none;">(광고) </span>채널명</span>
-                      <button type="button" class="top_btn" id="imgTopBtn" style="display:none;">이미지 수정</button>
-                    </div>
+                        <!-- 프로필 (ATL/FTL/BRAND) -->
+                        <div class="info_profile" id="infoProfile" style="display:none;">
+                          <div class="img_profile">
+                            <img class="img_profile" src="./img/profile.png" alt="프로필">
+                          </div>
+                          <span class="txt_profile"><span class="txt_ad" id="txtAd" style="display:none;">(광고)
+                            </span>채널명</span>
+                          <button type="button" class="top_btn" id="imgTopBtn" style="display:none;">이미지 수정</button>
+                        </div>
 
-                    <!-- ============================================================
+                        <!-- ============================================================
                          ATL : 알림톡 (ATLT 타이틀형 / ATLP 이미지형)
                          ============================================================ -->
-                    <div class="box_message default_message atl pub-block" data-block="ATL-ATLT ATL-ATLP">
-                      <div class="inner_message">
-                        <div class="atl_top">알림톡 도착
-                          <span class="atl_badge" style="display:inline-block;background:#3c1e1e;border-radius:5px;"></span>
-                        </div>
+                        <div class="box_message default_message atl pub-block" data-block="ATL-ATLT ATL-ATLP">
+                          <div class="inner_message">
+                            <div class="atl_top">알림톡 도착
+                              <img class="atl_badge" src="./img/atl_badge.png" alt="알림톡 배지">
+                            </div>
 
-                        <!-- ATLP 이미지 -->
-                        <div class="img_message" id="atlpImg" style="height:unset; display:none;">
-                          <div class="wrap_thumb">
-                            <div class="inner_thumb" style="height:unset;">
-                              <img class="thumb_img" src="https://placehold.co/800x400/d7e3f0/8aa0b6?text=ALIM+TALK" alt="썸네일">
-                              <div class="no_img_area no_img_atlp" style="display:none;">
-                                <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span></div>
-                                <button class="img_btn">이미지 등록</button>
-                                <div class="img_info">권장 사이즈 800x400px</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <p class="desc_message default_message" style="position:relative;">
-                          <!-- ATLT 타이틀 -->
-                          <span class="atlt" id="atltTitle" style="display:none;">
-                            <textarea class="sub_title textClass" rows="1" placeholder="서브 타이틀을 입력해주세요.">3월 특가 안내</textarea>
-                            <textarea class="main_title textClass" rows="1" placeholder="메인 타이틀을 입력해주세요.">주문하신 상품이 발송되었습니다</textarea>
-                          </span>
-                          <span class="inner_g">
-                            <textarea class="ta1 textClass" rows="1" placeholder="메시지를 입력해 주세요.">안녕하세요 고객님,
-주문번호 #20250529 상품이 오늘 출고되었습니다. 배송 조회는 아래 버튼에서 확인하실 수 있습니다.</textarea>
-                          </span>
-                        </p>
-
-                        <div class="btn_message">
-                          <a class="btn_gm"><span class="inner_g">배송 조회</span></a>
-                        </div>
-                      </div>
-                      <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                    </div>
-
-                    <!-- ============================================================
-                         FTL : 친구톡 이미지형/와이드이미지형
-                         ============================================================ -->
-                    <div class="box_message default_message pub-block" data-block="FTL-FTL FTL-FTLW" id="ftlBasic">
-                      <div class="inner_message">
-                        <div class="img_message" id="ftlImg" style="height:unset;">
-                          <div class="wrap_thumb">
-                            <div class="inner_thumb cp" id="ftlThumbWrap" style="height:unset;">
-                              <img class="thumb_img" src="https://placehold.co/800x600/e3ecf5/8aa0b6?text=FRIEND+TALK" alt="썸네일">
-                            </div>
-                            <div class="no_img_area no_img_ftlw" id="ftlNoImg" style="display:none;">
-                              <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span></div>
-                              <button class="img_btn">이미지 등록</button>
-                              <div class="img_info">권장 사이즈 800x600px</div>
-                            </div>
-                          </div>
-                        </div>
-                        <p class="desc_message default_message">
-                          <span class="inner_g">
-                            <textarea class="ta1 textClass" rows="1" placeholder="메시지를 입력해 주세요.">봄맞이 신상품이 입고되었어요! 지금 구매하시면 추가 10% 할인 혜택을 드립니다. 🌸</textarea>
-                          </span>
-                        </p>
-                        <div class="btn_message btn_num2">
-                          <a class="btn_gm"><span class="inner_g">자세히 보기</span></a>
-                          <a class="btn_gm"><span class="inner_g">구매하기</span></a>
-                        </div>
-                      </div>
-                      <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                    </div>
-
-                    <!-- ============================================================
-                         FTL : 와이드 리스트형 (FTLWL)
-                         ============================================================ -->
-                    <div class="box_message item_widelist pub-block" data-block="FTL-FTLWL BRAND-FTLWL">
-                      <div class="inner_message">
-                        <input type="text" class="tit_message" placeholder="타이틀을 입력해주세요." value="이번 주 베스트 아이템">
-                        <div class="img_message" style="border-radius:0px;">
-                          <textarea class="tit_img textClass wide-list" rows="1" placeholder="리스트 항목1 내용">대표 상품 — 봄 니트 컬렉션</textarea>
-                          <div class="wrap_thumb">
-                            <div class="inner_thumb">
-                              <img class="thumb_img" src="https://placehold.co/800x400/e3ecf5/8aa0b6?text=MAIN" alt="메인" style="cursor:pointer!important;">
-                            </div>
-                          </div>
-                        </div>
-                        <ul class="list_message" style="padding-left:0;padding-right:0;padding-bottom:10px;">
-                          <li>
-                            <div class="inner_g">
-                              <div class="img_message">
-                                <div class="wrap_thumb"><div class="inner_thumb cp">
-                                  <img class="thumb_img wide-small-img" src="https://placehold.co/100x100/eef2f7/8aa0b6?text=1" alt="">
-                                </div></div>
-                              </div>
-                              <p class="desc_g default_message">
-                                <textarea class="textClass wide-list wide-list-small" rows="1">리스트 항목2 — 데일리 가디건</textarea>
-                              </p>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="inner_g">
-                              <div class="img_message">
-                                <div class="wrap_thumb"><div class="inner_thumb cp">
-                                  <div class="wide_item_img"><div><span class="plus_icon_mini mdi-image-plus-outline"></span></div></div>
-                                </div></div>
-                              </div>
-                              <p class="desc_g default_message">
-                                <textarea class="textClass wide-list wide-list-small" rows="1" placeholder="리스트 항목3 내용"></textarea>
-                              </p>
-                            </div>
-                          </li>
-                        </ul>
-                        <div class="btn_message" style="padding-left:0;padding-right:0;padding-top:5px;height:33px;">
-                          <a class="btn_gm"><span class="inner_g">전체 보기</span></a>
-                        </div>
-                      </div>
-                      <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                    </div>
-
-                    <!-- ============================================================
-                         FTL/BRAND : 캐러셀 피드형 (FTLC)
-                         ============================================================ -->
-                    <div class="ftlc pub-block" data-block="FTL-FTLC BRAND-FTLC">
-                      <div class="pw-swiper mySwiper">
-                        <div class="pw-swiper-track">
-                          <!-- 슬라이드 1 -->
-                          <div class="pw-swiper-slide">
-                            <div class="pw-slide-topbtn"><button class="top_btn top_btn_c">이미지 수정</button></div>
-                            <div class="box_message default_message">
-                              <div class="inner_message preview_write_ftlc">
-                                <div class="img_message" style="height:unset;">
-                                  <div class="wrap_thumb"><div class="inner_thumb" style="height:unset;">
-                                    <img class="thumb_img" src="https://placehold.co/800x400/e3ecf5/8aa0b6?text=CARD+1" alt="">
-                                  </div></div>
-                                </div>
-                                <div style="background-color:#fff;" class="ftlc_title_div">
-                                  <textarea rows="1" class="ftlc_title textClass" placeholder="타이틀을 입력해주세요.">신상 원피스</textarea>
-                                </div>
-                                <p class="desc_message default_message" style="padding-top:0!important;">
-                                  <span class="inner_g">
-                                    <textarea class="textClass textClassCalc" style="font-size:12.1px" rows="1" placeholder="내용을 입력해 주세요.">하늘하늘한 봄 원피스, 지금 30% 할인 중!</textarea>
-                                  </span>
-                                </p>
-                                <div class="btn_message btn_ftlc"><a class="btn_gm"><span class="inner_g">구매하기</span></a></div>
-                              </div>
-                              <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                            </div>
-                          </div>
-                          <!-- 슬라이드 2 (미등록 예시) -->
-                          <div class="pw-swiper-slide">
-                            <div class="box_message default_message">
-                              <div class="inner_message preview_write_ftlc">
-                                <div class="img_message" style="height:unset;">
-                                  <div class="wrap_thumb"><div class="inner_thumb" style="height:unset;">
-                                    <div class="no_img_area no_img_ftlc">
-                                      <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span></div>
-                                      <button class="img_btn">이미지 등록</button>
-                                      <div class="img_info">권장 사이즈</div>
-                                      <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
-                                    </div>
-                                  </div></div>
-                                </div>
-                                <div style="background-color:#fff;" class="ftlc_title_div">
-                                  <textarea rows="1" class="ftlc_title textClass" placeholder="타이틀을 입력해주세요."></textarea>
-                                </div>
-                                <p class="desc_message default_message" style="padding-top:0!important;">
-                                  <span class="inner_g">
-                                    <textarea class="textClass textClassCalc" style="font-size:12.1px" rows="1" placeholder="내용을 입력해 주세요."></textarea>
-                                  </span>
-                                </p>
-                              </div>
-                              <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                      </div>
-                    </div>
-
-                    <!-- ============================================================
-                         BRAND : 기본/이미지형, 와이드 (FTL/FTLW)
-                         ============================================================ -->
-                    <div class="box_message default_message pub-block" data-block="BRAND-FTL BRAND-FTLW" id="brandBasic">
-                      <div class="inner_message">
-                        <div class="img_message" id="brandImg" style="height:unset;">
-                          <div class="wrap_thumb">
-                            <div class="inner_thumb cp" id="brandThumbWrap" style="height:unset;">
-                              <img class="thumb_img" src="https://placehold.co/800x600/e3ecf5/8aa0b6?text=BRAND" alt="썸네일">
-                            </div>
-                            <div class="no_img_area no_img_ftlw" id="brandNoImg" style="display:none;">
-                              <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span></div>
-                              <button class="img_btn">이미지 등록</button>
-                              <div class="img_info">권장 사이즈 800x600px</div>
-                            </div>
-                          </div>
-                        </div>
-                        <p class="desc_message default_message">
-                          <span class="inner_g">
-                            <textarea class="ta1 textClass" rows="1" placeholder="메시지를 입력해 주세요.">#{이름}님을 위한 단독 혜택! 브랜드 멤버십 회원에게만 드리는 특별 쿠폰을 지금 확인해보세요.</textarea>
-                          </span>
-                        </p>
-                        <div class="btn_message">
-                          <a class="btn_gm channel_plus"><span class="channel_img" style="background:#191919;"></span><span class="inner_g">채널 추가</span></a>
-                        </div>
-                        <div class="area_coupon area_coupon_BRAND cp">
-                          <div class="inner_coupon">
-                            <strong class="tit_coupon">10% 할인 쿠폰</strong>
-                            <p class="txt_coupon default_message">전 상품 사용 가능 · 5월 한정</p>
-                            <span class="img_coupon"></span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                    </div>
-
-                    <!-- ============================================================
-                         BRAND : 커머스형 (FTLS)
-                         ============================================================ -->
-                    <div class="pub-block" data-block="BRAND-FTLS">
-                      <div class="discountType_ftls flex-s">
-                        <div class="cp flex-s mr10"><span class="pw-radio on"></span><div style="font-size:13px;">할인율</div></div>
-                        <div class="cp flex-s"><span class="pw-radio"></span><div style="font-size:13px;">할인금액</div></div>
-                      </div>
-                      <div class="box_message default_message">
-                        <div class="inner_message">
-                          <div class="img_message" style="height:unset;">
-                            <div class="wrap_thumb">
-                              <div class="inner_thumb cp" style="height:unset;">
-                                <img class="thumb_img" src="https://placehold.co/800x600/e3ecf5/8aa0b6?text=PRODUCT" alt="썸네일">
-                              </div>
-                            </div>
-                          </div>
-                          <div style="background-color:#fff;padding-bottom:0!important;" class="ftlc_title_div FTLCS_title_div">
-                            <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass" placeholder="상품명" style="border-bottom:none!important;">베이직 코튼 셔츠</textarea>
-                            <div class="price-info flex-s">
-                              <div class="price1 cp">29,000원</div>
-                              <div class="price2 cp">39,000</div>
-                              <div class="sale-info">25%</div>
-                            </div>
-                          </div>
-                          <p class="desc_message default_message message_ftls">
-                            <span class="inner_g">
-                              <textarea class="textClass textClassCalc addInfo" style="font-size:12.1px" rows="1" placeholder="부가정보(선택)">무료배송 · 당일 출고</textarea>
-                            </span>
-                          </p>
-                          <div class="btn_message" style="padding-left:10px;padding-right:10px;padding-bottom:15px;padding-top:5px;height:33px;">
-                            <a class="btn_gm"><span class="inner_g">구매하기</span></a>
-                          </div>
-                        </div>
-                        <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                      </div>
-                    </div>
-
-                    <!-- ============================================================
-                         BRAND : 캐러셀 커머스형 (FTLCS)
-                         ============================================================ -->
-                    <div class="ftlc FTLCS flex-s pub-block" data-block="BRAND-FTLCS">
-                      <div class="pw-swiper mySwiper">
-                        <div class="pw-swiper-track">
-                          <!-- 인트로 -->
-                          <div class="pw-swiper-slide">
-                            <div class="box_message default_message">
-                              <div class="inner_message preview_write_ftlc">
-                                <div class="img_message" style="height:unset;">
-                                  <div class="wrap_thumb"><div class="inner_thumb" style="height:unset;">
-                                    <img class="thumb_img" src="https://placehold.co/800x400/dde8f2/8aa0b6?text=INTRO" alt="">
-                                  </div></div>
-                                </div>
-                                <div style="background-color:#fff;height:auto;position:relative;padding-bottom:10px!important;" class="ftlc_title_div FTLCS_title_div_i FTLCS_title_div">
-                                  <textarea rows="1" class="ftlc_title FTLCS_title_big textClass" style="border-bottom:none!important;" placeholder="타이틀">봄 시즌 오프</textarea>
-                                </div>
-                                <p class="desc_message default_message" style="padding-top:5px!important;">
-                                  <span class="inner_g">
-                                    <textarea class="textClass textClassCalc addInfo" style="font-size:12.1px" rows="1" placeholder="내용을 입력해 주세요.">최대 50% 할인, 놓치지 마세요</textarea>
-                                  </span>
-                                </p>
-                              </div>
-                              <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                            </div>
-                          </div>
-                          <!-- 상품 카드 -->
-                          <div class="pw-swiper-slide">
-                            <div class="box_message default_message">
-                              <div class="inner_message preview_write_ftlc">
-                                <div class="img_message" style="height:unset;">
-                                  <div class="wrap_thumb"><div class="inner_thumb" style="height:unset;">
-                                    <img class="thumb_img" src="https://placehold.co/800x400/e3ecf5/8aa0b6?text=ITEM" alt="">
-                                  </div></div>
-                                </div>
-                                <div style="background-color:#fff;" class="ftlc_title_div FTLCS_title_div">
-                                  <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass" placeholder="상품명" style="border-bottom:none!important;">린넨 블라우스</textarea>
-                                  <div class="price-info flex-s">
-                                    <div class="price1 cp">19,900원</div>
-                                    <div class="price2 cp">25,000</div>
-                                    <div class="sale-info">20%</div>
+                            <!-- ATLP 이미지 -->
+                            <div class="img_message" id="atlpImg" style="height:unset; display:none;">
+                              <div class="wrap_thumb">
+                                <div class="inner_thumb" style="height:unset;">
+                                  <img class="thumb_img" src="https://placehold.co/800x400/d7e3f0/8aa0b6?text=ALIM+TALK"
+                                    alt="썸네일">
+                                  <div class="no_img_area no_img_atlp" style="display:none;">
+                                    <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span></div>
+                                    <button class="img_btn">이미지 등록</button>
+                                    <div class="img_info">권장 사이즈 800x400px</div>
                                   </div>
                                 </div>
-                                <p class="desc_message default_message">
-                                  <span class="inner_g">
-                                    <textarea class="textClass textClassCalc addInfo" style="font-size:12.1px" rows="1" placeholder="부가정보(선택)">시원한 여름 소재</textarea>
-                                  </span>
-                                </p>
-                                <div class="btn_message btn_ftlc"><a class="btn_gm"><span class="inner_g">구매하기</span></a></div>
                               </div>
-                              <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                            </div>
+
+                            <p class="desc_message default_message" style="position:relative;">
+                              <!-- ATLT 타이틀 -->
+                              <span class="atlt" id="atltTitle" style="display:none;">
+                                <textarea class="sub_title textClass" rows="1"
+                                  placeholder="서브 타이틀을 입력해주세요.">3월 특가 안내</textarea>
+                                <textarea class="main_title textClass" rows="1"
+                                  placeholder="메인 타이틀을 입력해주세요.">주문하신 상품이 발송되었습니다</textarea>
+                              </span>
+                              <span class="inner_g">
+                                <textarea class="ta1 textClass" rows="1" placeholder="메시지를 입력해 주세요.">안녕하세요 고객님,
+주문번호 #20250529 상품이 오늘 출고되었습니다. 배송 조회는 아래 버튼에서 확인하실 수 있습니다.</textarea>
+                              </span>
+                            </p>
+
+                            <div class="btn_message">
+                              <a class="btn_gm"><span class="inner_g">배송 조회</span></a>
                             </div>
                           </div>
+                          <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                              class="arrow_append ico_comm">&gt;</span>채널차단</div>
                         </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                      </div>
-                    </div>
 
-                    <!-- ============================================================
+                        <!-- ============================================================
+                         FTL : 친구톡 이미지형/와이드이미지형
+                         ============================================================ -->
+                        <div class="box_message default_message pub-block" data-block="FTL-FTL FTL-FTLW" id="ftlBasic">
+                          <div class="inner_message">
+                            <div class="img_message" id="ftlImg" style="height:unset;">
+                              <div class="wrap_thumb">
+                                <div class="inner_thumb cp" id="ftlThumbWrap" style="height:unset;">
+                                  <img class="thumb_img"
+                                    src="https://placehold.co/800x600/e3ecf5/8aa0b6?text=FRIEND+TALK" alt="썸네일">
+                                </div>
+                                <div class="no_img_area no_img_ftlw" id="ftlNoImg" style="display:none;">
+                                  <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span></div>
+                                  <button class="img_btn">이미지 등록</button>
+                                  <div class="img_info">권장 사이즈 800x600px</div>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="desc_message default_message">
+                              <span class="inner_g">
+                                <textarea class="ta1 textClass" rows="1"
+                                  placeholder="메시지를 입력해 주세요.">봄맞이 신상품이 입고되었어요! 지금 구매하시면 추가 10% 할인 혜택을 드립니다. 🌸</textarea>
+                              </span>
+                            </p>
+                            <div class="btn_message btn_num2">
+                              <a class="btn_gm"><span class="inner_g">자세히 보기</span></a>
+                              <a class="btn_gm"><span class="inner_g">구매하기</span></a>
+                            </div>
+                          </div>
+                          <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                              class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                        </div>
+
+                        <!-- ============================================================
+                         FTL : 와이드 리스트형 (FTLWL)
+                         ============================================================ -->
+                        <div class="box_message item_widelist pub-block" data-block="FTL-FTLWL BRAND-FTLWL">
+                          <div class="inner_message">
+                            <input type="text" class="tit_message" placeholder="타이틀을 입력해주세요." value="이번 주 베스트 아이템">
+                            <div class="img_message" style="border-radius:0px;">
+                              <textarea class="tit_img textClass wide-list" rows="1"
+                                placeholder="리스트 항목1 내용">대표 상품 — 봄 니트 컬렉션</textarea>
+                              <div class="wrap_thumb">
+                                <div class="inner_thumb">
+                                  <img class="thumb_img" src="https://placehold.co/800x400/e3ecf5/8aa0b6?text=MAIN"
+                                    alt="메인" style="cursor:pointer!important;">
+                                </div>
+                              </div>
+                            </div>
+                            <ul class="list_message" style="padding-left:0;padding-right:0;padding-bottom:10px;">
+                              <li>
+                                <div class="inner_g">
+                                  <div class="img_message">
+                                    <div class="wrap_thumb">
+                                      <div class="inner_thumb cp">
+                                        <img class="thumb_img wide-small-img"
+                                          src="https://placehold.co/100x100/eef2f7/8aa0b6?text=1" alt="">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <p class="desc_g default_message">
+                                    <textarea class="textClass wide-list wide-list-small"
+                                      rows="1">리스트 항목2 — 데일리 가디건</textarea>
+                                  </p>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="inner_g">
+                                  <div class="img_message">
+                                    <div class="wrap_thumb">
+                                      <div class="inner_thumb cp">
+                                        <div class="wide_item_img">
+                                          <div><span class="plus_icon_mini mdi-image-plus-outline"></span></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <p class="desc_g default_message">
+                                    <textarea class="textClass wide-list wide-list-small" rows="1"
+                                      placeholder="리스트 항목3 내용"></textarea>
+                                  </p>
+                                </div>
+                              </li>
+                            </ul>
+                            <div class="btn_message"
+                              style="padding-left:0;padding-right:0;padding-top:5px;height:33px;">
+                              <a class="btn_gm"><span class="inner_g">전체 보기</span></a>
+                            </div>
+                          </div>
+                          <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                              class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                        </div>
+
+                        <!-- ============================================================
+                         FTL/BRAND : 캐러셀 피드형 (FTLC)
+                         ============================================================ -->
+                        <div class="ftlc pub-block" data-block="FTL-FTLC BRAND-FTLC">
+                          <div class="pw-swiper mySwiper">
+                            <div class="pw-swiper-track">
+                              <!-- 슬라이드 1 -->
+                              <div class="pw-swiper-slide">
+                                <div class="pw-slide-topbtn"><button class="top_btn top_btn_c">이미지 수정</button></div>
+                                <div class="box_message default_message">
+                                  <div class="inner_message preview_write_ftlc">
+                                    <div class="img_message" style="height:unset;">
+                                      <div class="wrap_thumb">
+                                        <div class="inner_thumb" style="height:unset;">
+                                          <img class="thumb_img"
+                                            src="https://placehold.co/800x400/e3ecf5/8aa0b6?text=CARD+1" alt="">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div style="background-color:#fff;" class="ftlc_title_div">
+                                      <textarea rows="1" class="ftlc_title textClass"
+                                        placeholder="타이틀을 입력해주세요.">신상 원피스</textarea>
+                                    </div>
+                                    <p class="desc_message default_message" style="padding-top:0!important;">
+                                      <span class="inner_g">
+                                        <textarea class="textClass textClassCalc" style="font-size:12.1px" rows="1"
+                                          placeholder="내용을 입력해 주세요.">하늘하늘한 봄 원피스, 지금 30% 할인 중!</textarea>
+                                      </span>
+                                    </p>
+                                    <div class="btn_message btn_ftlc"><a class="btn_gm"><span
+                                          class="inner_g">구매하기</span></a></div>
+                                  </div>
+                                  <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                                      class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                                </div>
+                              </div>
+                              <!-- 슬라이드 2 (미등록 예시) -->
+                              <div class="pw-swiper-slide">
+                                <div class="box_message default_message">
+                                  <div class="inner_message preview_write_ftlc">
+                                    <div class="img_message" style="height:unset;">
+                                      <div class="wrap_thumb">
+                                        <div class="inner_thumb" style="height:unset;">
+                                          <div class="no_img_area no_img_ftlc">
+                                            <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span>
+                                            </div>
+                                            <button class="img_btn">이미지 등록</button>
+                                            <div class="img_info">권장 사이즈</div>
+                                            <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div style="background-color:#fff;" class="ftlc_title_div">
+                                      <textarea rows="1" class="ftlc_title textClass"
+                                        placeholder="타이틀을 입력해주세요."></textarea>
+                                    </div>
+                                    <p class="desc_message default_message" style="padding-top:0!important;">
+                                      <span class="inner_g">
+                                        <textarea class="textClass textClassCalc" style="font-size:12.1px" rows="1"
+                                          placeholder="내용을 입력해 주세요."></textarea>
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                                      class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                          </div>
+                        </div>
+
+                        <!-- ============================================================
+                         BRAND : 기본/이미지형, 와이드 (FTL/FTLW)
+                         ============================================================ -->
+                        <div class="box_message default_message pub-block" data-block="BRAND-FTL BRAND-FTLW"
+                          id="brandBasic">
+                          <div class="inner_message">
+                            <div class="img_message" id="brandImg" style="height:unset;">
+                              <div class="wrap_thumb">
+                                <div class="inner_thumb cp" id="brandThumbWrap" style="height:unset;">
+                                  <img class="thumb_img" src="https://placehold.co/800x600/e3ecf5/8aa0b6?text=BRAND"
+                                    alt="썸네일">
+                                </div>
+                                <div class="no_img_area no_img_ftlw" id="brandNoImg" style="display:none;">
+                                  <div class="img_icon"><span class="plus_icon mdi-image-plus-outline"></span></div>
+                                  <button class="img_btn">이미지 등록</button>
+                                  <div class="img_info">권장 사이즈 800x600px</div>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="desc_message default_message">
+                              <span class="inner_g">
+                                <textarea class="ta1 textClass" rows="1"
+                                  placeholder="메시지를 입력해 주세요.">#{이름}님을 위한 단독 혜택! 브랜드 멤버십 회원에게만 드리는 특별 쿠폰을 지금 확인해보세요.</textarea>
+                              </span>
+                            </p>
+                            <div class="btn_message">
+                              <a class="btn_gm channel_plus"><span class="channel_img"
+                                  style="background:#191919;"></span><span class="inner_g">채널 추가</span></a>
+                            </div>
+                            <div class="area_coupon area_coupon_BRAND cp">
+                              <div class="inner_coupon">
+                                <strong class="tit_coupon">10% 할인 쿠폰</strong>
+                                <p class="txt_coupon default_message">전 상품 사용 가능 · 5월 한정</p>
+                                <span class="img_coupon"></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                              class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                        </div>
+
+                        <!-- ============================================================
+                         BRAND : 커머스형 (FTLS)
+                         ============================================================ -->
+                        <div class="pub-block" data-block="BRAND-FTLS">
+                          <div class="discountType_ftls flex-s">
+                            <div class="cp flex-s mr10"><span class="pw-radio on"></span>
+                              <div style="font-size:13px;">할인율</div>
+                            </div>
+                            <div class="cp flex-s"><span class="pw-radio"></span>
+                              <div style="font-size:13px;">할인금액</div>
+                            </div>
+                          </div>
+                          <div class="box_message default_message">
+                            <div class="inner_message">
+                              <div class="img_message" style="height:unset;">
+                                <div class="wrap_thumb">
+                                  <div class="inner_thumb cp" style="height:unset;">
+                                    <img class="thumb_img" src="https://placehold.co/800x600/e3ecf5/8aa0b6?text=PRODUCT"
+                                      alt="썸네일">
+                                  </div>
+                                </div>
+                              </div>
+                              <div style="background-color:#fff;padding-bottom:0!important;"
+                                class="ftlc_title_div FTLCS_title_div">
+                                <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass"
+                                  placeholder="상품명" style="border-bottom:none!important;">베이직 코튼 셔츠</textarea>
+                                <div class="price-info flex-s">
+                                  <div class="price1 cp">29,000원</div>
+                                  <div class="price2 cp">39,000</div>
+                                  <div class="sale-info">25%</div>
+                                </div>
+                              </div>
+                              <p class="desc_message default_message message_ftls">
+                                <span class="inner_g">
+                                  <textarea class="textClass textClassCalc addInfo" style="font-size:12.1px" rows="1"
+                                    placeholder="부가정보(선택)">무료배송 · 당일 출고</textarea>
+                                </span>
+                              </p>
+                              <div class="btn_message"
+                                style="padding-left:10px;padding-right:10px;padding-bottom:15px;padding-top:5px;height:33px;">
+                                <a class="btn_gm"><span class="inner_g">구매하기</span></a>
+                              </div>
+                            </div>
+                            <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                                class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                          </div>
+                        </div>
+
+                        <!-- ============================================================
+                         BRAND : 캐러셀 커머스형 (FTLCS)
+                         ============================================================ -->
+                        <div class="ftlc FTLCS flex-s pub-block" data-block="BRAND-FTLCS">
+                          <div class="pw-swiper mySwiper">
+                            <div class="pw-swiper-track">
+                              <!-- 인트로 -->
+                              <div class="pw-swiper-slide">
+                                <div class="box_message default_message">
+                                  <div class="inner_message preview_write_ftlc">
+                                    <div class="img_message" style="height:unset;">
+                                      <div class="wrap_thumb">
+                                        <div class="inner_thumb" style="height:unset;">
+                                          <img class="thumb_img"
+                                            src="https://placehold.co/800x400/dde8f2/8aa0b6?text=INTRO" alt="">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      style="background-color:#fff;height:auto;position:relative;padding-bottom:10px!important;"
+                                      class="ftlc_title_div FTLCS_title_div_i FTLCS_title_div">
+                                      <textarea rows="1" class="ftlc_title FTLCS_title_big textClass"
+                                        style="border-bottom:none!important;" placeholder="타이틀">봄 시즌 오프</textarea>
+                                    </div>
+                                    <p class="desc_message default_message" style="padding-top:5px!important;">
+                                      <span class="inner_g">
+                                        <textarea class="textClass textClassCalc addInfo" style="font-size:12.1px"
+                                          rows="1" placeholder="내용을 입력해 주세요.">최대 50% 할인, 놓치지 마세요</textarea>
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                                      class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                                </div>
+                              </div>
+                              <!-- 상품 카드 -->
+                              <div class="pw-swiper-slide">
+                                <div class="box_message default_message">
+                                  <div class="inner_message preview_write_ftlc">
+                                    <div class="img_message" style="height:unset;">
+                                      <div class="wrap_thumb">
+                                        <div class="inner_thumb" style="height:unset;">
+                                          <img class="thumb_img"
+                                            src="https://placehold.co/800x400/e3ecf5/8aa0b6?text=ITEM" alt="">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div style="background-color:#fff;" class="ftlc_title_div FTLCS_title_div">
+                                      <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass"
+                                        placeholder="상품명" style="border-bottom:none!important;">린넨 블라우스</textarea>
+                                      <div class="price-info flex-s">
+                                        <div class="price1 cp">19,900원</div>
+                                        <div class="price2 cp">25,000</div>
+                                        <div class="sale-info">20%</div>
+                                      </div>
+                                    </div>
+                                    <p class="desc_message default_message">
+                                      <span class="inner_g">
+                                        <textarea class="textClass textClassCalc addInfo" style="font-size:12.1px"
+                                          rows="1" placeholder="부가정보(선택)">시원한 여름 소재</textarea>
+                                      </span>
+                                    </p>
+                                    <div class="btn_message btn_ftlc"><a class="btn_gm"><span
+                                          class="inner_g">구매하기</span></a></div>
+                                  </div>
+                                  <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                                      class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                          </div>
+                        </div>
+
+                        <!-- ============================================================
                          MSG : 문자 (SMS / LMS / MMS)
                          ============================================================ -->
-                    <div class="box_message default_message msg pub-block" data-block="MSG-LMS MSG-SMS">
-                      <input type="text" class="msg-title" id="msgTitle" style="width:300px;" placeholder="제목 입력(총 15자)" value="배송 출발 안내">
-                      <div class="msg_img_area msg_img_area_one" id="msgImgArea">
-                        <img class="msg_img" src="https://placehold.co/600x400/e3ecf5/8aa0b6?text=MMS" alt="">
-                      </div>
-                      <div class="inner_message" style="margin-left:20px!important;">
-                        <p class="desc_message default_message">
-                          <span class="inner_g">
-                            <div style="margin-bottom:10px;" class="adver-head" id="msgAdver" style="display:none;">(광고) 브랜드명</div>
-                            <textarea class="textClass textAreaMsg" rows="1" placeholder="메시지를 입력해 주세요.">[브랜드명] 주문하신 상품이 오늘 출발했습니다. 운송장: 1234-5678-9012</textarea>
-                            <div id="msgReject" style="display:none; margin-top:10px;">무료수신거부 080-123-4567</div>
-                          </span>
-                        </p>
-                      </div>
-                      <div class="txt_append" id="msgAppend">LMS 오전 08:00</div>
-                    </div>
-                    <!-- /타입별 블록 -->
+                        <div class="box_message default_message msg pub-block" data-block="MSG-LMS MSG-SMS">
+                          <input type="text" class="msg-title" id="msgTitle" style="width:300px;"
+                            placeholder="제목 입력(총 15자)" value="배송 출발 안내">
+                          <div class="msg_img_area msg_img_area_one" id="msgImgArea">
+                            <img class="msg_img" src="https://placehold.co/600x400/e3ecf5/8aa0b6?text=MMS" alt="">
+                          </div>
+                          <div class="inner_message" style="margin-left:20px!important;">
+                            <p class="desc_message default_message">
+                              <span class="inner_g">
+                                <div style="margin-bottom:10px;" class="adver-head" id="msgAdver" style="display:none;">
+                                  (광고) 브랜드명</div>
+                                <textarea class="textClass textAreaMsg" rows="1"
+                                  placeholder="메시지를 입력해 주세요.">[브랜드명] 주문하신 상품이 오늘 출발했습니다. 운송장: 1234-5678-9012</textarea>
+                                <div id="msgReject" style="display:none; margin-top:10px;">무료수신거부 080-123-4567</div>
+                              </span>
+                            </p>
+                          </div>
+                          <div class="txt_append" id="msgAppend">LMS 오전 08:00</div>
+                        </div>
+                        <!-- /타입별 블록 -->
 
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- 하단 이모지/변수 버튼 -->
+          <div class="btn-iv-div flex-s">
+            <div class="btn-iv btn-imoti">
+              <img src="./img/imoji.png" alt="이모지">
+            </div>
+            <div class="btn-iv btn-var">
+              <div style="color:#86909f;"><span style="margin-right:3px;">#</span><span>변수</span></div>
+            </div>
+          </div>
+
+          <!-- 글자수/바이트 카운터 -->
+          <div>
+            <div class="txt_append length_check" style="padding-right:40px; display:none;" id="cntATL">
+              <span class="f_weight">112</span>&nbsp; / 1,000 자&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="txt_append length_check" style="padding-right:40px; display:none;" id="cntFTL">
+              <div class="txt-count"><span class="f_weight">58</span>&nbsp; / <span>400</span> 자&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+            </div>
+            <div class="txt_append length_check length_check_msg" style="display:none;" id="cntMSG">
+              <span>LMS</span> - <span>96</span>&nbsp; / <span>2,000</span> Bytes
+            </div>
+          </div>
+
         </div>
       </div>
+    </main>
+  </div>
 
-      <!-- 하단 이모지/변수 버튼 -->
-      <div class="btn-iv-div flex-s">
-        <div class="btn-iv btn-imoti">
-          <span style="display:inline-block;width:24px;height:24px;background:#ffe14d;border-radius:50%;"></span>
-        </div>
-        <div class="btn-iv btn-var">
-          <div style="color:#86909f;"><span style="margin-right:3px;">#</span><span>변수</span></div>
-        </div>
-      </div>
+  <script>
+    // ===== 퍼블 확인용 토글 스크립트 (실제 배포에는 previewWrite.js 사용) =====
 
-      <!-- 글자수/바이트 카운터 -->
-      <div>
-        <div class="txt_append length_check" style="padding-right:40px; display:none;" id="cntATL">
-          <span class="f_weight">112</span>&nbsp; / 1,000 자&nbsp;&nbsp;&nbsp;&nbsp;
-        </div>
-        <div class="txt_append length_check" style="padding-right:40px; display:none;" id="cntFTL">
-          <div class="txt-count"><span class="f_weight">58</span>&nbsp; / <span>400</span> 자&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        </div>
-        <div class="txt_append length_check length_check_msg" style="display:none;" id="cntMSG">
-          <span>LMS</span> - <span>96</span>&nbsp; / <span>2,000</span> Bytes
-        </div>
-      </div>
+    // ── 캐러셀 (pw-swiper) ──────────────────────────────────────────────────
+    function initSwipers() {
+      document.querySelectorAll('.pw-swiper').forEach(function (swiperEl) {
+        const track = swiperEl.querySelector('.pw-swiper-track');
+        const slides = swiperEl.querySelectorAll('.pw-swiper-slide');
+        const prev = swiperEl.querySelector('.swiper-button-prev');
+        const next = swiperEl.querySelector('.swiper-button-next');
+        const count = slides.length;
+        let cur = 0;
 
-    </div>
-    </div>
-  </main>
-</div>
+        function goTo(idx) {
+          cur = (idx % count + count) % count;
+          track.style.transform = 'translateX(' + (-cur * 100) + '%)';
+        }
 
-<script>
-  // ===== 퍼블 확인용 토글 스크립트 (실제 배포에는 previewWrite.js 사용) =====
+        if (prev) prev.addEventListener('click', function () { goTo(cur - 1); });
+        if (next) next.addEventListener('click', function () { goTo(cur + 1); });
 
-  // ── 캐러셀 (pw-swiper) ──────────────────────────────────────────────────
-  function initSwipers() {
-    document.querySelectorAll('.pw-swiper').forEach(function(swiperEl) {
-      var track  = swiperEl.querySelector('.pw-swiper-track');
-      var slides = swiperEl.querySelectorAll('.pw-swiper-slide');
-      var prev   = swiperEl.querySelector('.swiper-button-prev');
-      var next   = swiperEl.querySelector('.swiper-button-next');
-      var count  = slides.length;
-      var cur    = 0;
+        let startX = 0, dragging = false;
 
-      function goTo(idx) {
-        cur = (idx % count + count) % count;
-        track.style.transform = 'translateX(' + (-cur * 100) + '%)';
-      }
-
-      if (prev) prev.addEventListener('click', function() { goTo(cur - 1); });
-      if (next) next.addEventListener('click', function() { goTo(cur + 1); });
-
-      var startX = 0, dragging = false;
-
-      swiperEl.addEventListener('touchstart', function(e) {
-        startX = e.touches[0].clientX; dragging = true;
-      }, { passive: true });
-      swiperEl.addEventListener('touchend', function(e) {
-        if (!dragging) return;
-        var dx = e.changedTouches[0].clientX - startX;
-        if (Math.abs(dx) > 30) goTo(cur + (dx < 0 ? 1 : -1));
-        dragging = false;
-      });
-      swiperEl.addEventListener('mousedown', function(e) {
-        if (e.target.closest('.swiper-button-prev, .swiper-button-next')) return;
-        startX = e.clientX; dragging = true; e.preventDefault();
-      });
-      document.addEventListener('mouseup', function(e) {
-        if (!dragging) return;
-        var dx = e.clientX - startX;
-        if (Math.abs(dx) > 30) goTo(cur + (dx < 0 ? 1 : -1));
-        dragging = false;
-      });
-    });
-  }
-
-  // ── Sortable (드래그 순서변경) ──────────────────────────────────────────
-  function initSortable() {
-    document.querySelectorAll('ul.sortable').forEach(function(ul) {
-      var dragging = null;
-
-      function bindLi(li) {
-        li.setAttribute('draggable', 'true');
-        li.style.cursor = 'grab';
-
-        li.addEventListener('dragstart', function(e) {
-          dragging = li;
-          e.dataTransfer.effectAllowed = 'move';
-          setTimeout(function() { li.style.opacity = '0.4'; }, 0);
+        swiperEl.addEventListener('touchstart', function (e) {
+          startX = e.touches[0].clientX; dragging = true;
+        }, { passive: true });
+        swiperEl.addEventListener('touchend', function (e) {
+          if (!dragging) return;
+          const dx = e.changedTouches[0].clientX - startX;
+          if (Math.abs(dx) > 30) goTo(cur + (dx < 0 ? 1 : -1));
+          dragging = false;
         });
-        li.addEventListener('dragend', function() {
-          li.style.opacity = '';
-          dragging = null;
+        swiperEl.addEventListener('mousedown', function (e) {
+          if (e.target.closest('.swiper-button-prev, .swiper-button-next')) return;
+          startX = e.clientX; dragging = true; e.preventDefault();
         });
-        li.addEventListener('dragover', function(e) {
-          e.preventDefault();
-          if (!dragging || dragging === li) return;
-          var rect  = li.getBoundingClientRect();
-          var after = e.clientX > rect.left + rect.width / 2;
-          ul.insertBefore(dragging, after ? li.nextSibling : li);
+        document.addEventListener('mouseup', function (e) {
+          if (!dragging) return;
+          const dx = e.clientX - startX;
+          if (Math.abs(dx) > 30) goTo(cur + (dx < 0 ? 1 : -1));
+          dragging = false;
         });
-        li.addEventListener('click', function() {
-          ul.querySelectorAll('li').forEach(function(l) { l.classList.remove('on'); });
-          li.classList.add('on');
-        });
-      }
-
-      ul.querySelectorAll('li').forEach(bindLi);
-    });
-  }
-
-  var typeSel = document.getElementById('typeSel');
-  function applyType() {
-    var v = typeSel.value;                 // 예: FTL-FTLW
-    var parts = v.split('-');
-    var type = parts[0], dType = parts[1];
-
-    // 블록 표시
-    document.querySelectorAll('.pub-block').forEach(function (el) {
-      var keys = (el.getAttribute('data-block') || '').split(/\s+/);
-      el.classList.toggle('is-active', keys.indexOf(v) > -1);
-    });
-
-    // 프로필/광고/뷰박스
-    var showProfile = (type === 'ATL' || type === 'FTL' || type === 'BRAND');
-    document.getElementById('infoProfile').style.display = showProfile ? '' : 'none';
-    document.getElementById('txtAd').style.display = (type === 'FTL' || type === 'BRAND') ? '' : 'none';
-    document.getElementById('yData').classList.toggle('white_back', type === 'MSG');
-
-    var isViewBox = (type === 'FTL' || type === 'BRAND');
-    document.getElementById('viewBox').style.display = isViewBox ? '' : 'none';
-    document.getElementById('topSpacer').style.display = isViewBox ? 'none' : '';
-    document.getElementById('numFTLC').style.display = (dType === 'FTLC') ? '' : 'none';
-    document.getElementById('numFTLCS').style.display = (dType === 'FTLCS') ? '' : 'none';
-    document.getElementById('imgTopBtn').style.display =
-      (type === 'ATL' && dType === 'ATLP') || (isViewBox && (dType === 'FTL' || dType === 'FTLW' || dType === 'FTLS')) ? '' : 'none';
-
-    // ATL 세부
-    var atltT = document.getElementById('atltTitle');
-    var atlpI = document.getElementById('atlpImg');
-    if (atltT) atltT.style.display = (dType === 'ATLT') ? '' : 'none';
-    if (atlpI) atlpI.style.display = (dType === 'ATLP') ? '' : 'none';
-
-    // MSG 세부
-    var smsMode = (dType === 'SMS');
-    var mt = document.getElementById('msgTitle'); if (mt) mt.style.display = smsMode ? 'none' : '';
-    var mi = document.getElementById('msgImgArea'); if (mi) mi.style.display = smsMode ? 'none' : '';
-    var ma = document.getElementById('msgAppend'); if (ma) ma.textContent = (smsMode ? '' : dType + ' ') + '오전 08:00';
-
-    // 카운터
-    document.getElementById('cntATL').style.display = (type === 'ATL') ? '' : 'none';
-    document.getElementById('cntFTL').style.display = (type === 'FTL' || type === 'BRAND') && ['FTL','FTLW','FTLS'].indexOf(dType) > -1 ? '' : 'none';
-    document.getElementById('cntMSG').style.display = (type === 'MSG') ? '' : 'none';
-
-    applyOptions();
-    autoSizeAll();
-  }
-
-  function applyOptions() {
-    var hasImg = document.getElementById('optImg').checked;
-    var empty  = document.getElementById('optEmpty').checked;
-
-    // 이미지 등록/미등록 토글 (FTL·BRAND 기본형)
-    [['ftlThumbWrap','ftlNoImg'],['brandThumbWrap','brandNoImg']].forEach(function (p) {
-      var t = document.getElementById(p[0]); var n = document.getElementById(p[1]);
-      if (t && n) { t.style.display = hasImg ? '' : 'none'; n.style.display = hasImg ? 'none' : ''; }
-    });
-
-    // 빈 작성칸: 활성 블록의 textarea/input 값 비우기 (원복은 새로고침)
-    if (empty) {
-      document.querySelectorAll('.pub-block.is-active textarea, .pub-block.is-active input').forEach(function (el) {
-        el.dataset._v = el.dataset._v || el.value; el.value = '';
-      });
-    } else {
-      document.querySelectorAll('.pub-block textarea, .pub-block input').forEach(function (el) {
-        if (el.dataset._v !== undefined) el.value = el.dataset._v;
       });
     }
-    autoSizeAll();
-  }
 
-  function autoSizeAll() {
-    document.querySelectorAll('.textClass').forEach(function (el) {
-      el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px';
-    });
-  }
+    // ── Sortable (드래그 순서변경) ──────────────────────────────────────────
+    function initSortable() {
+      document.querySelectorAll('ul.sortable').forEach(function (ul) {
+        let dragging = null;
 
-  typeSel.addEventListener('change', applyType);
-  document.getElementById('optImg').addEventListener('change', applyOptions);
-  document.getElementById('optEmpty').addEventListener('change', applyOptions);
-  // textarea 입력 시 자동 높이
-  document.addEventListener('input', function (e) {
-    if (e.target.classList && e.target.classList.contains('textClass')) {
-      e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px';
+        function bindLi(li) {
+          li.setAttribute('draggable', 'true');
+          li.style.cursor = 'grab';
+
+          li.addEventListener('dragstart', function (e) {
+            dragging = li;
+            e.dataTransfer.effectAllowed = 'move';
+            setTimeout(function () { li.style.opacity = '0.4'; }, 0);
+          });
+          li.addEventListener('dragend', function () {
+            li.style.opacity = '';
+            dragging = null;
+          });
+          li.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            if (!dragging || dragging === li) return;
+            const rect = li.getBoundingClientRect();
+            const after = e.clientX > rect.left + rect.width / 2;
+            ul.insertBefore(dragging, after ? li.nextSibling : li);
+          });
+          li.addEventListener('click', function () {
+            ul.querySelectorAll('li').forEach(function (l) { l.classList.remove('on'); });
+            li.classList.add('on');
+          });
+        }
+
+        ul.querySelectorAll('li').forEach(bindLi);
+      });
     }
-  });
 
-  applyType();
-  initSwipers();
-  initSortable();
-</script>
+    const typeSel = document.getElementById('typeSel');
+    function applyType() {
+      const v = typeSel.value;                 // 예: FTL-FTLW
+      const parts = v.split('-');
+      const type = parts[0], dType = parts[1];
+
+      // 블록 표시
+      document.querySelectorAll('.pub-block').forEach(function (el) {
+        const keys = (el.getAttribute('data-block') || '').split(/\s+/);
+        el.classList.toggle('is-active', keys.indexOf(v) > -1);
+      });
+
+      // 프로필/광고/뷰박스
+      const showProfile = (type === 'ATL' || type === 'FTL' || type === 'BRAND');
+      document.getElementById('infoProfile').style.display = showProfile ? '' : 'none';
+      document.getElementById('txtAd').style.display = (type === 'FTL' || type === 'BRAND') ? '' : 'none';
+      document.getElementById('yData').classList.toggle('white_back', type === 'MSG');
+
+      const isViewBox = (type === 'FTL' || type === 'BRAND');
+      document.getElementById('viewBox').style.display = isViewBox ? '' : 'none';
+      document.getElementById('topSpacer').style.display = isViewBox ? 'none' : '';
+      document.getElementById('numFTLC').style.display = (dType === 'FTLC') ? '' : 'none';
+      document.getElementById('numFTLCS').style.display = (dType === 'FTLCS') ? '' : 'none';
+      document.getElementById('imgTopBtn').style.display =
+        (type === 'ATL' && dType === 'ATLP') || (isViewBox && (dType === 'FTL' || dType === 'FTLW' || dType === 'FTLS')) ? '' : 'none';
+
+      // ATL 세부
+      const atltT = document.getElementById('atltTitle');
+      const atlpI = document.getElementById('atlpImg');
+      if (atltT) atltT.style.display = (dType === 'ATLT') ? '' : 'none';
+      if (atlpI) atlpI.style.display = (dType === 'ATLP') ? '' : 'none';
+      const descAtl = document.querySelector('.atl .desc_message');
+      if (descAtl) descAtl.classList.toggle('is-atlt', dType === 'ATLT');
+
+      // MSG 세부
+      const smsMode = (dType === 'SMS');
+      const mt = document.getElementById('msgTitle'); if (mt) mt.style.display = smsMode ? 'none' : '';
+      const mi = document.getElementById('msgImgArea'); if (mi) mi.style.display = smsMode ? 'none' : '';
+      const ma = document.getElementById('msgAppend'); if (ma) ma.textContent = (smsMode ? '' : dType + ' ') + '오전 08:00';
+
+      // 카운터
+      document.getElementById('cntATL').style.display = (type === 'ATL') ? '' : 'none';
+      document.getElementById('cntFTL').style.display = (type === 'FTL' || type === 'BRAND') && ['FTL', 'FTLW', 'FTLS'].indexOf(dType) > -1 ? '' : 'none';
+      document.getElementById('cntMSG').style.display = (type === 'MSG') ? '' : 'none';
+
+      applyOptions();
+      autoSizeAll();
+    }
+
+    function applyOptions() {
+      const hasImg = document.getElementById('optImg').checked;
+      const empty = document.getElementById('optEmpty').checked;
+
+      // 이미지 등록/미등록 토글 (FTL·BRAND 기본형)
+      [['ftlThumbWrap', 'ftlNoImg'], ['brandThumbWrap', 'brandNoImg']].forEach(function (p) {
+        const t = document.getElementById(p[0]); const n = document.getElementById(p[1]);
+        if (t && n) { t.style.display = hasImg ? '' : 'none'; n.style.display = hasImg ? 'none' : ''; }
+      });
+
+      // 빈 작성칸: 활성 블록의 textarea/input 값 비우기 (원복은 새로고침)
+      if (empty) {
+        document.querySelectorAll('.pub-block.is-active textarea, .pub-block.is-active input').forEach(function (el) {
+          el.dataset._v = el.dataset._v || el.value; el.value = '';
+        });
+      } else {
+        document.querySelectorAll('.pub-block textarea, .pub-block input').forEach(function (el) {
+          if (el.dataset._v !== undefined) el.value = el.dataset._v;
+        });
+      }
+      autoSizeAll();
+    }
+
+    function autoSizeAll() {
+      document.querySelectorAll('.textClass').forEach(function (el) {
+        el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px';
+      });
+    }
+
+    const savedType = localStorage.getItem('pw_type');
+    if (savedType) typeSel.value = savedType;
+
+    typeSel.addEventListener('change', function () {
+      localStorage.setItem('pw_type', typeSel.value);
+      applyType();
+    });
+    document.getElementById('optImg').addEventListener('change', applyOptions);
+    document.getElementById('optEmpty').addEventListener('change', applyOptions);
+    // textarea 입력 시 자동 높이
+    document.addEventListener('input', function (e) {
+      if (e.target.classList && e.target.classList.contains('textClass')) {
+        e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px';
+      }
+    });
+
+    applyType();
+    initSwipers();
+    initSortable();
+  </script>
 </body>
+
 </html>
