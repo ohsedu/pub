@@ -81,7 +81,7 @@
       justify-content: center;
     }
 
-    .pub-stage .preview-templateReg {
+    .pub-stage .template_write {
       width: 418px;
     }
 
@@ -293,14 +293,14 @@
 
       <div class="pub-note">
         * 좌측 패널은 퍼블 확인용 하네스입니다. 실제 화면은 우측 핸드폰 영역만 해당합니다.<br>
-        * 폭 = 475px × 0.88 = 418px (원본 template-preview-new_2 기준)
+        * 폭 = 475px × 0.88 = 418px (원본 template_preview 기준)
       </div>
     </aside>
 
     <!-- 우측: 실제 미리보기/작성칸 -->
     <main class="pub-stage">
-      <div class="preview-templateReg">
-        <div class="template-preview-new template-preview-new_2" style="position: relative;">
+      <div class="template_write">
+        <div class="template-preview-new template_preview" style="position: relative;">
 
           <div class="preview-scroll-wrap">
             <div class="preview-box">
@@ -340,7 +340,6 @@
                           </div>
                           <span class="txt_profile"><span class="txt_ad" id="txtAd" style="display:none;">(광고)
                             </span>채널명</span>
-                          <button type="button" class="top_btn" id="imgTopBtn" style="display:none;">이미지 수정</button>
                         </div>
 
                         <!-- ============================================================
@@ -355,11 +354,11 @@
                             <!-- ATLP 이미지 -->
                             <div class="img_message" id="atlpImg" style="height:unset; display:none;">
                               <div class="wrap_thumb">
-                                <div class="inner_thumb upload-slot cp" style="height:unset;"
+                                <div class="inner_thumb upload-slot cd" style="height:unset;"
                                   data-sample="https://placehold.co/800x400/d7e3f0/8aa0b6?text=ALIM+TALK">
                                   <div class="no_img_area no_img_atlp">
                                     <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                    <button class="img_btn" type="button">이미지 등록</button>
+                                    <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                     <div class="img_info">권장 사이즈 800x400px</div>
                                   </div>
                                 </div>
@@ -395,11 +394,11 @@
                           <div class="inner_message">
                             <div class="img_message" id="ftlImg" style="height:unset;">
                               <div class="wrap_thumb">
-                                <div class="inner_thumb cp upload-slot" id="ftlThumbWrap" style="height:unset;"
+                                <div class="inner_thumb cd upload-slot" id="ftlThumbWrap" style="height:unset;"
                                   data-sample="https://placehold.co/800x600/e3ecf5/8aa0b6?text=FRIEND+TALK">
                                   <div class="no_img_area no_img_ftlw">
                                     <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                    <button class="img_btn" type="button">이미지 등록</button>
+                                    <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                     <div class="img_info">권장 사이즈 800x600px</div>
                                   </div>
                                 </div>
@@ -430,11 +429,11 @@
                               <textarea class="tit_img textClass wide-list" rows="1"
                                 placeholder="리스트 항목1 내용">대표 상품 — 봄 니트 컬렉션</textarea>
                               <div class="wrap_thumb">
-                                <div class="inner_thumb upload-slot cp"
+                                <div class="inner_thumb upload-slot cd"
                                   data-sample="https://placehold.co/800x400/e3ecf5/8aa0b6?text=MAIN">
                                   <div class="no_img_area no_img_ftlwl">
                                     <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                    <button class="img_btn" type="button">이미지 등록</button>
+                                    <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                     <div class="img_info">권장 사이즈 800x400px</div>
                                   </div>
                                 </div>
@@ -445,9 +444,9 @@
                                 <div class="inner_g">
                                   <div class="img_message">
                                     <div class="wrap_thumb">
-                                      <div class="inner_thumb cp upload-slot"
+                                      <div class="inner_thumb cd upload-slot"
                                         data-sample="https://placehold.co/100x100/eef2f7/8aa0b6?text=1">
-                                        <div class="wide_item_img">
+                                        <div class="wide_item_img" onclick="pwPickFromBtn(this)">
                                           <div><img class="plus_icon_mini" src="./img/image_plus.png" alt=""></div>
                                         </div>
                                       </div>
@@ -463,9 +462,9 @@
                                 <div class="inner_g">
                                   <div class="img_message">
                                     <div class="wrap_thumb">
-                                      <div class="inner_thumb cp upload-slot"
+                                      <div class="inner_thumb cd upload-slot"
                                         data-sample="https://placehold.co/100x100/eef2f7/8aa0b6?text=2">
-                                        <div class="wide_item_img">
+                                        <div class="wide_item_img" onclick="pwPickFromBtn(this)">
                                           <div><img class="plus_icon_mini" src="./img/image_plus.png" alt=""></div>
                                         </div>
                                       </div>
@@ -495,16 +494,15 @@
                             <div class="pw-swiper-track">
                               <!-- 슬라이드 1 -->
                               <div class="pw-swiper-slide">
-                                <div class="pw-slide-topbtn"><button class="top_btn top_btn_c">이미지 수정</button></div>
                                 <div class="box_message default_message">
                                   <div class="inner_message preview_write_ftlc">
                                     <div class="img_message" style="height:unset;">
                                       <div class="wrap_thumb">
-                                        <div class="inner_thumb upload-slot cp" style="height:unset;"
+                                        <div class="inner_thumb upload-slot cd" style="height:unset;"
                                           data-sample="https://placehold.co/800x400/e3ecf5/8aa0b6?text=CARD+1">
                                           <div class="no_img_area no_img_ftlc">
                                             <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                            <button class="img_btn" type="button">이미지 등록</button>
+                                            <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                             <div class="img_info">권장 사이즈</div>
                                             <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
                                           </div>
@@ -534,11 +532,11 @@
                                   <div class="inner_message preview_write_ftlc">
                                     <div class="img_message" style="height:unset;">
                                       <div class="wrap_thumb">
-                                        <div class="inner_thumb upload-slot cp" style="height:unset;"
+                                        <div class="inner_thumb upload-slot cd" style="height:unset;"
                                           data-sample="https://placehold.co/800x400/e3ecf5/8aa0b6?text=CARD+2">
                                           <div class="no_img_area no_img_ftlc">
                                             <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                            <button class="img_btn" type="button">이미지 등록</button>
+                                            <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                             <div class="img_info">권장 사이즈</div>
                                             <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
                                           </div>
@@ -566,11 +564,11 @@
                                   <div class="inner_message preview_write_ftlc">
                                     <div class="img_message" style="height:unset;">
                                       <div class="wrap_thumb">
-                                        <div class="inner_thumb upload-slot cp" style="height:unset;"
+                                        <div class="inner_thumb upload-slot cd" style="height:unset;"
                                           data-sample="https://placehold.co/800x400/e3ecf5/8aa0b6?text=CARD+3">
                                           <div class="no_img_area no_img_ftlc">
                                             <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                            <button class="img_btn" type="button">이미지 등록</button>
+                                            <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                             <div class="img_info">권장 사이즈</div>
                                             <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
                                           </div>
@@ -606,11 +604,11 @@
                           <div class="inner_message">
                             <div class="img_message" id="brandImg" style="height:unset;">
                               <div class="wrap_thumb">
-                                <div class="inner_thumb cp upload-slot" id="brandThumbWrap" style="height:unset;"
+                                <div class="inner_thumb cd upload-slot" id="brandThumbWrap" style="height:unset;"
                                   data-sample="https://placehold.co/800x600/e3ecf5/8aa0b6?text=BRAND">
                                   <div class="no_img_area no_img_ftlw">
                                     <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                    <button class="img_btn" type="button">이미지 등록</button>
+                                    <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                     <div class="img_info">권장 사이즈 800x600px</div>
                                   </div>
                                 </div>
@@ -627,7 +625,7 @@
                                   <img class="channel_img" src="./img/channel_plus.png" alt="채널추가이미지">
                                   <span class="inner_g">채널 추가</span></a>
                             </div>
-                            <div class="area_coupon area_coupon_BRAND cp">
+                            <div class="area_coupon area_coupon_BRAND cd">
                               <div class="inner_coupon">
                                 <strong class="tit_coupon">10% 할인 쿠폰</strong>
                                 <p class="txt_coupon default_message">전 상품 사용 가능 · 5월 한정</p>
@@ -644,10 +642,10 @@
                          ============================================================ -->
                         <div class="pub-block" data-block="BRAND-FTLS">
                           <div class="discountType_ftls flex-s">
-                            <div class="cp flex-s mr10"><span class="pw-radio on"></span>
+                            <div class="cd flex-s mr10"><span class="pw-radio on"></span>
                               <div style="font-size:13px;">할인율</div>
                             </div>
-                            <div class="cp flex-s"><span class="pw-radio"></span>
+                            <div class="cd flex-s"><span class="pw-radio"></span>
                               <div style="font-size:13px;">할인금액</div>
                             </div>
                           </div>
@@ -655,11 +653,11 @@
                             <div class="inner_message">
                               <div class="img_message" style="height:unset;">
                                 <div class="wrap_thumb">
-                                  <div class="inner_thumb cp upload-slot" style="height:unset;"
+                                  <div class="inner_thumb cd upload-slot" style="height:unset;"
                                     data-sample="https://placehold.co/800x600/e3ecf5/8aa0b6?text=PRODUCT">
                                     <div class="no_img_area no_img_ftls">
                                       <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                      <button class="img_btn" type="button">이미지 등록</button>
+                                      <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                       <div class="img_info">권장 사이즈 800x600px</div>
                                     </div>
                                   </div>
@@ -670,8 +668,8 @@
                                 <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass"
                                   placeholder="상품명" style="border-bottom:none!important;">베이직 코튼 셔츠</textarea>
                                 <div class="price-info flex-s">
-                                  <div class="price1 cp">29,000원</div>
-                                  <div class="price2 cp">39,000</div>
+                                  <div class="price1 cd">29,000원</div>
+                                  <div class="price2 cd">39,000</div>
                                   <div class="sale-info">25%</div>
                                 </div>
                               </div>
@@ -703,11 +701,11 @@
                                   <div class="inner_message preview_write_ftlc">
                                     <div class="img_message" style="height:unset;">
                                       <div class="wrap_thumb">
-                                        <div class="inner_thumb upload-slot cp" style="height:unset;"
+                                        <div class="inner_thumb upload-slot cd" style="height:unset;"
                                           data-sample="https://placehold.co/800x400/dde8f2/8aa0b6?text=INTRO">
                                           <div class="no_img_area no_img_ftlc">
                                             <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                            <button class="img_btn" type="button">이미지 등록</button>
+                                            <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                             <div class="img_info">권장 사이즈</div>
                                             <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
                                           </div>
@@ -737,11 +735,11 @@
                                   <div class="inner_message preview_write_ftlc">
                                     <div class="img_message" style="height:unset;">
                                       <div class="wrap_thumb">
-                                        <div class="inner_thumb upload-slot cp" style="height:unset;"
+                                        <div class="inner_thumb upload-slot cd" style="height:unset;"
                                           data-sample="https://placehold.co/800x400/e3ecf5/8aa0b6?text=ITEM">
                                           <div class="no_img_area no_img_ftlc">
                                             <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                            <button class="img_btn" type="button">이미지 등록</button>
+                                            <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                             <div class="img_info">권장 사이즈</div>
                                             <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
                                           </div>
@@ -752,8 +750,8 @@
                                       <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass"
                                         placeholder="상품명" style="border-bottom:none!important;">린넨 블라우스</textarea>
                                       <div class="price-info flex-s">
-                                        <div class="price1 cp">19,900원</div>
-                                        <div class="price2 cp">25,000</div>
+                                        <div class="price1 cd">19,900원</div>
+                                        <div class="price2 cd">25,000</div>
                                         <div class="sale-info">20%</div>
                                       </div>
                                     </div>
@@ -776,11 +774,11 @@
                                   <div class="inner_message preview_write_ftlc">
                                     <div class="img_message" style="height:unset;">
                                       <div class="wrap_thumb">
-                                        <div class="inner_thumb upload-slot cp" style="height:unset;"
+                                        <div class="inner_thumb upload-slot cd" style="height:unset;"
                                           data-sample="https://placehold.co/800x400/f2e8f5/a08ab6?text=ITEM+2">
                                           <div class="no_img_area no_img_ftlc">
                                             <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                            <button class="img_btn" type="button">이미지 등록</button>
+                                            <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                                             <div class="img_info">권장 사이즈</div>
                                             <div class="img_info" style="margin-top:0;">800x400px 또는 600x800px</div>
                                           </div>
@@ -791,8 +789,8 @@
                                       <textarea rows="1" class="ftlc_title FTLCS_title FTLCS_prod_name textClass"
                                         placeholder="상품명" style="border-bottom:none!important;">코튼 슬랙스</textarea>
                                       <div class="price-info flex-s">
-                                        <div class="price1 cp">24,900원</div>
-                                        <div class="price2 cp">32,000</div>
+                                        <div class="price1 cd">24,900원</div>
+                                        <div class="price2 cd">32,000</div>
                                         <div class="sale-info">22%</div>
                                       </div>
                                     </div>
@@ -825,7 +823,7 @@
                             data-sample="https://placehold.co/600x400/e3ecf5/8aa0b6?text=MMS">
                             <div class="no_img_msg">
                               <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                              <button class="img_btn" type="button">이미지 등록</button>
+                              <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
                               <div class="img_info">권장 사이즈 600x400px</div>
                             </div>
                           </div>
@@ -877,12 +875,21 @@
           </div>
 
         </div>
+
+        <!-- 이미지 업로드 로딩 (전체 딤 + 스피너) -->
+        <div class="pw-loading" id="pwLoading">
+          <div class="pw-spinner"></div>
+          <div class="pw-loading-text">이미지 업로드 중…</div>
+        </div>
       </div>
     </main>
   </div>
 
   <script>
     // ===== 퍼블 확인용 토글 스크립트 (실제 배포에는 previewWrite.js 사용) =====
+
+    // 스와이프(드래그) 직후 발생하는 click 을 억제하는 플래그 (캐러셀에서 업로드창 오작동 방지)
+    let pwSuppressClick = false;
 
     // ── 캐러셀 슬라이드 높이 동기화 (Vue adjustDescMessageHeight 이식) ────────
     // 매 호출마다 본문 inner_g를 텍스트 높이로 리셋 → 최대 카드 높이 측정 →
@@ -987,15 +994,7 @@
           if (profileImg && /FTLC/.test(blockKey)) {
             profileImg.style.opacity = cur === 0 ? '1' : '0';
           }
-          // 이미지 수정 버튼: 활성 swiper만 처리
-          if (pubBlock && pubBlock.classList.contains('is-active')) {
-            const imgTopBtn = document.getElementById('imgTopBtn');
-            if (imgTopBtn && /FTLC/.test(blockKey)) {
-              const curSlide = slides[cur];
-              const hasImg = curSlide && !curSlide.querySelector('.no_img_area');
-              imgTopBtn.style.display = hasImg ? '' : 'none';
-            }
-          }
+          // (이미지 수정/삭제 버튼은 각 슬롯의 has-img 상태에 따라 CSS로 표시됨)
         }
 
         function goTo(idx) {
@@ -1034,6 +1033,7 @@
         swiperEl.addEventListener('touchend', function () {
           if (!dragActive) return;
           dragActive = false;
+          if (Math.abs(lastDx) > 6) { pwSuppressClick = true; setTimeout(function () { pwSuppressClick = false; }, 0); }
           goTo(Math.abs(lastDx) > 40 ? cur + (lastDx < 0 ? 1 : -1) : cur);
         });
 
@@ -1052,11 +1052,12 @@
         document.addEventListener('mouseup', function () {
           if (!dragActive) return;
           dragActive = false;
+          if (Math.abs(lastDx) > 6) { pwSuppressClick = true; setTimeout(function () { pwSuppressClick = false; }, 0); }
           goTo(Math.abs(lastDx) > 40 ? cur + (lastDx < 0 ? 1 : -1) : cur);
         });
 
         // sortable 순서변경 후 슬라이드 DOM도 같은 순서로 재배치
-        swiperEl._reorderSlides = function (newSlideOrder) {
+        swiperEl._reorderSlides = function (newSlideOrder, focusIdx) {
           const prev = slides.slice();
           const reordered = newSlideOrder.map(function (i) { return prev[i]; });
           reordered.forEach(function (s) { track.appendChild(s); });
@@ -1069,13 +1070,11 @@
               li.setAttribute('data-orig-idx', i);
             });
           }
-          cur = 0; dragActive = false;
+          dragActive = false;
           applyWidths();
           adjustHeights(swiperEl);
-          track.style.transition = 'none';
-          track.style.transform = 'translateX(' + calcX(0) + 'px)';
-          track.getBoundingClientRect();
-          updateUI();
+          // 옮긴 슬라이드 위치로 이동 (focusIdx 미지정 시 첫 슬라이드)
+          goTo(typeof focusIdx === 'number' ? focusIdx : 0);
         };
 
         // 타입 전환 후(display:none→block) 재초기화
@@ -1129,7 +1128,9 @@
               const newSlideOrder = [];
               for (let i = 0; i < offset; i++) newSlideOrder.push(i); // 인트로 등 고정 슬라이드
               liOrder.forEach(function (idx) { newSlideOrder.push(idx + offset); });
-              ul._swiper._reorderSlides(newSlideOrder);
+              // 옮긴 li 의 새 위치(=슬라이드 인덱스)로 스와이퍼 이동
+              const movedIdx = liItems.indexOf(li) + offset;
+              ul._swiper._reorderSlides(newSlideOrder, movedIdx);
             }
           });
           li.addEventListener('dragover', function (e) {
@@ -1177,9 +1178,6 @@
       // 캐러셀일 때 message_view 패딩 제거 (실제 Vue의 swiper_write 토글과 동일)
       const mv = document.querySelector('.message_view');
       if (mv) mv.classList.toggle('swiper_write', dType === 'FTLC' || dType === 'FTLCS');
-      document.getElementById('imgTopBtn').style.display =
-        (type === 'ATL' && dType === 'ATLP') ||
-        (isViewBox && ['FTL', 'FTLW', 'FTLS', 'FTLC', 'FTLCS'].indexOf(dType) > -1) ? '' : 'none';
 
       // ATL 세부
       const atltT = document.getElementById('atltTitle');
@@ -1271,6 +1269,7 @@
       targetSlot: null,
 
       init() {
+        // 숨김 파일 입력 (1개 공용)
         const inp = document.createElement('input');
         inp.type = 'file';
         inp.accept = 'image/*';
@@ -1283,36 +1282,34 @@
           inp.value = '';
         });
         this.fileInput = inp;
-        this.bindSlots();
-      },
+        this.loadingEl = document.getElementById('pwLoading');
 
-      // 모든 업로드 슬롯에 클릭/드래그앤드롭 핸들러 부착
-      bindSlots() {
-        const self = this;
-        document.querySelectorAll('.upload-slot').forEach(function (slot) {
-          if (slot._pwBound) return;
-          slot._pwBound = true;
-
-          // 클릭 → 파일 선택창
-          slot.addEventListener('click', function () { self.openPicker(slot); });
-
-          // 드래그앤드롭
-          slot.addEventListener('dragenter', function (e) { e.preventDefault(); slot.classList.add('drag-over'); });
-          slot.addEventListener('dragover', function (e) {
+        // 드래그앤드롭은 상위 1곳에 '위임' → 슬라이드/항목을 동적으로 추가해도 재바인딩 불필요
+        const root = document.querySelector('.template_preview') || document;
+        let dragSlot = null;
+        function setDrag(slot) {
+          if (dragSlot && dragSlot !== slot) dragSlot.classList.remove('drag-over');
+          dragSlot = slot;
+          if (slot) slot.classList.add('drag-over');
+        }
+        root.addEventListener('dragover', function (e) {
+          const slot = e.target.closest && e.target.closest('.upload-slot');
+          if (slot) {
             e.preventDefault();
             if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
-            slot.classList.add('drag-over');
-          });
-          slot.addEventListener('dragleave', function (e) {
-            // 자식 요소로 이동한 경우는 무시, 슬롯 밖으로 나갈 때만 해제
-            if (!slot.contains(e.relatedTarget)) slot.classList.remove('drag-over');
-          });
-          slot.addEventListener('drop', function (e) {
-            e.preventDefault();
-            slot.classList.remove('drag-over');
-            const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-            if (f) self.handleFile(slot, f);
-          });
+            setDrag(slot);
+          } else { setDrag(null); }
+        });
+        root.addEventListener('dragleave', function (e) {
+          if (!e.relatedTarget || (root.contains && !root.contains(e.relatedTarget))) setDrag(null);
+        });
+        root.addEventListener('drop', function (e) {
+          const slot = e.target.closest && e.target.closest('.upload-slot');
+          setDrag(null);
+          if (!slot) return;
+          e.preventDefault();
+          const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          if (f) self.handleFile(slot, f);
         });
       },
 
@@ -1324,21 +1321,28 @@
 
       handleFile(slot, file) {
         if (!file || !file.type || file.type.indexOf('image/') !== 0) return;
+        this.showLoading();
         // 1) 즉시 로컬 미리보기
         const reader = new FileReader();
         const self = this;
         reader.onload = function (ev) { self.setImage(slot, ev.target.result, true); };
+        reader.onerror = function () { self.hideLoading(); };
         reader.readAsDataURL(file);
         // 2) TODO(API): 서버 업로드 후 응답 URL로 교체
         // self.uploadToServer(file)
         //   .then(function (res) { self.setImage(slot, res.url, true); })
-        //   .catch(function (err) { console.error(err); /* 알림 처리 */ });
+        //   .catch(function (err) { self.hideLoading(); console.error(err); });
       },
 
-      // 슬롯에 이미지 표시 (no-img 영역 숨김). userUploaded=true면 샘플 토글에서 보존
+      showLoading() { if (this.loadingEl) this.loadingEl.classList.add('show'); },
+      hideLoading() { if (this.loadingEl) this.loadingEl.classList.remove('show'); },
+
+      // 슬롯에 이미지 표시 + 수정/삭제 버튼 보장 (미첨부 영역 숨김은 has-img 클래스로 CSS 처리)
       setImage(slot, src, userUploaded) {
-        const cls = slot.classList.contains('msg_img_area') ? 'msg_img'
-          : (slot.closest('.list_message') ? 'thumb_img wide-small-img' : 'thumb_img');
+        const isMsg = slot.classList.contains('msg_img_area');
+        const isMini = !!(slot.closest && slot.closest('.list_message'));
+        const cls = isMsg ? 'msg_img' : (isMini ? 'thumb_img wide-small-img' : 'thumb_img');
+        const self = this;
         let img = slot.querySelector('img.thumb_img, img.msg_img');
         if (!img) {
           img = document.createElement('img');
@@ -1346,30 +1350,48 @@
           slot.insertBefore(img, slot.firstChild);
         }
         img.className = cls;
+        img.onload = function () { self.hideLoading(); self._afterChange(slot); };
+        img.onerror = function () { self.hideLoading(); };
         img.src = src;
-        img.style.display = '';
-        slot.querySelectorAll('.no_img_area, .no_img_msg, .wide_item_img').forEach(function (n) { n.style.display = 'none'; });
+        // 미니 리스트 썸네일은 버튼 공간이 없어 클릭 교체를 예외적으로 허용
+        if (isMini) img.onclick = function () { if (!pwSuppressClick) self.openPicker(slot); };
         slot.classList.add('has-img');
         if (userUploaded) slot._userUploaded = true;
-        this._afterChange(slot, img);
+        if (!isMini) this._ensureEditBtns(slot);
+        this._afterChange(slot);
       },
 
       // 슬롯을 미첨부 상태로 되돌림
       clearImage(slot) {
         const img = slot.querySelector('img.thumb_img, img.msg_img');
         if (img) img.remove();
-        slot.querySelectorAll('.no_img_area, .no_img_msg, .wide_item_img').forEach(function (n) { n.style.display = ''; });
         slot.classList.remove('has-img');
         slot._userUploaded = false;
-        this._afterChange(slot, null);
+        this.hideLoading();
+        this._afterChange(slot);
+      },
+
+      // 수정/삭제 버튼 오버레이 생성 (없을 때만) — 각 버튼에 onclick 직접 부여
+      _ensureEditBtns(slot) {
+        if (slot.querySelector('.pw-edit-btns')) return;
+        const self = this;
+        const wrap = document.createElement('div');
+        wrap.className = 'pw-edit-btns';
+        const edit = document.createElement('button');
+        edit.type = 'button'; edit.className = 'pw-edit-btn'; edit.textContent = '이미지 수정';
+        edit.onclick = function (e) { e.stopPropagation(); if (!pwSuppressClick) self.openPicker(slot); };
+        const del = document.createElement('button');
+        del.type = 'button'; del.className = 'pw-edit-btn del'; del.textContent = '이미지 삭제';
+        del.onclick = function (e) { e.stopPropagation(); if (!pwSuppressClick) self.clearImage(slot); };
+        wrap.appendChild(edit);
+        wrap.appendChild(del);
+        slot.appendChild(wrap);
       },
 
       // 캐러셀이면 슬라이드 높이 재동기화
-      _afterChange(slot, img) {
+      _afterChange(slot) {
         const sw = slot.closest('.pw-swiper');
-        if (!sw) return;
-        adjustHeights(sw);
-        if (img) img.addEventListener('load', function () { adjustHeights(sw); }, { once: true });
+        if (sw) adjustHeights(sw);
       },
 
       // TODO(API): 실제 서버 업로드 — 엔드포인트/인증/응답 형식 확정 후 구현
@@ -1385,6 +1407,13 @@
       //   return await res.json(); // 예: { url: 'https://cdn.../xxx.png', fileId: '...' }
       // },
     };
+
+    // 인라인 onclick 용 전역 핸들러 (각 버튼/요소 태그에서 직접 호출)
+    function pwPickFromBtn(el) {
+      if (pwSuppressClick) return;
+      const slot = el.closest && el.closest('.upload-slot');
+      if (slot) PW_IMG.openPicker(slot);
+    }
 
     PW_IMG.init();
     applyType();
