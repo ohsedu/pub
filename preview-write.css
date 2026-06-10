@@ -622,7 +622,7 @@
 }
 
 .preview-templateReg .template-preview-new_2 .item_widelist .list_message {
-  padding: 5px 5px;
+  padding: 10px 5px 5px 5px;
 }
 
 .preview-templateReg .template-preview-new_2 .item_widelist .list_message li {
@@ -2976,15 +2976,12 @@
   max-width: 200px;
 }
 
-/* MDI 아이콘 폴백 (mtrl-icon 대체: 실제 mdi 폰트 없을 때) */
-.preview-templateReg .template-preview-new_2 .plus_icon::before,
-.preview-templateReg .template-preview-new_2 .plus_icon_mini::before {
-  content: "⊕";
-  font-style: normal;
-}
-
-.preview-templateReg .template-preview-new_2 .mdi-image-plus-outline::before {
-  content: "🖼";
+/* 이미지 추가 아이콘 (img/image_plus.png) — <img class="plus_icon"> 로 렌더 */
+.preview-templateReg .template-preview-new_2 img.plus_icon,
+.preview-templateReg .template-preview-new_2 img.plus_icon_mini {
+  display: inline-block;
+  height: auto;
+  vertical-align: top;
 }
 
 /* 카운터 빨강 */
@@ -3200,4 +3197,41 @@
 
 .pb10 {
   padding-bottom: 10px !important;
+}
+/* ===== 이미지 업로드 / 드래그앤드롭 ===== */
+.preview-templateReg .template-preview-new_2 .upload-slot {
+  cursor: pointer;
+  position: relative;
+}
+/* 드래그한 이미지가 영역에 닿았을 때: 기존 내용 살짝 투명 + 점선 테두리 + 가운데 플러스 아이콘 */
+.preview-templateReg .template-preview-new_2 .upload-slot.drag-over > * {
+  opacity: 0.35;
+  transition: opacity 0.12s ease;
+}
+.preview-templateReg .template-preview-new_2 .upload-slot.drag-over::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #3182f6;
+  border-radius: 12px;
+  background: rgba(49, 130, 246, 0.08) url(./img/image_plus.png) no-repeat center;
+  background-size: 34px auto;
+  z-index: 5;
+  pointer-events: none;
+}
+/* MSG 이미지 미첨부 박스 */
+.preview-templateReg .template-preview-new_2 .msg .no_img_msg {
+  margin: 0 20px;
+  height: 150px;
+  border-radius: 10px;
+  background-color: #fcfdff;
+  border: 1px solid #ededed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.preview-templateReg .template-preview-new_2 .msg .no_img_msg .plus_icon {
+  width: 25px;
 }
