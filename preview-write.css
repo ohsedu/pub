@@ -2026,6 +2026,7 @@
 }
 
 .template_write .template_preview .wide_item_img {
+  cursor: pointer;
   align-content: center;
   text-align: center;
   width: 32.8px;
@@ -3212,10 +3213,10 @@
   content: "";
   position: absolute;
   inset: 0;
-  border: 2px dashed #3182f6;
+  border: 2px dashed #a40033;
   border-radius: 12px;
   background: rgba(49, 130, 246, 0.08) url(./img/image_plus.png) no-repeat center;
-  background-size: 34px auto;
+  background-size: 20px auto;
   z-index: 5;
   pointer-events: none;
 }
@@ -3257,26 +3258,31 @@
 .template_write .template_preview .upload-slot.has-img .pw-edit-btns {
   display: flex;
 }
+/* 캐러셀 '이미지 수정' 버튼(.top_btn)과 동일한 디자인 */
 .template_write .template_preview .pw-edit-btn {
   font-size: 10.5px;
-  padding: 3px 6px;
+  padding: 2.5px 4px 2px 4px;
   border: 1px solid #8d8d8d;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.92);
-  color: #555;
+  background-color: transparent;
+  color: #8d8d8d;
   cursor: pointer;
-  line-height: 1;
+  line-height: 1.4;
 }
 .template_write .template_preview .pw-edit-btn:hover {
-  background-color: #fff;
-  border-color: #5b5b5b;
+  border: 1px solid #fff;
+  background-color: #a6bed4;
+  color: #fff;
 }
+/* 삭제 버튼: 색상만 레드 */
 .template_write .template_preview .pw-edit-btn.del {
   color: #d91818;
-  border-color: #e0a6a6;
+  border-color: #d91818;
 }
 .template_write .template_preview .pw-edit-btn.del:hover {
-  border-color: #d91818;
+  border: 1px solid #d91818;
+  background-color: #a6bed4;
+  color: #d91818;
 }
 
 /* ===== 이미지 업로드 로딩 (전체 딤 + 스피너) ===== */
@@ -3287,28 +3293,23 @@
   position: absolute;
   inset: 0;
   display: none;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.6);
+  background:  #afafaf;
+  opacity: 0.4;
+  -webkit-backdrop-filter: blur(2px);
   z-index: 9999;
 }
 .template_write .pw-loading.show {
   display: flex;
 }
 .template_write .pw-loading .pw-spinner {
-  width: 42px;
-  height: 42px;
-  border: 4px solid rgba(49, 130, 246, 0.25);
-  border-top-color: #3182f6;
+  width: 25px;
+  height: 25px;
+  border: 5px solid rgba(255, 255, 255, 0.55);
+  border-top-color: #a40033;
   border-radius: 50%;
-  animation: pw-spin 0.8s linear infinite;
-}
-.template_write .pw-loading .pw-loading-text {
-  font-size: 13px;
-  color: #3182f6;
-  font-weight: 600;
+  animation: pw-spin 0.7s linear infinite;
 }
 @keyframes pw-spin {
   to {
