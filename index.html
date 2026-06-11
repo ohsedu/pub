@@ -270,13 +270,11 @@
         <select id="typeSel">
           <option value="ATL-ATLT">알림톡 · 타이틀형 (ATLT)</option>
           <option value="ATL-ATLP">알림톡 · 이미지형 (ATLP)</option>
-          <option value="FTL-FTL">친구톡 · 이미지형 (FTL)</option>
-          <option value="FTL-FTLW">친구톡 · 와이드이미지형 (FTLW)</option>
-          <option value="FTL-FTLWL">친구톡 · 와이드리스트형 (FTLWL)</option>
-          <option value="FTL-FTLC">친구톡 · 캐러셀 피드형 (FTLC)</option>
-          <option value="BRAND-FTL">브랜드 · 기본/이미지형 (FTL)</option>
-          <option value="BRAND-FTLS">브랜드 · 커머스형 (FTLS)</option>
+          <option value="ATL-ATLB">알림톡 · 기본형 (ATLB)</option>
+          <option value="BRAND-FTLB">브랜드 · 기본형 (FTLB)</option>
+          <option value="BRAND-FTLP">브랜드 · 이미지형 (FTLP)</option>
           <option value="BRAND-FTLW">브랜드 · 와이드이미지형 (FTLW)</option>
+          <option value="BRAND-FTLS">브랜드 · 커머스형 (FTLS)</option>
           <option value="BRAND-FTLWL">브랜드 · 와이드리스트형 (FTLWL)</option>
           <option value="BRAND-FTLC">브랜드 · 캐러셀 피드형 (FTLC)</option>
           <option value="BRAND-FTLCS">브랜드 · 캐러셀 커머스형 (FTLCS)</option>
@@ -333,19 +331,21 @@
                     <div class="cont_view">
                       <div class="item_message">
 
-                        <!-- 프로필 (ATL/FTL/BRAND) -->
+                        <!-- 프로필 (ATL/BRAND) -->
                         <div class="info_profile" id="infoProfile" style="display:none;">
                           <div class="img_profile">
                             <img class="img_profile" src="./img/profile.png" alt="프로필">
                           </div>
                           <span class="txt_profile"><span class="txt_ad" id="txtAd" style="display:none;">(광고)
                             </span>채널명</span>
+                          <!-- 이미지 수정: 활성 이미지(또는 현재 캐러셀 슬라이드)가 있을 때만 노출 -->
+                          <button type="button" class="top_btn" id="imgEditBtn" style="display:none;">이미지 수정</button>
                         </div>
 
                         <!-- ============================================================
                          ATL : 알림톡 (ATLT 타이틀형 / ATLP 이미지형)
                          ============================================================ -->
-                        <div class="box_message default_message atl pub-block" data-block="ATL-ATLT ATL-ATLP">
+                        <div class="box_message default_message atl pub-block" data-block="ATL-ATLT ATL-ATLP ATL-ATLB">
                           <div class="inner_message">
                             <div class="atl_top">알림톡 도착
                               <img class="atl_badge" src="./img/atl_badge.png" alt="알림톡 배지">
@@ -388,41 +388,9 @@
                         </div>
 
                         <!-- ============================================================
-                         FTL : 친구톡 이미지형/와이드이미지형
+                         BRAND : 와이드 리스트형 (FTLWL)
                          ============================================================ -->
-                        <div class="box_message default_message pub-block" data-block="FTL-FTL FTL-FTLW" id="ftlBasic">
-                          <div class="inner_message">
-                            <div class="img_message" id="ftlImg" style="height:unset;">
-                              <div class="wrap_thumb">
-                                <div class="inner_thumb cd upload-slot" id="ftlThumbWrap" style="height:unset;"
-                                  data-sample="https://placehold.co/800x600/e3ecf5/8aa0b6?text=FRIEND+TALK">
-                                  <div class="no_img_area no_img_ftlw">
-                                    <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                                    <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
-                                    <div class="img_info">권장 사이즈 800x600px</div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <p class="desc_message default_message">
-                              <span class="inner_g">
-                                <textarea class="ta1 textClass" rows="1"
-                                  placeholder="메시지를 입력해 주세요.">봄맞이 신상품이 입고되었어요! 지금 구매하시면 추가 10% 할인 혜택을 드립니다. 🌸</textarea>
-                              </span>
-                            </p>
-                            <div class="btn_message btn_num2">
-                              <a class="btn_gm"><span class="inner_g">자세히 보기</span></a>
-                              <a class="btn_gm"><span class="inner_g">구매하기</span></a>
-                            </div>
-                          </div>
-                          <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
-                              class="arrow_append ico_comm">&gt;</span>채널차단</div>
-                        </div>
-
-                        <!-- ============================================================
-                         FTL : 와이드 리스트형 (FTLWL)
-                         ============================================================ -->
-                        <div class="box_message item_widelist pub-block" data-block="FTL-FTLWL BRAND-FTLWL">
+                        <div class="box_message item_widelist pub-block" data-block="BRAND-FTLWL">
                           <div class="inner_message">
                             <input type="text" class="tit_message" placeholder="타이틀을 입력해주세요." value="이번 주 베스트 아이템">
                             <div class="img_message" style="border-radius:0px;">
@@ -487,9 +455,9 @@
                         </div>
 
                         <!-- ============================================================
-                         FTL/BRAND : 캐러셀 피드형 (FTLC)
+                         BRAND : 캐러셀 피드형 (FTLC)
                          ============================================================ -->
-                        <div class="ftlc pub-block" data-block="FTL-FTLC BRAND-FTLC">
+                        <div class="ftlc pub-block" data-block="BRAND-FTLC">
                           <div class="pw-swiper mySwiper">
                             <div class="pw-swiper-track">
                               <!-- 슬라이드 1 -->
@@ -597,9 +565,10 @@
                         </div>
 
                         <!-- ============================================================
-                         BRAND : 기본/이미지형, 와이드 (FTL/FTLW)
+                         BRAND : 기본형(FTLB)/이미지형(FTLP)/와이드(FTLW)
+                          - FTLB는 이미지 영역(#brandImg) 숨김
                          ============================================================ -->
-                        <div class="box_message default_message pub-block" data-block="BRAND-FTL BRAND-FTLW"
+                        <div class="box_message default_message pub-block" data-block="BRAND-FTLB BRAND-FTLP BRAND-FTLW"
                           id="brandBasic">
                           <div class="inner_message">
                             <div class="img_message" id="brandImg" style="height:unset;">
@@ -884,152 +853,134 @@
     </main>
   </div>
 
+  <!-- jQuery (js 폴더의 로컬 버전 사용) -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.blockUI.js"></script>
+  <script src="js/jquery.form.min.js"></script>
+
   <script>
-    // ===== 퍼블 확인용 토글 스크립트 (실제 배포에는 previewWrite.js 사용) =====
+    // ===== 퍼블 확인용 토글 스크립트 (jQuery 1.8.2 기반 / 실제 배포에는 previewWrite.js) =====
+    // 스크립트가 <body> 끝에 위치해 DOM 준비 완료 상태이므로 ready 래퍼 없이 실행.
 
     // 스와이프(드래그) 직후 발생하는 click 을 억제하는 플래그 (캐러셀에서 업로드창 오작동 방지)
-    let pwSuppressClick = false;
+    var pwSuppressClick = false;
 
     // ── 캐러셀 슬라이드 높이 동기화 (Vue adjustDescMessageHeight 이식) ────────
     // 매 호출마다 본문 inner_g를 텍스트 높이로 리셋 → 최대 카드 높이 측정 →
     // 짧은 카드만 그 차이만큼 패딩. 리셋이 있어 줄어들면 다시 작은 높이로 동기화되고,
     // 더 큰 카드가 생기면 그쪽으로 동기화가 옮겨간다.
-    function adjustHeights(swiperEl) {
-      const inners = Array.from(swiperEl.querySelectorAll('.preview_write_ftlc'));
-      if (!inners.length) return;
+    function adjustHeights(swiper) {
+      var $inners = $(swiper).find('.preview_write_ftlc');
+      if (!$inners.length) return;
       // 1) inner_g 높이를 본문 textarea(textClassCalc) 높이로 리셋
-      inners.forEach(function (im) {
-        const innerG = im.querySelector('.inner_g');
-        const calc = im.querySelector('.textClassCalc');
-        if (innerG && calc) innerG.style.height = calc.offsetHeight + 'px';
+      $inners.each(function () {
+        var $g = $(this).find('.inner_g').first();
+        var $calc = $(this).find('.textClassCalc').first();
+        if ($g.length && $calc.length) $g.css('height', $calc[0].offsetHeight + 'px');
       });
       // 2) 최대 카드 높이 측정
-      let maxH = 0;
-      inners.forEach(function (im) { if (im.offsetHeight > maxH) maxH = im.offsetHeight; });
+      var maxH = 0;
+      $inners.each(function () { if (this.offsetHeight > maxH) maxH = this.offsetHeight; });
       // 3) 최대보다 짧은 카드의 inner_g에 차이만큼 더해서 높이 맞춤
-      inners.forEach(function (im) {
-        const innerG = im.querySelector('.inner_g');
-        const cur = im.offsetHeight;
-        if (innerG && cur < maxH) {
-          innerG.style.height = (innerG.offsetHeight + (maxH - cur)) + 'px';
-        }
+      $inners.each(function () {
+        var $g = $(this).find('.inner_g').first();
+        var cur = this.offsetHeight;
+        if ($g.length && cur < maxH) $g.css('height', ($g[0].offsetHeight + (maxH - cur)) + 'px');
       });
     }
 
     // ── 캐러셀 (pw-swiper) ──────────────────────────────────────────────────
     function initSwipers() {
-      const CARD_W = 272; // 표준 카카오 카드(.inner_message)와 동일 고정 너비
-      const GAP = 8;      // 슬라이드 간격(px) — CSS gap과 동일
-      const EDGE = 53;    // 첫/마지막 슬라이드 들여쓰기(px) — 일반 말풍선 좌측선(x≈54)에 맞춤
+      var CARD_W = 272; // 표준 카카오 카드(.inner_message)와 동일 고정 너비
+      var GAP = 8;      // 슬라이드 간격(px) — CSS gap과 동일
+      var EDGE = 53;    // 첫/마지막 슬라이드 들여쓰기(px) — 일반 말풍선 좌측선(x≈54)에 맞춤
 
-      document.querySelectorAll('.pw-swiper').forEach(function (swiperEl) {
-        const track = swiperEl.querySelector('.pw-swiper-track');
-        let slides = Array.from(swiperEl.querySelectorAll('.pw-swiper-slide'));
-        const prevBtn = swiperEl.querySelector('.swiper-button-prev');
-        const nextBtn = swiperEl.querySelector('.swiper-button-next');
-        if (!track || slides.length === 0) return;
+      $('.pw-swiper').each(function () {
+        var swiperEl = this;
+        var $swiper = $(this);
+        var $track = $swiper.find('.pw-swiper-track').first();
+        var track = $track[0];
+        var $slides = $swiper.find('.pw-swiper-slide');
+        if (!track || !$slides.length) return;
 
-        let cur = 0, startX = 0, dragActive = false, lastDx = 0;
+        var cur = 0, startX = 0, dragActive = false, lastDx = 0;
 
-        const pubBlock = swiperEl.closest('.pub-block');
-        const blockKey = (pubBlock && pubBlock.getAttribute('data-block')) || '';
+        var blockKey = $swiper.closest('.pub-block').attr('data-block') || '';
         // FTLCS는 slide[0]=인트로(고정), sortable li → slide[1+]
-        const isCS = /FTLCS/.test(blockKey);
-        const slideOffset = isCS ? 1 : 0;
+        var isCS = /FTLCS/.test(blockKey);
+        var slideOffset = isCS ? 1 : 0;
 
-        let numList = null;
-        if (isCS) {
-          numList = document.querySelector('#numFTLCS ul.sortable');
-        } else if (/FTLC/.test(blockKey)) {
-          numList = document.querySelector('#numFTLC ul.sortable');
-        }
+        var $numList = null;
+        if (isCS) $numList = $('#numFTLCS ul.sortable');
+        else if (/FTLC/.test(blockKey)) $numList = $('#numFTLC ul.sortable');
 
         // sortable과의 연결고리
         swiperEl._slideOffset = slideOffset;
-        if (numList) numList._swiper = swiperEl;
+        if ($numList && $numList.length) $numList.data('swiper', swiperEl);
 
         // data-orig-idx: sortable dragend에서 순서 추적용
-        slides.slice(slideOffset).forEach(function (s, i) { s.setAttribute('data-orig-idx', i); });
-        if (numList) numList.querySelectorAll('li').forEach(function (li, i) { li.setAttribute('data-orig-idx', i); });
+        function reindex() {
+          $slides.slice(slideOffset).each(function (i) { $(this).attr('data-orig-idx', i); });
+          if ($numList) $numList.find('li').each(function (i) { $(this).attr('data-orig-idx', i); });
+        }
+        reindex();
 
-        // 272px 고정 카드. 트랙 전체 너비
-        function slideW() { return CARD_W; }
-        function trackW() { return slides.length * CARD_W + (slides.length - 1) * GAP; }
+        function trackW() { return $slides.length * CARD_W + ($slides.length - 1) * GAP; }
         // 가운데 정렬하되 양끝에서는 빈 공간이 안 생기도록 클램프 (Swiper non-loop 동작)
-        //  · 첫 슬라이드  → 왼쪽 flush (오른쪽 peek만)
-        //  · 중간 슬라이드 → 가운데 정렬 (양옆 peek)
-        //  · 마지막 슬라이드 → 오른쪽 flush (왼쪽 peek만)
         function calcX(idx) {
-          const W = swiperEl.offsetWidth;
-          const centered = (W - CARD_W) / 2 - idx * (CARD_W + GAP);
-          const maxX = EDGE;                // 첫 슬라이드 위치(가장 오른쪽으로 밀린 트랙)
-          const minX = W - EDGE - trackW(); // 마지막 슬라이드 위치(가장 왼쪽으로 밀린 트랙)
-          if (minX >= maxX) return maxX;    // 트랙이 화면보다 좁으면 첫칸 기준
+          var W = swiperEl.offsetWidth;
+          var centered = (W - CARD_W) / 2 - idx * (CARD_W + GAP);
+          var maxX = EDGE;                // 첫 슬라이드 위치(가장 오른쪽으로 밀린 트랙)
+          var minX = W - EDGE - trackW(); // 마지막 슬라이드 위치(가장 왼쪽으로 밀린 트랙)
+          if (minX >= maxX) return maxX;  // 트랙이 화면보다 좁으면 첫칸 기준
           return Math.max(minX, Math.min(maxX, centered));
         }
 
-        function applyWidths() {
-          const w = slideW();
-          if (w <= 10) return;
-          slides.forEach(function (s) { s.style.width = w + 'px'; });
-        }
+        function applyWidths() { $slides.css('width', CARD_W + 'px'); }
 
         function updateUI() {
-          if (numList) {
+          if ($numList) {
             if (isCS) {
-              const introBtn = document.querySelector('#numFTLCS .introBtn');
-              if (introBtn) introBtn.classList.toggle('on', cur === 0);
-              numList.querySelectorAll('li').forEach(function (li, i) {
-                li.classList.toggle('on', i + slideOffset === cur);
-              });
+              $('#numFTLCS .introBtn').toggleClass('on', cur === 0);
+              $numList.find('li').each(function (i) { $(this).toggleClass('on', i + slideOffset === cur); });
             } else {
-              numList.querySelectorAll('li').forEach(function (li, i) {
-                li.classList.toggle('on', i === cur);
-              });
+              $numList.find('li').each(function (i) { $(this).toggleClass('on', i === cur); });
             }
           }
           // 프로필 아이콘: 첫 슬라이드에서만 보이도록 페이드 (채널명·버튼은 유지)
-          const profileImg = document.querySelector('#infoProfile .img_profile');
-          if (profileImg && /FTLC/.test(blockKey)) {
-            profileImg.style.opacity = cur === 0 ? '1' : '0';
-          }
-          // (이미지 수정/삭제 버튼은 각 슬롯의 has-img 상태에 따라 CSS로 표시됨)
+          if (/FTLC/.test(blockKey)) $('#infoProfile .img_profile').css('opacity', cur === 0 ? '1' : '0');
+          // 현재 슬라이드 인덱스 노출 → 헤더 '이미지 수정' 버튼이 현재 카드 기준으로 정렬·갱신
+          swiperEl._cur = cur;
+          pwUpdateEditBtn();
         }
 
         function goTo(idx) {
-          cur = Math.max(0, Math.min(slides.length - 1, idx));
-          track.style.transition = 'transform 0.3s ease';
-          track.style.transform = 'translateX(' + calcX(cur) + 'px)';
+          cur = Math.max(0, Math.min($slides.length - 1, idx));
+          $track.css({ transition: 'transform 0.3s ease', transform: 'translateX(' + calcX(cur) + 'px)' });
           updateUI();
         }
 
-        if (prevBtn) prevBtn.addEventListener('click', function () { goTo(cur - 1); });
-        if (nextBtn) nextBtn.addEventListener('click', function () { goTo(cur + 1); });
+        $swiper.find('.swiper-button-prev').on('click', function () { goTo(cur - 1); });
+        $swiper.find('.swiper-button-next').on('click', function () { goTo(cur + 1); });
 
         // FTLCS 인트로 버튼
-        if (isCS) {
-          const introBtn = document.querySelector('#numFTLCS .introBtn');
-          if (introBtn) introBtn.addEventListener('click', function () { goTo(0); });
-        }
+        if (isCS) $('#numFTLCS .introBtn').on('click', function () { goTo(0); });
 
         // 번호 버튼 클릭 → 슬라이드 이동
-        if (numList) {
-          numList.querySelectorAll('li').forEach(function (li, i) {
-            li.addEventListener('click', function () { goTo(i + slideOffset); });
-          });
-        }
+        if ($numList) $numList.find('li').each(function (i) {
+          $(this).on('click', function () { goTo(i + slideOffset); });
+        });
 
         // Touch
-        swiperEl.addEventListener('touchstart', function (e) {
-          startX = e.touches[0].clientX; dragActive = true; lastDx = 0;
-        }, { passive: true });
-        swiperEl.addEventListener('touchmove', function (e) {
+        $swiper.on('touchstart', function (e) {
+          startX = e.originalEvent.touches[0].clientX; dragActive = true; lastDx = 0;
+        });
+        $swiper.on('touchmove', function (e) {
           if (!dragActive) return;
-          lastDx = e.touches[0].clientX - startX;
-          track.style.transition = 'none';
-          track.style.transform = 'translateX(' + (calcX(cur) + lastDx) + 'px)';
-        }, { passive: true });
-        swiperEl.addEventListener('touchend', function () {
+          lastDx = e.originalEvent.touches[0].clientX - startX;
+          $track.css({ transition: 'none', transform: 'translateX(' + (calcX(cur) + lastDx) + 'px)' });
+        });
+        $swiper.on('touchend', function () {
           if (!dragActive) return;
           dragActive = false;
           if (Math.abs(lastDx) > 6) { pwSuppressClick = true; setTimeout(function () { pwSuppressClick = false; }, 0); }
@@ -1037,18 +988,17 @@
         });
 
         // Mouse — 드래그 중 실시간 이동 (textarea/input 클릭 시 포커스 허용)
-        swiperEl.addEventListener('mousedown', function (e) {
-          if (e.target.closest('button, .swiper-button-prev, .swiper-button-next')) return;
+        $swiper.on('mousedown', function (e) {
+          if ($(e.target).closest('button, .swiper-button-prev, .swiper-button-next').length) return;
           if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
           startX = e.clientX; dragActive = true; lastDx = 0; e.preventDefault();
         });
-        document.addEventListener('mousemove', function (e) {
+        $(document).on('mousemove', function (e) {
           if (!dragActive) return;
           lastDx = e.clientX - startX;
-          track.style.transition = 'none';
-          track.style.transform = 'translateX(' + (calcX(cur) + lastDx) + 'px)';
+          $track.css({ transition: 'none', transform: 'translateX(' + (calcX(cur) + lastDx) + 'px)' });
         });
-        document.addEventListener('mouseup', function () {
+        $(document).on('mouseup', function () {
           if (!dragActive) return;
           dragActive = false;
           if (Math.abs(lastDx) > 6) { pwSuppressClick = true; setTimeout(function () { pwSuppressClick = false; }, 0); }
@@ -1057,362 +1007,379 @@
 
         // sortable 순서변경 후 슬라이드 DOM도 같은 순서로 재배치
         swiperEl._reorderSlides = function (newSlideOrder, focusIdx) {
-          const prev = slides.slice();
-          const reordered = newSlideOrder.map(function (i) { return prev[i]; });
-          reordered.forEach(function (s) { track.appendChild(s); });
-          slides = reordered;
+          var prev = $slides.toArray();
+          var reordered = $.map(newSlideOrder, function (i) { return prev[i]; });
+          $.each(reordered, function (_, s) { track.appendChild(s); });
+          $slides = $(reordered);
           // data-orig-idx 재설정 + li 번호 순서대로 갱신
-          slides.slice(slideOffset).forEach(function (s, i) { s.setAttribute('data-orig-idx', i); });
-          if (numList) {
-            numList.querySelectorAll('li').forEach(function (li, i) {
-              li.textContent = i + 1; // 1, 2, 3 순서 갱신
-              li.setAttribute('data-orig-idx', i);
-            });
-          }
+          $slides.slice(slideOffset).each(function (i) { $(this).attr('data-orig-idx', i); });
+          if ($numList) $numList.find('li').each(function (i) { $(this).text(i + 1).attr('data-orig-idx', i); });
           dragActive = false;
           applyWidths();
-          adjustHeights(swiperEl);
+          adjustHeights($swiper);
           // 옮긴 슬라이드 위치로 이동 (focusIdx 미지정 시 첫 슬라이드)
           goTo(typeof focusIdx === 'number' ? focusIdx : 0);
         };
 
         // 타입 전환 후(display:none→block) 재초기화
         swiperEl._resetSwiper = function () {
-          slides = Array.from(track.querySelectorAll('.pw-swiper-slide'));
+          $slides = $swiper.find('.pw-swiper-slide');
           cur = 0; dragActive = false;
           applyWidths();
-          adjustHeights(swiperEl);
+          adjustHeights($swiper);
           // 이미지 로드 지연 대비 한 번 더
-          setTimeout(function () { adjustHeights(swiperEl); }, 60);
-          track.style.transition = 'none';
-          track.style.transform = 'translateX(' + calcX(0) + 'px)';
+          setTimeout(function () { adjustHeights($swiper); }, 60);
+          $track.css({ transition: 'none', transform: 'translateX(' + calcX(0) + 'px)' });
           track.getBoundingClientRect();
           updateUI();
         };
 
+        // 현재(활성) 카드의 오른쪽 끝 viewport X — 헤더 '이미지 수정' 버튼 정렬용 (애니메이션과 무관한 목표 좌표)
+        swiperEl._cardRightVp = function () {
+          return swiperEl.getBoundingClientRect().left + calcX(cur) + cur * (CARD_W + GAP) + CARD_W;
+        };
+
         applyWidths();
-        adjustHeights(swiperEl);
+        adjustHeights($swiper);
         goTo(0);
         // 초기 이미지 로드 후 높이 재동기화
-        swiperEl.querySelectorAll('img').forEach(function (img) {
-          img.addEventListener('load', function () { adjustHeights(swiperEl); });
-        });
+        $swiper.find('img').on('load', function () { adjustHeights($swiper); });
       });
     }
 
     // ── Sortable (드래그 순서변경) ──────────────────────────────────────────
     function initSortable() {
-      document.querySelectorAll('ul.sortable').forEach(function (ul) {
-        let dragging = null;
+      $('ul.sortable').each(function () {
+        var ul = this;
+        var $ul = $(this);
+        var dragging = null;
 
-        function bindLi(li) {
-          li.setAttribute('draggable', 'true');
-          li.style.cursor = 'grab';
+        $ul.find('li').each(function () {
+          var li = this;
+          var $li = $(this);
+          $li.attr('draggable', 'true').css('cursor', 'grab');
 
-          li.addEventListener('dragstart', function (e) {
+          $li.on('dragstart', function (e) {
             dragging = li;
-            e.dataTransfer.effectAllowed = 'move';
+            e.originalEvent.dataTransfer.effectAllowed = 'move';
             setTimeout(function () { li.style.opacity = '0.4'; }, 0);
           });
-          li.addEventListener('dragend', function () {
+          $li.on('dragend', function () {
             li.style.opacity = '';
             dragging = null;
             // 연결된 swiper가 있으면 슬라이드 순서 동기화
-            if (ul._swiper) {
-              const liItems = Array.from(ul.querySelectorAll('li'));
-              const liOrder = liItems.map(function (item) {
-                return parseInt(item.getAttribute('data-orig-idx'), 10);
-              });
-              const offset = ul._swiper._slideOffset || 0;
-              const newSlideOrder = [];
-              for (let i = 0; i < offset; i++) newSlideOrder.push(i); // 인트로 등 고정 슬라이드
-              liOrder.forEach(function (idx) { newSlideOrder.push(idx + offset); });
+            var swiperEl = $ul.data('swiper');
+            if (swiperEl) {
+              var $lis = $ul.find('li');
+              var liOrder = $lis.map(function () { return parseInt($(this).attr('data-orig-idx'), 10); }).get();
+              var offset = swiperEl._slideOffset || 0;
+              var newSlideOrder = [];
+              for (var i = 0; i < offset; i++) newSlideOrder.push(i); // 인트로 등 고정 슬라이드
+              $.each(liOrder, function (_, idx) { newSlideOrder.push(idx + offset); });
               // 옮긴 li 의 새 위치(=슬라이드 인덱스)로 스와이퍼 이동
-              const movedIdx = liItems.indexOf(li) + offset;
-              ul._swiper._reorderSlides(newSlideOrder, movedIdx);
+              var movedIdx = $lis.index(li) + offset;
+              swiperEl._reorderSlides(newSlideOrder, movedIdx);
             }
           });
-          li.addEventListener('dragover', function (e) {
+          $li.on('dragover', function (e) {
             e.preventDefault();
             if (!dragging || dragging === li) return;
-            const rect = li.getBoundingClientRect();
-            const after = e.clientX > rect.left + rect.width / 2;
+            var rect = li.getBoundingClientRect();
+            var clientX = e.originalEvent.clientX;
+            var after = clientX > rect.left + rect.width / 2;
             ul.insertBefore(dragging, after ? li.nextSibling : li);
           });
-          li.addEventListener('click', function () {
-            ul.querySelectorAll('li').forEach(function (l) { l.classList.remove('on'); });
-            li.classList.add('on');
+          $li.on('click', function () {
+            $ul.find('li').removeClass('on');
+            $li.addClass('on');
           });
-        }
-
-        ul.querySelectorAll('li').forEach(bindLi);
-      });
-    }
-
-    const typeSel = document.getElementById('typeSel');
-    function applyType() {
-      const v = typeSel.value;                 // 예: FTL-FTLW
-      const parts = v.split('-');
-      const type = parts[0], dType = parts[1];
-
-      // 블록 표시
-      document.querySelectorAll('.pub-block').forEach(function (el) {
-        const keys = (el.getAttribute('data-block') || '').split(/\s+/);
-        el.classList.toggle('is-active', keys.indexOf(v) > -1);
-      });
-
-      // 프로필/광고/뷰박스
-      const showProfile = (type === 'ATL' || type === 'FTL' || type === 'BRAND');
-      document.getElementById('infoProfile').style.display = showProfile ? '' : 'none';
-      const pImg = document.querySelector('#infoProfile .img_profile');
-      if (pImg) pImg.style.opacity = ''; // 캐러셀 페이드 오버라이드 해제
-      document.getElementById('txtAd').style.display = (type === 'FTL' || type === 'BRAND') ? '' : 'none';
-      document.getElementById('yData').classList.toggle('white_back', type === 'MSG');
-
-      const isViewBox = (type === 'FTL' || type === 'BRAND');
-      document.getElementById('viewBox').style.display = isViewBox ? '' : 'none';
-      document.getElementById('topSpacer').style.display = isViewBox ? 'none' : '';
-      document.getElementById('numFTLC').style.display = (dType === 'FTLC') ? '' : 'none';
-      document.getElementById('numFTLCS').style.display = (dType === 'FTLCS') ? '' : 'none';
-      // 캐러셀일 때 message_view 패딩 제거 (실제 Vue의 swiper_write 토글과 동일)
-      const mv = document.querySelector('.message_view');
-      if (mv) mv.classList.toggle('swiper_write', dType === 'FTLC' || dType === 'FTLCS');
-
-      // ATL 세부
-      const atltT = document.getElementById('atltTitle');
-      const atlpI = document.getElementById('atlpImg');
-      if (atltT) atltT.style.display = (dType === 'ATLT') ? '' : 'none';
-      if (atlpI) atlpI.style.display = (dType === 'ATLP') ? '' : 'none';
-      const descAtl = document.querySelector('.atl .desc_message');
-      if (descAtl) descAtl.classList.toggle('is-atlt', dType === 'ATLT');
-
-      // MSG 세부
-      const smsMode = (dType === 'SMS');
-      const mt = document.getElementById('msgTitle'); if (mt) mt.style.display = smsMode ? 'none' : '';
-      const mi = document.getElementById('msgImgArea'); if (mi) mi.style.display = smsMode ? 'none' : '';
-      const ma = document.getElementById('msgAppend'); if (ma) ma.textContent = (smsMode ? '' : dType + ' ') + '오전 08:00';
-
-      // 카운터
-      document.getElementById('cntATL').style.display = (type === 'ATL') ? '' : 'none';
-      document.getElementById('cntFTL').style.display = (type === 'FTL' || type === 'BRAND') && ['FTL', 'FTLW', 'FTLS'].indexOf(dType) > -1 ? '' : 'none';
-      document.getElementById('cntMSG').style.display = (type === 'MSG') ? '' : 'none';
-
-      applyOptions();
-      autoSizeAll();
-
-      // display:none→block 후 swiper 너비가 확정되면 재초기화
-      requestAnimationFrame(function () {
-        document.querySelectorAll('.pw-swiper').forEach(function (el) {
-          if (typeof el._resetSwiper === 'function') el._resetSwiper();
         });
       });
     }
 
+    var $typeSel = $('#typeSel');
+    function applyType() {
+      var v = $typeSel.val();                  // 예: BRAND-FTLW
+      var parts = v.split('-');
+      var type = parts[0], dType = parts[1];
+
+      // 현재 dType을 컨테이너에 표기 → 이미지 수정 버튼 위치를 CSS([data-dtype])로 제어
+      $('.template_preview').attr('data-dtype', dType);
+
+      // 블록 표시
+      $('.pub-block').each(function () {
+        var keys = ($(this).attr('data-block') || '').split(/\s+/);
+        $(this).toggleClass('is-active', keys.indexOf(v) > -1);
+      });
+
+      // 프로필/광고/뷰박스 (ATL · BRAND 만 프로필 노출)
+      var showProfile = (type === 'ATL' || type === 'BRAND');
+      $('#infoProfile').css('display', showProfile ? '' : 'none');
+      $('#infoProfile .img_profile').css('opacity', ''); // 캐러셀 페이드 오버라이드 해제
+      $('#txtAd').css('display', (type === 'BRAND') ? '' : 'none');
+      $('#yData').toggleClass('white_back', type === 'MSG');
+
+      var isViewBox = (type === 'BRAND');
+      $('#viewBox').css('display', isViewBox ? '' : 'none');
+      $('#topSpacer').css('display', isViewBox ? 'none' : '');
+      $('#numFTLC').css('display', (dType === 'FTLC') ? '' : 'none');
+      $('#numFTLCS').css('display', (dType === 'FTLCS') ? '' : 'none');
+      // 캐러셀일 때 message_view 패딩 제거 (실제 Vue의 swiper_write 토글과 동일)
+      $('.message_view').toggleClass('swiper_write', dType === 'FTLC' || dType === 'FTLCS');
+
+      // ATL 세부 (ATLP=이미지, ATLT=타이틀, ATLB=기본형은 둘 다 숨김 → 텍스트+버튼만)
+      $('#atltTitle').css('display', (dType === 'ATLT') ? '' : 'none');
+      $('#atlpImg').css('display', (dType === 'ATLP') ? '' : 'none');
+      $('.atl .desc_message').toggleClass('is-atlt', dType === 'ATLT');
+
+      // BRAND 기본/이미지형: 기본형(FTLB)은 이미지 영역 숨김
+      $('#brandImg').css('display', (dType === 'FTLP' || dType === 'FTLW') ? '' : 'none');
+      // 와이드이미지형(FTLW)은 와이드리스트형과 동일한 넓은 말풍선(item_wideimg 351.5px)
+      $('#brandBasic').toggleClass('item_wideimg', dType === 'FTLW');
+
+      // MSG 세부
+      var smsMode = (dType === 'SMS');
+      $('#msgTitle').css('display', smsMode ? 'none' : '');
+      $('#msgImgArea').css('display', smsMode ? 'none' : '');
+      $('#msgAppend').text((smsMode ? '' : dType + ' ') + '오전 08:00');
+
+      // 카운터
+      $('#cntATL').css('display', (type === 'ATL') ? '' : 'none');
+      $('#cntFTL').css('display', ((type === 'BRAND') && ['FTLB', 'FTLP', 'FTLW', 'FTLS'].indexOf(dType) > -1) ? '' : 'none');
+      $('#cntMSG').css('display', (type === 'MSG') ? '' : 'none');
+
+      applyOptions();
+      autoSizeAll();
+      pwUpdateEditBtn();
+
+      // display:none→block 후 swiper 너비가 확정되면 재초기화
+      requestAnimationFrame(function () {
+        $('.pw-swiper').each(function () { if (typeof this._resetSwiper === 'function') this._resetSwiper(); });
+        pwUpdateEditBtn();
+      });
+    }
+
     function applyOptions() {
-      const hasImg = document.getElementById('optImg').checked;
-      const empty = document.getElementById('optEmpty').checked;
+      var hasImg = $('#optImg').prop('checked');
+      var empty = $('#optEmpty').prop('checked');
 
       // 이미지 등록됨(샘플) 토글: 모든 업로드 슬롯에 샘플 이미지 채우기/비우기
       // (사용자가 직접 올린 이미지는 _userUploaded 표시가 있어 비우기에서 제외)
-      document.querySelectorAll('.upload-slot').forEach(function (slot) {
+      $('.upload-slot').each(function () {
+        var slot = this;
         if (slot._userUploaded) return;
-        if (hasImg && slot.dataset.sample) PW_IMG.setImage(slot, slot.dataset.sample, false);
+        var sample = $(slot).attr('data-sample');
+        if (hasImg && sample) PW_IMG.setImage(slot, sample, false);
         else PW_IMG.clearImage(slot);
       });
 
       // 빈 작성칸: 활성 블록의 textarea/input 값 비우기 (원복은 새로고침)
       if (empty) {
-        document.querySelectorAll('.pub-block.is-active textarea, .pub-block.is-active input').forEach(function (el) {
-          el.dataset._v = el.dataset._v || el.value; el.value = '';
+        $('.pub-block.is-active').find('textarea, input').each(function () {
+          if (this.dataset._v === undefined || this.dataset._v === '') this.dataset._v = this.value;
+          this.value = '';
         });
       } else {
-        document.querySelectorAll('.pub-block textarea, .pub-block input').forEach(function (el) {
-          if (el.dataset._v !== undefined) el.value = el.dataset._v;
+        $('.pub-block').find('textarea, input').each(function () {
+          if (this.dataset._v !== undefined) this.value = this.dataset._v;
         });
       }
       autoSizeAll();
     }
 
     function autoSizeAll() {
-      document.querySelectorAll('.textClass').forEach(function (el) {
-        el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px';
+      $('.textClass').each(function () {
+        this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';
       });
     }
 
-    const savedType = localStorage.getItem('pw_type');
-    if (savedType) typeSel.value = savedType;
+    var savedType = localStorage.getItem('pw_type');
+    if (savedType) $typeSel.val(savedType);
 
-    typeSel.addEventListener('change', function () {
-      localStorage.setItem('pw_type', typeSel.value);
+    $typeSel.on('change', function () {
+      localStorage.setItem('pw_type', $(this).val());
       applyType();
     });
-    document.getElementById('optImg').addEventListener('change', applyOptions);
-    document.getElementById('optEmpty').addEventListener('change', applyOptions);
-    // textarea 입력 시 자동 높이 + 캐러셀 슬라이드 높이 동기화
-    document.addEventListener('input', function (e) {
-      if (e.target.classList && e.target.classList.contains('textClass')) {
-        e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px';
-        const slide = e.target.closest && e.target.closest('.pw-swiper-slide');
-        if (slide) {
-          const swiperEl = slide.closest('.pw-swiper');
-          if (swiperEl) adjustHeights(swiperEl);
-        }
+    $('#optImg, #optEmpty').on('change', applyOptions);
+
+    // textarea 입력 시 자동 높이 + 캐러셀 슬라이드 높이 동기화 (위임 → 동적 추가에도 적용)
+    $(document).on('input', '.textClass', function () {
+      this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';
+      var $slide = $(this).closest('.pw-swiper-slide');
+      if ($slide.length) {
+        var $sw = $slide.closest('.pw-swiper');
+        if ($sw.length) adjustHeights($sw);
       }
     });
 
     // ── 이미지 업로드 컨트롤러 (로컬 미리보기) ──────────────────────────────
     // 현재: API 통신 없이 FileReader 로 즉시 로컬 미리보기.
     // TODO(API): 서버 업로드 연동은 uploadToServer() 골격 참고 (아래).
-    const PW_IMG = {
-      fileInput: null,
+    var PW_IMG = {
+      $fileInput: null,
       targetSlot: null,
+      $loading: null,
 
-      init() {
+      init: function () {
+        var self = this;
         // 숨김 파일 입력 (1개 공용)
-        const inp = document.createElement('input');
-        inp.type = 'file';
-        inp.accept = 'image/*';
-        inp.style.display = 'none';
-        document.body.appendChild(inp);
-        const self = this;
-        inp.addEventListener('change', function () {
-          const f = inp.files && inp.files[0];
+        this.$fileInput = $('<input type="file" accept="image/*" style="display:none">').appendTo('body');
+        this.$fileInput.on('change', function () {
+          var f = this.files && this.files[0];
           if (f && self.targetSlot) self.handleFile(self.targetSlot, f);
-          inp.value = '';
+          this.value = '';
         });
-        this.fileInput = inp;
-        this.loadingEl = document.getElementById('pwLoading');
+        this.$loading = $('#pwLoading');
 
         // 드래그앤드롭은 상위 1곳에 '위임' → 슬라이드/항목을 동적으로 추가해도 재바인딩 불필요
-        const root = document.querySelector('.template_preview') || document;
-        let dragSlot = null;
+        var $root = $('.template_preview');
+        var dragSlot = null;
         function setDrag(slot) {
-          if (dragSlot && dragSlot !== slot) dragSlot.classList.remove('drag-over');
+          if (dragSlot && dragSlot !== slot) $(dragSlot).removeClass('drag-over');
           dragSlot = slot;
-          if (slot) slot.classList.add('drag-over');
+          if (slot) $(slot).addClass('drag-over');
         }
-        root.addEventListener('dragover', function (e) {
-          const slot = e.target.closest && e.target.closest('.upload-slot');
+        $root.on('dragover', function (e) {
+          var slot = $(e.target).closest('.upload-slot')[0];
           if (slot) {
             e.preventDefault();
-            if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+            var dt = e.originalEvent.dataTransfer;
+            if (dt) dt.dropEffect = 'copy';
             setDrag(slot);
           } else { setDrag(null); }
         });
-        root.addEventListener('dragleave', function (e) {
-          if (!e.relatedTarget || (root.contains && !root.contains(e.relatedTarget))) setDrag(null);
+        $root.on('dragleave', function (e) {
+          var rt = e.originalEvent.relatedTarget;
+          if (!rt || !$root[0].contains(rt)) setDrag(null);
         });
-        root.addEventListener('drop', function (e) {
-          const slot = e.target.closest && e.target.closest('.upload-slot');
+        $root.on('drop', function (e) {
+          var slot = $(e.target).closest('.upload-slot')[0];
           setDrag(null);
           if (!slot) return;
           e.preventDefault();
-          const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+          var dt = e.originalEvent.dataTransfer;
+          var f = dt && dt.files && dt.files[0];
           if (f) self.handleFile(slot, f);
         });
       },
 
-      openPicker(slot) {
+      openPicker: function (slot) {
         this.targetSlot = slot;
-        this.fileInput.value = '';
-        this.fileInput.click();
+        this.$fileInput.val('').trigger('click');
       },
 
-      handleFile(slot, file) {
+      handleFile: function (slot, file) {
         if (!file || !file.type || file.type.indexOf('image/') !== 0) return;
         this.showLoading();
         // 1) 즉시 로컬 미리보기
-        const reader = new FileReader();
-        const self = this;
+        var reader = new FileReader();
+        var self = this;
         reader.onload = function (ev) { self.setImage(slot, ev.target.result, true); };
         reader.onerror = function () { self.hideLoading(); };
         reader.readAsDataURL(file);
-        // 2) TODO(API): 서버 업로드 후 응답 URL로 교체
-        // self.uploadToServer(file)
-        //   .then(function (res) { self.setImage(slot, res.url, true); })
-        //   .catch(function (err) { self.hideLoading(); console.error(err); });
+        // 2) TODO(API): 서버 업로드 — jquery.form 의 ajaxSubmit 또는 $.ajax(FormData) 사용,
+        //    로딩은 blockUI($.blockUI) 또는 showLoading()/hideLoading() 활용.
+        // var form = new FormData(); form.append('file', file);
+        // $.ajax({ url: '/api/upload-image', type: 'POST', data: form, processData: false, contentType: false })
+        //   .done(function (res) { self.setImage(slot, res.url, true); })
+        //   .fail(function () { self.hideLoading(); });
       },
 
-      showLoading() { if (this.loadingEl) this.loadingEl.classList.add('show'); },
-      hideLoading() { if (this.loadingEl) this.loadingEl.classList.remove('show'); },
+      showLoading: function () { if (this.$loading) this.$loading.addClass('show'); },
+      hideLoading: function () { if (this.$loading) this.$loading.removeClass('show'); },
 
       // 슬롯에 이미지 표시 + 수정/삭제 버튼 보장 (미첨부 영역 숨김은 has-img 클래스로 CSS 처리)
-      setImage(slot, src, userUploaded) {
-        const isMsg = slot.classList.contains('msg_img_area');
-        const isMini = !!(slot.closest && slot.closest('.list_message'));
-        const cls = isMsg ? 'msg_img' : (isMini ? 'thumb_img wide-small-img' : 'thumb_img');
-        const self = this;
-        let img = slot.querySelector('img.thumb_img, img.msg_img');
-        if (!img) {
-          img = document.createElement('img');
-          img.alt = '';
-          slot.insertBefore(img, slot.firstChild);
-        }
-        img.className = cls;
-        img.onload = function () { self.hideLoading(); self._afterChange(slot); };
-        img.onerror = function () { self.hideLoading(); };
-        img.src = src;
-        // 미니 리스트 썸네일은 버튼 공간이 없어 클릭 교체를 예외적으로 허용
-        if (isMini) img.onclick = function () { if (!pwSuppressClick) self.openPicker(slot); };
-        slot.classList.add('has-img');
+      setImage: function (slot, src, userUploaded) {
+        var $slot = $(slot), self = this;
+        var isMsg = $slot.hasClass('msg_img_area');
+        var isMini = $slot.closest('.list_message').length > 0;
+        var cls = isMsg ? 'msg_img' : (isMini ? 'thumb_img wide-small-img' : 'thumb_img');
+        var $img = $slot.find('img.thumb_img, img.msg_img').first();
+        if (!$img.length) { $img = $('<img alt="">'); $slot.prepend($img); }
+        $img.attr('class', cls)
+          .off('load.pw error.pw')
+          .on('load.pw', function () { self.hideLoading(); self._afterChange(slot); })
+          .on('error.pw', function () { self.hideLoading(); })
+          .attr('src', src);
+        // 미니 리스트 썸네일/문자(MSG)는 헤더 버튼이 없어 클릭 교체를 예외적으로 허용
+        if (isMini || isMsg) $img.off('click.pw').on('click.pw', function () { if (!pwSuppressClick) self.openPicker(slot); });
+        $slot.addClass('has-img');
         if (userUploaded) slot._userUploaded = true;
-        if (!isMini) this._ensureEditBtns(slot);
+        // 이미지 수정은 프로필 행 #imgEditBtn(헤더)로 통합 (캐러셀은 활성 카드 우측에 정렬). 삭제 버튼 없음.
         this._afterChange(slot);
       },
 
       // 슬롯을 미첨부 상태로 되돌림
-      clearImage(slot) {
-        const img = slot.querySelector('img.thumb_img, img.msg_img');
-        if (img) img.remove();
-        slot.classList.remove('has-img');
+      clearImage: function (slot) {
+        var $slot = $(slot);
+        $slot.find('img.thumb_img, img.msg_img').remove();
+        $slot.removeClass('has-img');
         slot._userUploaded = false;
         this.hideLoading();
         this._afterChange(slot);
       },
 
-      // 수정/삭제 버튼 오버레이 생성 (없을 때만) — 각 버튼에 onclick 직접 부여
-      _ensureEditBtns(slot) {
-        if (slot.querySelector('.pw-edit-btns')) return;
-        const self = this;
-        const wrap = document.createElement('div');
-        wrap.className = 'pw-edit-btns';
-        const edit = document.createElement('button');
-        edit.type = 'button'; edit.className = 'pw-edit-btn'; edit.textContent = '이미지 수정';
-        edit.onclick = function (e) { e.stopPropagation(); if (!pwSuppressClick) self.openPicker(slot); };
-        const del = document.createElement('button');
-        del.type = 'button'; del.className = 'pw-edit-btn del'; del.textContent = '이미지 삭제';
-        del.onclick = function (e) { e.stopPropagation(); if (!pwSuppressClick) self.clearImage(slot); };
-        wrap.appendChild(edit);
-        wrap.appendChild(del);
-        slot.appendChild(wrap);
-      },
-
-      // 캐러셀이면 슬라이드 높이 재동기화
-      _afterChange(slot) {
-        const sw = slot.closest('.pw-swiper');
-        if (sw) adjustHeights(sw);
-      },
-
-      // TODO(API): 실제 서버 업로드 — 엔드포인트/인증/응답 형식 확정 후 구현
-      // async uploadToServer(file) {
-      //   const form = new FormData();
-      //   form.append('file', file);
-      //   const res = await fetch('/api/upload-image', {
-      //     method: 'POST',
-      //     body: form,
-      //     // headers: { Authorization: 'Bearer ' + token }  // 인증 필요 시
-      //   });
-      //   if (!res.ok) throw new Error('이미지 업로드 실패: ' + res.status);
-      //   return await res.json(); // 예: { url: 'https://cdn.../xxx.png', fileId: '...' }
-      // },
+      // 캐러셀 높이 재동기화 + 헤더 '이미지 수정' 버튼 갱신
+      _afterChange: function (slot) {
+        var $sw = $(slot).closest('.pw-swiper');
+        if ($sw.length) adjustHeights($sw);
+        pwUpdateEditBtn();
+      }
     };
 
     // 인라인 onclick 용 전역 핸들러 (각 버튼/요소 태그에서 직접 호출)
-    function pwPickFromBtn(el) {
+    window.pwPickFromBtn = function (el) {
       if (pwSuppressClick) return;
-      const slot = el.closest && el.closest('.upload-slot');
+      var slot = $(el).closest('.upload-slot')[0];
       if (slot) PW_IMG.openPicker(slot);
+    };
+
+    // ── 헤더 '이미지 수정' 버튼: 활성 블록의 메인 이미지(또는 현재 캐러셀 슬라이드) 기준 ──
+    function pwActiveSlot() {
+      var $active = $('.pub-block.is-active');
+      if (!$active.length) return null;
+      var $sw = $active.find('.pw-swiper').first();
+      if ($sw.length) { // 캐러셀: 현재 보이는 슬라이드의 슬롯
+        var cur = $sw[0]._cur || 0;
+        return $sw.find('.pw-swiper-slide').eq(cur).find('.upload-slot')[0] || null;
+      }
+      // 비캐러셀: 미니 리스트 썸네일을 제외한 메인 업로드 슬롯
+      var main = null;
+      $active.find('.upload-slot').each(function () {
+        if (!main && !$(this).closest('.list_message').length) main = this;
+      });
+      return main;
     }
+    function pwUpdateEditBtn() {
+      var $btn = $('#imgEditBtn');
+      var prof = document.getElementById('infoProfile');
+      if (!prof || $(prof).css('display') === 'none') { $btn.removeData('slot').hide(); return; }
+      var $active = $('.pub-block.is-active');
+      var $sw = $active.find('.pw-swiper').first();
+      var slot;
+      if ($sw.length) {
+        var swEl = $sw[0];
+        slot = $sw.find('.pw-swiper-slide').eq(swEl._cur || 0).find('.upload-slot')[0];
+      } else {
+        slot = pwActiveSlot();
+      }
+      // 화면에 보이는 이미지 슬롯(=이미지를 쓰는 유형)이 has-img 일 때만 노출
+      var show = !!slot && $(slot).is(':visible') && $(slot).hasClass('has-img');
+      if (!show) { $btn.removeData('slot').hide(); return; }
+      $btn.data('slot', slot);
+      if ($sw.length && typeof $sw[0]._cardRightVp === 'function') {
+        // 캐러셀만 JS로 현재 카드 우측에 맞춤
+        $btn.css('right', Math.max(8, Math.round(prof.getBoundingClientRect().right - $sw[0]._cardRightVp())) + 'px');
+      } else {
+        // 비캐러셀: 위치는 CSS([data-dtype])가 담당 → 인라인 right 제거
+        $btn.css('right', '');
+      }
+      $btn.show();
+    }
+    $('#imgEditBtn').on('click', function () {
+      var slot = $(this).data('slot');
+      if (slot) PW_IMG.openPicker(slot);
+    });
 
     PW_IMG.init();
     applyType();

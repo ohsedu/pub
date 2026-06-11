@@ -3316,3 +3316,28 @@
     transform: rotate(360deg);
   }
 }
+
+/* ===== 프로필 행 '이미지 수정' 버튼 (헤더 우상단, 말풍선 꼬리) =====
+   - 비캐러셀: 우측(right:12px) 고정 / 캐러셀: JS가 활성 카드 오른쪽 끝에 맞춰 right 조정 */
+.template_write .template_preview .info_profile {
+  position: relative;
+  z-index: 20; /* 캐러셀 슬라이드 peek 위로 프로필·수정버튼이 올라오도록 */
+}
+.template_write .template_preview #imgEditBtn {
+  top: 6px;
+  right: 88px; /* 표준 말풍선(inner_message 272px) 우측 끝에 정렬 */
+  z-index: 21;
+  background-color: #f1f2f6;
+  border: 1px solid #d6d9df;
+  color: #5a5f66;
+}
+/* 와이드이미지(FTLW)·와이드리스트(FTLWL)는 말풍선이 더 넓어(351.5px) 우측 끝이 다름 */
+.template_write .template_preview[data-dtype="FTLW"] #imgEditBtn,
+.template_write .template_preview[data-dtype="FTLWL"] #imgEditBtn {
+  right: 9px;
+}
+.template_write .template_preview #imgEditBtn:hover {
+  background-color: #e6e8ec;
+  border-color: #c2c5cb;
+  color: #333;
+}
