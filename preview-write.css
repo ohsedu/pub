@@ -921,6 +921,154 @@
   border-bottom: 1px solid #e7e7e7;
 }
 
+/* ===== ATL 아이템리스트형 (ATLI) ===== */
+/* 헤더 이미지: img_message 폭에 가득 차게 (알림톡 이미지형 ATLP 와 동일) */
+.template_write .template_preview .atli .img_message.atli-header {
+  border-radius: 0 !important;
+  background: #fff;
+}
+.template_write .template_preview .atli .atli-header .thumb_img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.template_write .template_preview .atli .no_img_atli {
+  width: 100%;
+  height: 136px;
+  background: #fcfdff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.template_write .template_preview .atli .no_img_atli .plus_icon {
+  width: 24px;
+}
+.template_write .template_preview .atli-body {
+  padding: 4px 16px 10px;
+  background: #fff;
+}
+.template_write .template_preview .atli-title {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  color: #191919;
+  line-height: 1.35;
+  padding: 0;
+  margin: 6px 0 4px;
+}
+/* 아이템 하이라이트 */
+.template_write .template_preview .atli-hl {
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ededed;
+}
+.template_write .template_preview .atli-hl-text {
+  flex: 1;
+  min-width: 0;
+}
+.template_write .template_preview .atli-hl-title {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  color: #191919;
+  padding: 0;
+}
+.template_write .template_preview .atli-hl-desc {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+  font-size: 12.5px;
+  color: #999;
+  padding: 0;
+  margin-top: 2px;
+}
+.template_write .template_preview .atli-hl-thumb {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.template_write .template_preview .atli-hl-thumb .thumb_img,
+.template_write .template_preview .atli-hl-thumb .no_img_atli_thumb {
+  cursor: pointer;
+}
+.template_write .template_preview .atli-hl-thumb .no_img_atli_thumb {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+.template_write .template_preview .atli-hl-thumb .no_img_atli_thumb .plus_icon {
+  width: 18px;
+}
+.template_write .template_preview .atli-hl-thumb .thumb_img {
+  width: 52px !important;
+  height: 52px !important;
+  object-fit: cover;
+}
+/* 아이템 리스트 (라벨/값) */
+.template_write .template_preview .atli-list {
+  padding: 8px 0;
+}
+.template_write .template_preview .atli-list li {
+  display: flex;
+  align-items: flex-start;
+  padding: 3px 0;
+}
+.template_write .template_preview .atli-l {
+  width: 88px;
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: #999;
+  font-size: 12.5px;
+  padding: 0;
+}
+.template_write .template_preview .atli-v {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #333;
+  font-size: 12.5px;
+  padding: 0;
+}
+/* 본문/버튼 */
+.template_write .template_preview .atli .desc_message {
+  padding: 6px 0 0 !important;
+  background: #fff !important;
+}
+.template_write .template_preview .atli .desc_message .inner_g {
+  font-size: 13px;
+  color: #333;
+}
+.template_write .template_preview .atli .btn_message {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 .template_write .template_preview .white_back {
   background-color: #fff !important;
 }
@@ -929,6 +1077,13 @@
   width: auto !important;
   background-color: #e8e8e8 !important;
   margin-left: 10px !important;
+}
+/* 문자 종류별 말풍선 상단 여백 */
+.template_write .template_preview[data-dtype="LMS"] .msg .inner_message {
+  margin-top: -3px!important;
+}
+.template_write .template_preview[data-dtype="SMS"] .msg .inner_message {
+  margin-top: 5px!important;
 }
 
 .template_write .template_preview .msg .desc_message {

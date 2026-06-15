@@ -268,9 +268,10 @@
       <div class="grp">
         <label>메시지 타입</label>
         <select id="typeSel">
+          <option value="ATL-ATLB">알림톡 · 기본형 (ATLB)</option>
+          <option value="ATL-ATLI">알림톡 · 아이템리스트형 (ATLI)</option>
           <option value="ATL-ATLT">알림톡 · 타이틀형 (ATLT)</option>
           <option value="ATL-ATLP">알림톡 · 이미지형 (ATLP)</option>
-          <option value="ATL-ATLB">알림톡 · 기본형 (ATLB)</option>
           <option value="BRAND-FTLB">브랜드 · 기본형 (FTLB)</option>
           <option value="BRAND-FTLP">브랜드 · 이미지형 (FTLP)</option>
           <option value="BRAND-FTLW">브랜드 · 와이드이미지형 (FTLW)</option>
@@ -306,7 +307,7 @@
               <div class="yData" id="yData">
 
                 <!-- FTL/BRAND 상단 뷰박스 (이미지 비율·꾸미기) -->
-                <div class="viewBox" id="viewBox" style="display:none;">
+                <div class="viewBox" id="viewBox">
                   <!-- 캐러셀 번호 -->
                   <div class="num" id="numFTLC" style="display:none;">
                     <ul class="sortable ui-sortable">
@@ -380,6 +381,71 @@
 
                             <div class="btn_message">
                               <a class="btn_gm"><span class="inner_g">배송 조회</span></a>
+                            </div>
+                          </div>
+                          <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
+                              class="arrow_append ico_comm">&gt;</span>채널차단</div>
+                        </div>
+
+                        <!-- ============================================================
+                         ATL : 아이템리스트형 (ATLI)
+                         ============================================================ -->
+                        <div class="box_message default_message atl atli pub-block" data-block="ATL-ATLI">
+                          <div class="inner_message">
+                            <div class="atl_top">알림톡 도착
+                              <img class="atl_badge" src="./img/atl_badge.png" alt="알림톡 배지">
+                            </div>
+                            <!-- 헤더 이미지(로고) -->
+                            <div class="img_message atli-header">
+                              <div class="inner_thumb upload-slot cd"
+                                data-sample="https://placehold.co/360x120/ffffff/3b5bdb?text=LOGO">
+                                <div class="no_img_area no_img_atli">
+                                  <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
+                                  <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
+                                  <div class="img_info">권장 사이즈 800x400px</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="atli-body">
+                              <!-- 강조 타이틀 -->
+                              <textarea class="atli-title textClass" rows="1"
+                                placeholder="타이틀을 입력해주세요.">카카오맵 이벤트 당첨 안내</textarea>
+                              <!-- 아이템 하이라이트: 제목/부가정보 + 썸네일 -->
+                              <div class="atli-hl flex-s">
+                                <div class="atli-hl-text">
+                                  <textarea class="atli-hl-title textClass" rows="1"
+                                    placeholder="강조 제목">카카오 미니 C</textarea>
+                                  <textarea class="atli-hl-desc textClass" rows="1"
+                                    placeholder="부가 정보">당첨경품</textarea>
+                                </div>
+                                <div class="atli-hl-thumb upload-slot atli-slot"
+                                  data-sample="https://placehold.co/100x100/222222/ffffff?text=ITEM">
+                                  <div class="no_img_area no_img_atli_thumb" onclick="pwPickFromBtn(this)">
+                                    <img class="plus_icon" src="./img/image_plus.png" alt="">
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- 아이템 리스트 (라벨/값) -->
+                              <ul class="atli-list">
+                                <li><input type="text" class="atli-l" value="이벤트명">
+                                  <input type="text" class="atli-v" value="인공지능 탑재 기념 EVENT"></li>
+                                <li><input type="text" class="atli-l" value="주소입력기한">
+                                  <input type="text" class="atli-v" value="2021.1.29. 자정까지"></li>
+                                <li><input type="text" class="atli-l" value="경품발송일">
+                                  <input type="text" class="atli-v" value="2021.2.5. 순차발송"></li>
+                              </ul>
+                              <!-- 본문 -->
+                              <p class="desc_message default_message">
+                                <span class="inner_g">
+                                  <textarea class="ta1 textClass" rows="1" placeholder="메시지를 입력해 주세요.">안녕하세요. 어피치님
+카카오맵 인공지능 탑재 기념 EVENT 당첨을 축하드립니다.
+
+주소 입력기한까지 개인 정보를 입력하지 않으면 경품 발송이 취소됩니다. 입력하신 정보가 오기입 되어 경품이 잘못 전달되었을 경우 경품 재전달은 어려운 점 양해 부탁드립니다.</textarea>
+                                </span>
+                              </p>
+                              <!-- 버튼 -->
+                              <div class="btn_message"><a class="btn_gm"><span class="inner_g">주소 입력하기</span></a></div>
+                              <div class="btn_message"><a class="btn_gm"><span class="inner_g">고객센터 문의하기</span></a></div>
                             </div>
                           </div>
                           <div class="txt_append">수신거부<span class="bar_append ico_comm">|</span>홈<span
@@ -786,14 +852,14 @@
                          ============================================================ -->
                         <div class="box_message default_message msg pub-block" data-block="MSG-SMS MSG-LMS MSG-MMS">
                           <input type="text" class="msg-title" id="msgTitle" style="width:300px;"
-                            placeholder="제목 입력(총 15자)" value="배송 출발 안내">
+                            placeholder="제목 입력(최대 15자)" value="">
                           <!-- MMS 이미지 영역: 등록된 이미지 스택(.msg-img-list) + 미첨부 프롬프트(.no_img_msg) -->
                           <div class="msg_img_area" id="msgImgArea">
                             <div class="msg-img-list"></div>
                             <div class="no_img_msg">
                               <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
                               <button class="img_btn" type="button" onclick="MMS.pickNew()">이미지 등록</button>
-                              <div class="img_info">권장 사이즈 600x400px</div>
+                              <div class="img_info"><!--권장 사이즈 600x400px--></div>
                             </div>
                           </div>
                           <div class="inner_message" style="margin-left:20px!important;">
@@ -1314,8 +1380,8 @@
           .on('load.pw', function () { self.hideLoading(); self._afterChange(slot); })
           .on('error.pw', function () { self.hideLoading(); })
           .attr('src', src);
-        // 미니 리스트 썸네일/문자(MSG)는 헤더 버튼이 없어 클릭 교체를 예외적으로 허용
-        if (isMini || isMsg) $img.off('click.pw').on('click.pw', function () { if (!pwSuppressClick) self.openPicker(slot); });
+        // 미니 리스트 썸네일/문자(MSG)/아이템리스트(ATLI)는 헤더 버튼이 없어 클릭 교체 허용
+        if (isMini || isMsg || $slot.hasClass('atli-slot')) $img.off('click.pw').on('click.pw', function () { if (!pwSuppressClick) self.openPicker(slot); });
         $slot.addClass('has-img');
         if (userUploaded) slot._userUploaded = true;
         // 이미지 수정은 프로필 행 #imgEditBtn(헤더)로 통합 (캐러셀은 활성 카드 우측에 정렬). 삭제 버튼 없음.
@@ -1375,10 +1441,10 @@
         var cur = $sw[0]._cur || 0;
         return $sw.find('.pw-swiper-slide').eq(cur).find('.upload-slot')[0] || null;
       }
-      // 비캐러셀: 미니 리스트 썸네일을 제외한 메인 업로드 슬롯
+      // 비캐러셀: 미니 리스트 썸네일/ATLI(클릭 교체) 제외한 메인 업로드 슬롯
       var main = null;
       $active.find('.upload-slot').each(function () {
-        if (!main && !$(this).closest('.list_message').length) main = this;
+        if (!main && !$(this).closest('.list_message').length && !$(this).hasClass('atli-slot')) main = this;
       });
       return main;
     }
