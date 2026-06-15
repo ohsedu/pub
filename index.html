@@ -278,8 +278,9 @@
           <option value="BRAND-FTLWL">브랜드 · 와이드리스트형 (FTLWL)</option>
           <option value="BRAND-FTLC">브랜드 · 캐러셀 피드형 (FTLC)</option>
           <option value="BRAND-FTLCS">브랜드 · 캐러셀 커머스형 (FTLCS)</option>
-          <option value="MSG-LMS">문자 · LMS/MMS</option>
           <option value="MSG-SMS">문자 · SMS</option>
+          <option value="MSG-LMS">문자 · LMS</option>
+          <option value="MSG-MMS">문자 · MMS</option>
         </select>
       </div>
 
@@ -324,8 +325,6 @@
                 </div>
 
                 <!-- 그 외 타입 상단 여백 -->
-                <div id="topSpacer" style="height:15px;"></div>
-
                 <div>
                   <div class="message_view cursor_default">
                     <div class="cont_view">
@@ -785,22 +784,21 @@
                         <!-- ============================================================
                          MSG : 문자 (SMS / LMS / MMS)
                          ============================================================ -->
-                        <div class="box_message default_message msg pub-block" data-block="MSG-LMS MSG-SMS">
+                        <div class="box_message default_message msg pub-block" data-block="MSG-SMS MSG-LMS MSG-MMS">
                           <input type="text" class="msg-title" id="msgTitle" style="width:300px;"
                             placeholder="제목 입력(총 15자)" value="배송 출발 안내">
-                          <div class="msg_img_area msg_img_area_one upload-slot" id="msgImgArea"
-                            data-sample="https://placehold.co/600x400/e3ecf5/8aa0b6?text=MMS">
+                          <!-- MMS 이미지 영역: 등록된 이미지 스택(.msg-img-list) + 미첨부 프롬프트(.no_img_msg) -->
+                          <div class="msg_img_area" id="msgImgArea">
+                            <div class="msg-img-list"></div>
                             <div class="no_img_msg">
                               <div class="img_icon"><img class="plus_icon" src="./img/image_plus.png" alt=""></div>
-                              <button class="img_btn" type="button" onclick="pwPickFromBtn(this)">이미지 등록</button>
+                              <button class="img_btn" type="button" onclick="MMS.pickNew()">이미지 등록</button>
                               <div class="img_info">권장 사이즈 600x400px</div>
                             </div>
                           </div>
                           <div class="inner_message" style="margin-left:20px!important;">
                             <p class="desc_message default_message">
                               <span class="inner_g">
-                                <div style="margin-bottom:10px;" class="adver-head" id="msgAdver" style="display:none;">
-                                  (광고) 브랜드명</div>
                                 <textarea class="textClass textAreaMsg" rows="1"
                                   placeholder="메시지를 입력해 주세요.">[브랜드명] 주문하신 상품이 오늘 출발했습니다. 운송장: 1234-5678-9012</textarea>
                                 <div id="msgReject" style="display:none; margin-top:10px;">무료수신거부 080-123-4567</div>
@@ -966,9 +964,9 @@
         // FTLCS 인트로 버튼
         if (isCS) $('#numFTLCS .introBtn').on('click', function () { goTo(0); });
 
-        // 번호 버튼 클릭 → 슬라이드 이동
-        if ($numList) $numList.find('li').each(function (i) {
-          $(this).on('click', function () { goTo(i + slideOffset); });
+        // 번호 버튼 클릭 → 슬라이드 이동 (위임 + 현재 위치 기준 → 재정렬 후에도 정확)
+        if ($numList) $numList.on('click', 'li', function () {
+          goTo($(this).index() + slideOffset);
         });
 
         // Touch
@@ -984,7 +982,10 @@
           if (!dragActive) return;
           dragActive = false;
           if (Math.abs(lastDx) > 6) { pwSuppressClick = true; setTimeout(function () { pwSuppressClick = false; }, 0); }
-          goTo(Math.abs(lastDx) > 40 ? cur + (lastDx < 0 ? 1 : -1) : cur);
+          // 드래그 거리에 비례해 여러 칸 이동 (멀리 끌수록 많이 넘어감)
+          var _n = Math.round(-lastDx / (CARD_W + GAP));
+          if (_n === 0 && Math.abs(lastDx) > 40) _n = (lastDx < 0 ? 1 : -1); // 짧은 드래그도 최소 1칸
+          goTo(cur + _n);
         });
 
         // Mouse — 드래그 중 실시간 이동 (textarea/input 클릭 시 포커스 허용)
@@ -1002,7 +1003,10 @@
           if (!dragActive) return;
           dragActive = false;
           if (Math.abs(lastDx) > 6) { pwSuppressClick = true; setTimeout(function () { pwSuppressClick = false; }, 0); }
-          goTo(Math.abs(lastDx) > 40 ? cur + (lastDx < 0 ? 1 : -1) : cur);
+          // 드래그 거리에 비례해 여러 칸 이동 (멀리 끌수록 많이 넘어감)
+          var _n = Math.round(-lastDx / (CARD_W + GAP));
+          if (_n === 0 && Math.abs(lastDx) > 40) _n = (lastDx < 0 ? 1 : -1); // 짧은 드래그도 최소 1칸
+          goTo(cur + _n);
         });
 
         // sortable 순서변경 후 슬라이드 DOM도 같은 순서로 재배치
@@ -1119,9 +1123,6 @@
       $('#txtAd').css('display', (type === 'BRAND') ? '' : 'none');
       $('#yData').toggleClass('white_back', type === 'MSG');
 
-      var isViewBox = (type === 'BRAND');
-      $('#viewBox').css('display', isViewBox ? '' : 'none');
-      $('#topSpacer').css('display', isViewBox ? 'none' : '');
       $('#numFTLC').css('display', (dType === 'FTLC') ? '' : 'none');
       $('#numFTLCS').css('display', (dType === 'FTLCS') ? '' : 'none');
       // 캐러셀일 때 message_view 패딩 제거 (실제 Vue의 swiper_write 토글과 동일)
@@ -1137,11 +1138,10 @@
       // 와이드이미지형(FTLW)은 와이드리스트형과 동일한 넓은 말풍선(item_wideimg 351.5px)
       $('#brandBasic').toggleClass('item_wideimg', dType === 'FTLW');
 
-      // MSG 세부
-      var smsMode = (dType === 'SMS');
-      $('#msgTitle').css('display', smsMode ? 'none' : '');
-      $('#msgImgArea').css('display', smsMode ? 'none' : '');
-      $('#msgAppend').text((smsMode ? '' : dType + ' ') + '오전 08:00');
+      // MSG 세부: SMS(제목X·이미지X) / LMS(제목O·이미지X) / MMS(제목O·이미지O)
+      $('#msgTitle').css('display', dType === 'SMS' ? 'none' : '');
+      $('#msgImgArea').css('display', dType === 'MMS' ? '' : 'none');
+      $('#msgAppend').text((dType === 'SMS' ? '' : dType + ' ') + '오전 08:00');
 
       // 카운터
       $('#cntATL').css('display', (type === 'ATL') ? '' : 'none');
@@ -1167,7 +1167,7 @@
       // (사용자가 직접 올린 이미지는 _userUploaded 표시가 있어 비우기에서 제외)
       $('.upload-slot').each(function () {
         var slot = this;
-        if (slot._userUploaded) return;
+        if (slot._userUploaded || $(slot).hasClass('msg-img-slot')) return; // MMS 이미지는 MMS가 관리
         var sample = $(slot).attr('data-sample');
         if (hasImg && sample) PW_IMG.setImage(slot, sample, false);
         else PW_IMG.clearImage(slot);
@@ -1226,7 +1226,8 @@
         this.$fileInput = $('<input type="file" accept="image/*" style="display:none">').appendTo('body');
         this.$fileInput.on('change', function () {
           var f = this.files && this.files[0];
-          if (f && self.targetSlot) self.handleFile(self.targetSlot, f);
+          var cb = self._pending; self._pending = null;
+          if (f && cb) cb(f);
           this.value = '';
         });
         this.$loading = $('#pwLoading');
@@ -1239,33 +1240,45 @@
           dragSlot = slot;
           if (slot) $(slot).addClass('drag-over');
         }
+        function isMmsActive() { return $('#typeSel').val() === 'MSG-MMS'; }
+        function clearMmsDrag() { MMS.clearAppendPh(); $('#msgImgArea .no_img_msg').removeClass('msg-drag'); }
+
         $root.on('dragover', function (e) {
           var slot = $(e.target).closest('.upload-slot')[0];
-          if (slot) {
-            e.preventDefault();
-            var dt = e.originalEvent.dataTransfer;
-            if (dt) dt.dropEffect = 'copy';
-            setDrag(slot);
-          } else { setDrag(null); }
+          var dt = e.originalEvent.dataTransfer;
+          if (slot) { // 기존 슬롯(또는 MMS 기존 이미지) 위 → 교체
+            e.preventDefault(); if (dt) dt.dropEffect = 'copy';
+            setDrag(slot); clearMmsDrag();
+          } else if (isMmsActive()) { // MMS의 그 외 영역 → 추가
+            e.preventDefault(); if (dt) dt.dropEffect = 'copy';
+            setDrag(null);
+            if (MMS.count() > 0) { MMS.showAppendPh(); $('#msgImgArea .no_img_msg').removeClass('msg-drag'); }
+            else { $('#msgImgArea .no_img_msg').addClass('msg-drag'); }
+          } else { setDrag(null); clearMmsDrag(); }
         });
         $root.on('dragleave', function (e) {
           var rt = e.originalEvent.relatedTarget;
-          if (!rt || !$root[0].contains(rt)) setDrag(null);
+          if (!rt || !$root[0].contains(rt)) { setDrag(null); clearMmsDrag(); }
         });
         $root.on('drop', function (e) {
           var slot = $(e.target).closest('.upload-slot')[0];
-          setDrag(null);
-          if (!slot) return;
-          e.preventDefault();
+          setDrag(null); clearMmsDrag();
           var dt = e.originalEvent.dataTransfer;
           var f = dt && dt.files && dt.files[0];
-          if (f) self.handleFile(slot, f);
+          if (!f) return;
+          e.preventDefault();
+          if (slot) { self.handleFile(slot, f); return; }   // 기존 이미지/슬롯 → 교체
+          if (isMmsActive()) { MMS.addImage(f); }            // MMS 그 외 영역 → 추가(또는 첫 등록)
         });
       },
 
-      openPicker: function (slot) {
-        this.targetSlot = slot;
+      openWith: function (cb) {
+        this._pending = cb;
         this.$fileInput.val('').trigger('click');
+      },
+      openPicker: function (slot) {
+        var self = this;
+        this.openWith(function (f) { self.handleFile(slot, f); });
       },
 
       handleFile: function (slot, file) {
@@ -1291,7 +1304,7 @@
       // 슬롯에 이미지 표시 + 수정/삭제 버튼 보장 (미첨부 영역 숨김은 has-img 클래스로 CSS 처리)
       setImage: function (slot, src, userUploaded) {
         var $slot = $(slot), self = this;
-        var isMsg = $slot.hasClass('msg_img_area');
+        var isMsg = $slot.hasClass('msg-img-slot') || $slot.hasClass('msg_img_area');
         var isMini = $slot.closest('.list_message').length > 0;
         var cls = isMsg ? 'msg_img' : (isMini ? 'thumb_img wide-small-img' : 'thumb_img');
         var $img = $slot.find('img.thumb_img, img.msg_img').first();
@@ -1333,6 +1346,25 @@
       var slot = $(el).closest('.upload-slot')[0];
       if (slot) PW_IMG.openPicker(slot);
     };
+
+    // ── MMS 다중 이미지 컨트롤러 ───────────────────────────────────────────
+    // #msgImgArea = .msg-img-list(이미지 스택) + .no_img_msg(미첨부 프롬프트)
+    // 각 이미지 = .msg-img-slot(.upload-slot) → 그 위에 드롭/클릭하면 교체.
+    // preview-box 다른 곳에 드롭 → 리스트 아래에 새 이미지 추가.
+    var MMS = {
+      $list: function () { return $('#msgImgArea .msg-img-list'); },
+      count: function () { return $('#msgImgArea .msg-img-slot').length; },
+      refresh: function () { $('#msgImgArea').toggleClass('has-img', this.count() > 0); },
+      addImage: function (file) {
+        var $slot = $('<div class="msg-img-slot upload-slot cd"></div>').appendTo(this.$list());
+        this.refresh();
+        PW_IMG.handleFile($slot[0], file); // FileReader → setImage(msg_img)
+      },
+      pickNew: function () { PW_IMG.openWith(function (f) { MMS.addImage(f); }); },
+      showAppendPh: function () { if (!this.$list().children('.msg-append-ph').length) $('<div class="msg-append-ph"></div>').appendTo(this.$list()); },
+      clearAppendPh: function () { this.$list().children('.msg-append-ph').remove(); }
+    };
+    window.MMS = MMS;
 
     // ── 헤더 '이미지 수정' 버튼: 활성 블록의 메인 이미지(또는 현재 캐러셀 슬라이드) 기준 ──
     function pwActiveSlot() {

@@ -229,6 +229,10 @@
   height: auto;
 }
 
+.template_write .template_preview .preview-box .message_view .box_message .inner_message .list_message .wide-small-img {
+  cursor: pointer;
+}
+
 .template_write .template_preview .preview-box .message_view .box_message .inner_message img {
   vertical-align: top;
 }
@@ -931,29 +935,39 @@
   background-color: #e8e8e8 !important;
 }
 
+/* MMS 이미지 영역: 좌측 정렬, 고정 폭의 세로 스택 */
 .template_write .template_preview .msg .msg_img_area {
-  padding: 0px 20px;
-  margin-bottom: 23px;
+  margin: 0 0 23px 20px;
+  width: 200px;
 }
-
-.template_write .template_preview .msg .msg_img_area .msg_img {
-  max-width: 70%;
+.template_write .template_preview .msg .msg-img-list .msg-img-slot {
+  position: relative;
+  line-height: 0;
 }
-
-.template_write .template_preview .msg .msg_img_area .msg_img:not(:first-child) {
-  margin-top: 5px;
+.template_write .template_preview .msg .msg-img-list .msg-img-slot:not(:first-child) {
+  margin-top: 4px;
 }
-
-.template_write .template_preview .msg .msg_img_area .msg_img:first-child {
-  border-radius: 10px 10px 0px 0px;
+.template_write .template_preview .msg .msg-img-list .msg_img {
+  display: block;
+  width: 100%;
 }
-
-.template_write .template_preview .msg .msg_img_area .msg_img:last-child {
-  border-radius: 0px 0px 10px 10px;
+/* 보더래디우스: 처음=상단 굴곡 / 마지막=하단 굴곡 (단일이면 first+last 둘 다 → 네 모서리) */
+.template_write .template_preview .msg .msg-img-list .msg-img-slot:first-child .msg_img {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
-
-.template_write .template_preview .msg .msg_img_area_one .msg_img {
-  border-radius: 10px !important;
+.template_write .template_preview .msg .msg-img-list .msg-img-slot:last-child .msg_img {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+/* MMS 이미지 추가 드롭 자리표시(점선 박스) */
+.template_write .template_preview .msg .msg-append-ph {
+  height: 90px;
+  margin-top: 4px;
+  border: 2px dashed #3182f6;
+  border-radius: 12px;
+  background: rgba(49, 130, 246, 0.08) url(./img/image_plus.png) no-repeat center;
+  background-size: 30px auto;
 }
 
 .template_write .template_preview .eml_area .eml {
@@ -3222,9 +3236,9 @@
 }
 /* MSG 이미지 미첨부 박스 */
 .template_write .template_preview .msg .no_img_msg {
-  margin: 0 20px;
+  width: 100%;
   height: 150px;
-  border-radius: 10px;
+  border-radius: 12px;
   background-color: #fcfdff;
   border: 1px solid #ededed;
   display: flex;
@@ -3235,6 +3249,18 @@
 }
 .template_write .template_preview .msg .no_img_msg .plus_icon {
   width: 25px;
+}
+/* MMS: 이미지가 1개 이상이면 프롬프트 숨기고 리스트만, 0개면 리스트 숨김 */
+.template_write .template_preview .msg_img_area.has-img .no_img_msg {
+  display: none;
+}
+.template_write .template_preview .msg_img_area:not(.has-img) .msg-img-list {
+  display: none;
+}
+/* 드래그오버: 첫 이미지(프롬프트)에 박스와 동일한 점선 테두리 (테두리 어긋남 수정) */
+.template_write .template_preview .msg_img_area .no_img_msg.msg-drag {
+  border: 2px dashed #a40033;
+  background-color: rgba(49, 130, 246, 0.08);
 }
 
 .template_write .cd {
