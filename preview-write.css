@@ -3465,7 +3465,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  border: 2px dashed #a40033;
+  border: 2px dashed #3182f6;
   border-radius: 12px;
   background: rgba(49, 130, 246, 0.08) url(./img/image_plus.png) no-repeat center;
   background-size: 20px auto;
@@ -3497,7 +3497,7 @@
 }
 /* 드래그오버: 첫 이미지(프롬프트)에 박스와 동일한 점선 테두리 (테두리 어긋남 수정) */
 .template_write .template_preview .msg_img_area .no_img_msg.msg-drag {
-  border: 2px dashed #a40033;
+  border: 2px dashed #3182f6;
   background-color: rgba(49, 130, 246, 0.08);
 }
 
@@ -3604,4 +3604,57 @@
   background-color: #e6e8ec;
   border-color: #c2c5cb;
   color: #333;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   버튼 좌우 나열 (와이드/캐러셀: FTLW·FTLWL·FTLC·FTLCS)
+   .btn_row 안의 .btn_message 가 flex:1 → 버튼 1개면 풀폭, 2개면 50:50 자동.
+   (FTLB·FTLP·FTLV·ATL 등은 .btn_row 미사용 → 기존 세로 스택 유지)
+   ─────────────────────────────────────────────────────────────── */
+.template_write .template_preview .preview-box .btn_row {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  padding: 0 10px;
+}
+
+.template_write .template_preview .preview-box .item_widelist .btn_row {
+  padding: 0px 0px 5px 0px;
+}
+
+.template_write .template_preview .preview-box .btn_row > .btn_message {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.template_write .template_preview .preview-box .btn_row > .btn_message + .btn_message {
+  margin-left: 7px;
+}
+
+/* 2열일 때 채널추가 로고는 버튼 가운데(텍스트) 기준으로 정렬 — 폭과 무관하게 추종 */
+.template_write .template_preview .preview-box .btn_row .channel_plus .channel_img {
+  left: 50% !important;
+  margin-left: -36px;
+}
+
+/* FTLB·FTLP 는 #brandBasic 을 FTLW 와 공유하지만 세로 스택 유지 */
+.template_write .template_preview[data-dtype="FTLB"] .preview-box .btn_row,
+.template_write .template_preview[data-dtype="FTLP"] .preview-box .btn_row {
+  display: block;
+  padding: 0;
+}
+
+.template_write .template_preview[data-dtype="FTLB"] .preview-box .btn_row > .btn_message,
+.template_write .template_preview[data-dtype="FTLP"] .preview-box .btn_row > .btn_message {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  margin-left: 0;
+}
+
+.template_write .template_preview[data-dtype="FTLB"] .preview-box .btn_row .channel_plus .channel_img,
+.template_write .template_preview[data-dtype="FTLP"] .preview-box .btn_row .channel_plus .channel_img {
+  left: 50px !important;
+  margin-left: 0;
 }
